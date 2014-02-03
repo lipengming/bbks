@@ -1,0 +1,133 @@
+/* author:黄小龙 */
+body {
+	 background:#454545;
+}
+
+#otherreg{
+	width: 890px;
+	 margin:0 auto;
+	 height:1000px;
+}
+#otherreg .bcak{
+	float:left;
+	padding:40px;
+}
+#otherreg .otherreg_logo{ 
+	width:186px;
+	margin:0 auto; 
+	padding:30px;
+}
+
+#otherreg .other_reg,#otherreg .reg_step1,#otherreg .reg_step2{
+	padding:20px 0; 
+	width:672px; 
+	margin:0 auto; 
+	clear:both;
+}
+#otherreg .reg_step1{
+	display:block;
+}
+#otherreg .reg_step2{
+	display:none;
+}
+#otherreg .reg_step1,#otherreg .reg_step2{
+	margin-top:80px;
+	margin-left:17%;
+}
+#otherreg .other_reg ul{ 
+	background:url(../images/other_reg.gif) no-repeat; 
+	width:576px; 
+	height:135px; 
+	margin-left:50px;
+}
+#otherreg .other_reg ul li{ 
+	float:left; 
+	width:250px; 
+	padding:8px 10px; 
+	height:45px; 
+	margin:0 16px 12px 0;
+}
+#otherreg .other_reg ul li a{ 
+	display:block; 
+	width:250px; 
+	height:45px;
+}
+
+#otherreg .reg_step1 ul,#otherreg .reg_step2 ul{ 
+	padding-left:115px;
+}
+
+#otherreg .reg_step1 ul li,#otherreg .reg_step2 ul li{ 
+	margin-bottom:10px; 
+	width:346px; 
+	height:54px; 
+	background-repeat:no-repeat; 
+	padding-left:56px;
+}
+
+#otherreg .reg_step1 ul .email_reg,#otherreg .reg_step2 ul .email_reg{ 
+	background-image:url(../images/email_input.gif);
+}
+#otherreg .reg_step1 ul .pass_reg1{ 
+	background-image:url(../images/pass_input.gif);
+	display: block;
+}
+
+#otherreg .reg_step1 ul .pass_reg2{ 
+	background-image:url(../images/pass_input.gif);
+	display: none;
+}
+
+#otherreg .reg_step1 ul li .text,#otherreg .reg_step2 ul li .text{ 
+	height:44px; 
+	margin-top:6px; 
+	width:340px; 
+	font:24px/36px "微软雅黑"; 
+	color:#c1c9d0; 
+	border:none 0;
+}
+
+#otherreg .reg_step1 .login_btn,#otherreg .reg_step2 .reset_btn{ 	
+	margin-top:10px;
+	margin-left:115px; 
+	width:132px; 
+	height:46px; 
+	border:none 0;
+	float:left;
+}
+#otherreg .reg_step1 .login_btn{
+	background:url(../images/l_btn.gif) no-repeat; 
+}
+#otherreg .reg_step2 .reset_btn{
+	background:url(../images/reset.png) no-repeat; 
+}
+#otherreg .reg_step1 .forget,#otherreg .reg_step2 .forget{
+	margin-left:100px;
+	margin-top:10px;
+	float:left;
+}
+#otherreg .reg_step1 .forget a,#otherreg .reg_step2 .forget a{
+	color:#ffffff;
+	font:16px/24px "微软雅黑";
+	text-decoration: none;
+}
+#otherreg .reg_step1 .someinfos{
+	margin-left:-315px;
+	float:left;
+	margin-top:60px;
+	font:24px/36px "微软雅黑"; 
+	color:#ffffff;
+}
+
+#otherreg .reg_step2 .someinfos{
+	margin-left:-358px;
+	float:left;
+	margin-top:60px;
+	font:24px/36px "微软雅黑"; 
+	color:#ffffff;
+}
+#otherreg .reg_step1 .someinfos a,#otherreg .reg_step2 .someinfos a{
+	color:#ffffff;
+	font:24px/36px "微软雅黑";
+	text-decoration: none;
+}

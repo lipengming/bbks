@@ -1,0 +1,22 @@
+
+/*@我的消息和评论*/
+#tidaowo{ background:url(../images/atme_ax.png) no-repeat; height:29px; text-align:center; color:#000;}
+.at_me_tab .tab_ul li{ float:left; margin:0 10px;color:#010101;text-align:center; cursor:pointer; height:33px; position:relative; z-index:999;}
+.at_me_tab .tab_ul li.active{ background:url(../images/tab_li.gif) no-repeat center bottom ;}
+.at_me_tab .tab_cont { clear:both; float:left;}
+.at_me_tab .tab_con1{ display:block;float:left; clear:both; z-index:1;margin-top:10px;}
+.at_me_tab .tab_con2{ display:none;float:left; clear:both; z-index:1;margin-top:10px;}
+.at_me_tab .tab_con1 .at_Info .touxiang1{float:left;width:49px;height:49px;}
+.at_me_tab .tab_con1 .at_Info .at_me_info{position: absolute;margin-left:59px;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div1{float:left;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div1 div{font:16px/24px "微软雅黑";}
+.at_me_tab .tab_con1 .at_Info .at_me_info a{color:#0a8cd2;text-decoration: none;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2{font:15px/24px "微软雅黑";float:left; width:500px;margin-top:20px; margin-right:10px; overflow:hidden; border:1px solid #dcdcdc; background:#fcfcfc; padding:12px; border-radius:5px;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .at_con{margin-top:10px;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .at_con .time{float:left; color:#0a8cd2}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .at_con .where{color:#0a8cd2;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .at_con .hf_con{ float:right;color:#0a8cd2;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .myimg{margin-top:25px;}
+.at_me_tab .tab_con1 .at_Info .at_me_info .div2 .myimg .touxiang2{width:150px;height:200px;}
+
+

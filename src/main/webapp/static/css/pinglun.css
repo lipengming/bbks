@@ -1,0 +1,17 @@
+#dongtai{ background:url(../images/btn_hover.gif) no-repeat; height:29px;text-align:center; color:#000;}
+.pinglun_tab .tab_ul li{ float:left; margin:0 10px;color:#010101;text-align:center; cursor:pointer; height:33px; position:relative; z-index:999;}
+.pinglun_tab .tab_ul li.active{ background:url(../images/tab_li.gif) no-repeat center bottom ;}
+.pinglun_tab .tab_cont { clear:both; float:left;}
+.pinglun_tab .tab_con1{ display:block; margin-bottom:180px; float:left; clear:both;width:620px;z-index:1;margin-top:10px;}
+.pinglun_tab .tab_con2{ display:none; margin-bottom:180px; float:left; clear:both;z-index:1;margin-top:10px;}
+.pinglun_tab .tab_con1 .count{font:12px/24px '微软雅黑';color:#B3B1B2}
+.pinglun_tab .tab_con1 .pingluns{float:left;margin-top:15px;border-bottom:1px solid #dcdcdc;float:left;width:100%;padding-bottom:10px;}
+.pingluns .myimg{float:left;}
+.pingluns .pinglun_info{float:left;margin-left:30px; width:530px;margin-top:-5px;}
+.pingluns .pinglun_info span{font:16px/24px '微软雅黑';}
+.pingluns .pinglun_info .name{color:#0a8cd2;}
+.pingluns .pinglun_info .me{margin-top:5px;}
+.pingluns .pinglun_info .where{margin-top:20px;}
+.pingluns .pinglun_info .span1{color:#B3B1B2;}
+.pingluns .pinglun_info .span2{color:#0a8cd2;}
+

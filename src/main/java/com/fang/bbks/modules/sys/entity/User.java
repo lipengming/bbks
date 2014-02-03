@@ -1,0 +1,208 @@
+package com.fang.bbks.modules.sys.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.Email;
+
+import com.fang.bbks.common.persistence.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+/**
+ * 用户基本表
+ * @author Lee
+ */
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "TB_USER")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User extends BaseEntity implements Serializable{
+	 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Integer id;//主键id
+    
+    private String username;//登录名称
+    private String password;//登录密码
+    
+    private Date createDate;//创建日期
+    private Date updateDate;//创建日期
+    
+    @Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
+    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+	
+	@Email
+	private String email;//邮箱
+	@Size(max=2)
+	private String isCompany = BaseEntity.NO;//默认为普通用户,No表示公司用户
+	
+	
+//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name="avatar") 
+//	private Resource avatar;//头像
+	
+	//心情、动态
+	//私信
+	//评论
+	@Size(max=5)
+	private String reading ;//在读书籍列表//1-n
+	@Size(max=5)
+	private String liking ;//在读书籍列表//1-n
+	@Size(max=5)
+	private String wantRead ;//在读书籍列表//1-n
+	@Size(max=5)
+	private String hasRead ;//在读书籍列表//1-n
+	
+	
+	
+	//多对多定义
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
+	@OrderBy("id")
+	@Fetch(FetchMode.SUBSELECT)
+	@NotFound(action = NotFoundAction.IGNORE)
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@JsonIgnore
+	private Set<Roles> roleList = new HashSet<Roles>();//拥有能访问的资源/链接()
+    
+	
+	
+	public User(){}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Integer getDelFlag() {
+		return delFlag;
+	}
+
+	public void setDelFlag(Integer delFlag) {
+		this.delFlag = delFlag;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getIsCompany() {
+		return isCompany;
+	}
+
+	public void setIsCompany(String isCompany) {
+		this.isCompany = isCompany;
+	}
+	
+	public String getReading() {
+		return reading;
+	}
+
+	public void setReading(String reading) {
+		this.reading = reading;
+	}
+
+	public String getLike() {
+		return liking;
+	}
+
+	public void setLike(String like) {
+		this.liking = like;
+	}
+
+	public String getWantRead() {
+		return wantRead;
+	}
+
+	public void setWantRead(String wantRead) {
+		this.wantRead = wantRead;
+	}
+
+	public String getHasRead() {
+		return hasRead;
+	}
+
+	public void setHasRead(String hasRead) {
+		this.hasRead = hasRead;
+	}
+
+	public Set<Roles> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(Set<Roles> roleList) {
+		this.roleList = roleList;
+	}
+
+	/**
+	 * @return the updateDate
+	 */
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	/**
+	 * @param updateDate the updateDate to set
+	 */
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+}
