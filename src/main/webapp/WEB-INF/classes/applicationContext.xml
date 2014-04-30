@@ -63,7 +63,7 @@
 	
 	<!-- 自定义Ehchche -->
 	<bean id="customEhcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath*:/cache/ehcache-custom.xml" />
+		<property name="configLocation" value="classpath:cache/ehcache-custom.xml" />
 	</bean> 
 	
 	
@@ -78,6 +78,6 @@
     <jpa:repositories base-package="com.fang.bbks"></jpa:repositories>
     <!-- 
     <import resource="./spring-quartz.xml"/>
-     -->
-	<import resource="./spring-task.xml"/>
+     
+	<import resource="./spring-task.xml"/>-->
 </beans>

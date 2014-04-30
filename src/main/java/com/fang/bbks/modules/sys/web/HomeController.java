@@ -37,7 +37,7 @@ public class HomeController extends BaseController{
 	@RequestMapping(value = {"/book/search"}, method = {RequestMethod.POST,RequestMethod.GET})
 	public String search(Model uiModel,HttpServletRequest request,HttpSession session,
 			@RequestParam(value="keywords",required=true)String keywords){
-		String qStr = "keywords="+keywords+"&";
+		String qStr = "kw="+keywords+"&";
 		uiModel.addAttribute("qStr", qStr);
 		return "index";
 	}

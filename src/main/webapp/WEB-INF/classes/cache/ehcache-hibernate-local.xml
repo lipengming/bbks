@@ -7,6 +7,6 @@
 	<defaultCache maxEntriesLocalHeap="10000" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" 
 		overflowToDisk="true" maxEntriesLocalDisk="100000" />
 	 
-	<cache name="com.fang.bbks.modules.sys.entity.Book" maxEntriesLocalHeap="10000" eternal="false" overflowToDisk="true" maxEntriesLocalDisk="1000" />
+	<cache name="com.fang.bbks.modules.sys.entity.BookContent" maxEntriesLocalHeap="10000" eternal="false" overflowToDisk="true" maxEntriesLocalDisk="1000" />
 	
 </ehcache>

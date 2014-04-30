@@ -36,16 +36,16 @@ public class SearchBookController extends BaseController{
 	
 	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String searchIndex(Model model,HttpServletRequest request,
-			@RequestParam(value="keywords",required=false) String keywords) {
+			@RequestParam(value="kw",required=false) String kw) {
 		Page<Book> page = new Page<Book>(request, response);
-		if (StringUtils.isNotBlank(keywords)){
-			if ("cmd:reindex".equals(keywords)){
+		if (StringUtils.isNotBlank(kw)){
+			if ("cmd:reindex".equals(kw)){
 				System.out.println("重建索引！--start");
 				bs.createdAndUpdateIndex();
 				System.out.println("重建索引！--end");
 				model.addAttribute("message", "重建索引成功");
 			}else{
-				page = bs.findByKeyWords(page, keywords);
+				page = bs.findByKeyWords(page, kw);
 			}
 		}else{
 			page = doSearch(request,response);

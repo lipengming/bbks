@@ -15,14 +15,12 @@ import com.fang.bbks.modules.sys.service.BookService;
  * @since 下午3:31:08	
  */
 
-@Component
+//@Component
 public class CmsBase implements ApplicationContextAware{
 	
 	private static BookService bs;
 	
-	static{
-		bs.createdAndUpdateIndex();
-	}
+	
 	
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)

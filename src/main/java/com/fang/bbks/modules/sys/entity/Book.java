@@ -27,8 +27,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Store;
 import org.hibernate.validator.constraints.NotBlank;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
@@ -42,7 +46,8 @@ import com.fang.bbks.common.persistence.BaseEntity;
 @Entity
 @Table(name = "TB_BOOK")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Indexed @Analyzer(impl = IKAnalyzer.class)
+@Indexed(index="")
+@Analyzer(impl = IKAnalyzer.class)
 public class Book extends BaseEntity implements Serializable{
 	
 	@Id
@@ -51,19 +56,31 @@ public class Book extends BaseEntity implements Serializable{
 	
 //	private User user;//所属用户！！！！！！
 	
+	
 	@NotBlank
 	@Size(min=0, max=250)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String bookName;//图书名
+	
 	@NotBlank
 	@Size(min=0, max=100)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String author;//作者
+	
 	@NotBlank
 	@Size(min=0, max=10)
 	private String isbn;//图书编号
+	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String translator;//译者
+	
+	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String press;//出版社
 	private String version;//版本
+	
 	@Size(min=0, max=2000)
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String outline;//图书概述
 	
 	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)

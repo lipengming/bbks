@@ -73,9 +73,10 @@ public class BookService {
 		BooleanQuery queryFilter = bookDao.getFullTextQuery(new BooleanClause(
 				new TermQuery(new Term("delFlag", Book.DEL_FLAG_NORMAL+"")), Occur.MUST));
 		// 设置排序
-		//Sort sort = new Sort(new SortField("updateTime", SortField.DOC, true));
+		Sort sort = new Sort(new SortField("updateTime", SortField.DOC, true));
 		// 全文检索
-		bookDao.search(page, query, queryFilter, null);
+		//bookDao.search(page, query, queryFilter, sort);
+		bookDao.search(page, query, null, null);
 		// 关键字高亮
 		bookDao.keywordsHighlight(query, page.getList(), "outline");
 		
