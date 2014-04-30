@@ -1,5 +1,12 @@
 package com.fang.bbks.modules.sys.service;
 
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.TermQuery;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.CriteriaQuery;
@@ -54,6 +61,28 @@ public class BookService {
 	}
 	
 	/**
+	 * 全文检索
+	 * @param page
+	 * @param keywords
+	 * @return
+	 */
+	public Page<Book> findByKeyWords(Page<Book> page,String keywords){
+		// 设置查询条件
+		BooleanQuery query = bookDao.getFullTextQuery(keywords, "bookName","outline","author");
+		// 设置过滤条件
+		BooleanQuery queryFilter = bookDao.getFullTextQuery(new BooleanClause(
+				new TermQuery(new Term("delFlag", Book.DEL_FLAG_NORMAL+"")), Occur.MUST));
+		// 设置排序
+		//Sort sort = new Sort(new SortField("updateTime", SortField.DOC, true));
+		// 全文检索
+		bookDao.search(page, query, queryFilter, null);
+		// 关键字高亮
+		bookDao.keywordsHighlight(query, page.getList(), "outline");
+		
+		return page;		
+	}
+	
+	/**
 	 * 找书
 	 */
 	public Page<Book> findBook(Page<Book> page,Book book){
@@ -94,4 +123,15 @@ public class BookService {
 		}
 	}
 	
+	/**
+	 * 跟新索引
+	 */
+	public void createdAndUpdateIndex(){
+		long startTime=System.currentTimeMillis();   //获取开始时间
+		logger.debug("执行索引开始。。。{}",startTime);
+		bookDao.createIndex();
+		long endTime=System.currentTimeMillis();   //获取结束时间
+		logger.debug("执行索引结束。。。{},{}",endTime,(endTime-startTime));
+		
+	}
 }

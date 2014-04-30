@@ -76,5 +76,8 @@
     
     <!-- spring-data-jpa -->
     <jpa:repositories base-package="com.fang.bbks"></jpa:repositories>
-	
+    <!-- 
+    <import resource="./spring-quartz.xml"/>
+     -->
+	<import resource="./spring-task.xml"/>
 </beans>

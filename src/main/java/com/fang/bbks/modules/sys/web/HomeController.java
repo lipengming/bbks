@@ -31,7 +31,15 @@ public class HomeController extends BaseController{
 	public String index(Model uiModel,HttpServletRequest request,HttpSession session) {
 		String qStr = "";
 		uiModel.addAttribute("qStr", qStr);
-		System.out.println(qStr);
 		return "index";
 	}
+	
+	@RequestMapping(value = {"/book/search"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String search(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="keywords",required=true)String keywords){
+		String qStr = "keywords="+keywords+"&";
+		uiModel.addAttribute("qStr", qStr);
+		return "index";
+	}
+	
 }

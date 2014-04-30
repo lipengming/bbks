@@ -5,7 +5,7 @@
 <c:set var="ctxRes" value="${pageContext.request.contextPath }/static"/>  
 
 <!-- wall flow start -->
-<c:if test="${not empty booksInfo}">
+<c:if test="${booksInfo != null}">
 <c:forEach var="bookInfo" items="${booksInfo}">
 	<!-- wall flow item -->
 	    	<div class="pb">

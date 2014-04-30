@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fang.bbks.common.constant.ApplicationCanstant;
 import com.fang.bbks.common.persistence.Page;
+import com.fang.bbks.common.utils.StringUtils;
 import com.fang.bbks.common.web.BaseController;
 import com.fang.bbks.modules.sys.entity.Book;
 import com.fang.bbks.modules.sys.service.BookService;
@@ -32,14 +34,27 @@ public class SearchBookController extends BaseController{
 	@Autowired
 	BookService bs;
 	
-	@RequestMapping(value={"/search/list"}, method=RequestMethod.GET)
-	public String searchIndex(Model uiModel,HttpServletRequest request) {
+	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
+	public String searchIndex(Model model,HttpServletRequest request,
+			@RequestParam(value="keywords",required=false) String keywords) {
+		Page<Book> page = new Page<Book>(request, response);
+		if (StringUtils.isNotBlank(keywords)){
+			if ("cmd:reindex".equals(keywords)){
+				System.out.println("重建索引！--start");
+				bs.createdAndUpdateIndex();
+				System.out.println("重建索引！--end");
+				model.addAttribute("message", "重建索引成功");
+			}else{
+				page = bs.findByKeyWords(page, keywords);
+			}
+		}else{
+			page = doSearch(request,response);
+		}
 		
-		System.out.println("--------!!!----");
-		Page<Book> page = doSearch(request);
+		if(page != null && !page.getList().isEmpty()){
+			model.addAttribute("booksInfo", page.getList());
+		}
 		
-		
-		uiModel.addAttribute("booksInfo", page.getList());
 		return "book/list";
 	}
 	
@@ -56,29 +71,18 @@ public class SearchBookController extends BaseController{
 	}
 	
 	
-	
 	/**
 	 * 数据分页
 	 * @param request
 	 * @return
 	 */
-	private Page<Book> doSearch(HttpServletRequest request){
-		Page<Book> page = null;
+	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response){
+		Page<Book> page = new Page<Book>(request, response);
 		Book book = new Book();
 		
 		String bookName = request.getParameter("name");
 		String author = request.getParameter("author");
 		String translator = request.getParameter("translator");
-		String no = request.getParameter("no");
-		
-		int pageNo = 0;
-		
-		try{
-			pageNo = Integer.parseInt(no);
-			page = new Page<Book>(pageNo, ApplicationCanstant.commonPageSize);
-		}catch(NumberFormatException nfe){
-			System.out.println(nfe.getLocalizedMessage());
-		}
 		
 		book.setAuthor(author);
 		book.setBookName(bookName);

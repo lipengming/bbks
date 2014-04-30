@@ -24,13 +24,13 @@
    	<!-- wall flow start -->
    	<div class="W960">
    		<div class="masonry" id="container">
-   			<c:import url="/book/search/list?${qStr }no=0"></c:import>
+   			<c:import url="/book/search/list?${qStr }}pageNo=0"></c:import>
    		</div>
 	</div>
 </div>
 <!-- wall flow end -->
 <div id="page-nav">
-	<a href="<c:url value="/book/search/list?${qStr }no=0" />"></a>
+	<a href="<c:url value="/book/search/list?${qStr }pageNo=0" />"></a>
 </div>
 
 
@@ -80,7 +80,7 @@
 						currPage: 0
 					},
 					pathParse: function() {
-				        return ['<c:url value="/book/search/list?${qStr }no=" />',''];
+				        return ['<c:url value="/book/search/list?${qStr }pageNo=" />',''];
 				    }
 				},
 				// trigger Masonry as a callback

@@ -27,7 +27,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Where;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotBlank;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.fang.bbks.common.persistence.BaseEntity;
 
@@ -39,6 +42,7 @@ import com.fang.bbks.common.persistence.BaseEntity;
 @Entity
 @Table(name = "TB_BOOK")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Indexed @Analyzer(impl = IKAnalyzer.class)
 public class Book extends BaseEntity implements Serializable{
 	
 	@Id

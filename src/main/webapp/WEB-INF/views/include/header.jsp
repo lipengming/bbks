@@ -13,7 +13,7 @@
     	<div id="logo"><img src="${ctxRes }/images/logo.gif" width="93" height="42" alt="" /></div>
         <form action="<c:url value="/book/search"/>" method="post" id="index_search_form">
         	<div id="index_search">
-	        	<input type="text" class="s_text foucs_text" value="搜索书名，作者、出版社等"/>
+	        	<input type="text" name="keywords" class="s_text foucs_text" value="搜索书名，作者、出版社等"/>
 	            <input type="button" class="s_btn"/>
         	</div>
         </form>
@@ -77,7 +77,8 @@
                 </ul>
             </div>
             <div class="search">
-                <input type="text" class="search_text"> <input type="button" class="search_btn">
+                <input type="text" class="search_text" name="keywords"> 
+                <input type="button" class="search_btn">
             </div>
             <div class="top_info">
                 <span class="name"><a href="${ctx }/logout" class="drop" /><a href="${ctx }/user/profile/index"><c:out value="${sessionScope._SIGN_USER_.username }"></c:out></a></span>
