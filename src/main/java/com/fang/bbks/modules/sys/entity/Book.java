@@ -46,7 +46,6 @@ import com.google.common.collect.Lists;
  * 书籍基本信息表
  * @author Lee
  */
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "TB_BOOK")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -69,7 +68,7 @@ public class Book extends BaseEntity{
 	private String author;//作者
 	
 	@NotBlank
-	@Size(min=0, max=10)
+	@Size(min=0, max=16)
 	private String isbn;//图书编号
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
@@ -79,6 +78,7 @@ public class Book extends BaseEntity{
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String press;//出版社
 	private String version;//版本
+	private String directory;//目录
 	
 	@Size(min=0, max=2000)
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
@@ -103,6 +103,8 @@ public class Book extends BaseEntity{
 	
 	private boolean isFree;//免费阅读：true,收费false
 	private Double price;//价格
+	private Double allPrice;//竞价
+	private String pubPrice;//竞价
 	
 	private Integer wantRead;//想读人数
 	private Integer likeCount;//喜欢人数
@@ -112,6 +114,12 @@ public class Book extends BaseEntity{
 	
 	private String bookSrc;//电子书源文件
 	private String eFlag;//电子书
+	
+	private String authorintro;//作者简介<215
+	private String relationship;//关系列，存放：{'dd':'20','amazon':'231',}<50
+	
+	private Integer islock;//如果该数据被豆瓣网操作过，则被标记成枷锁状态，值为1，其他数据则不能操作
+	
 	
 	private Date createdAt;
 	private Date updateAt;
@@ -286,6 +294,14 @@ public class Book extends BaseEntity{
 		return createdAt;
 	}
 
+	public String getDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(String directory) {
+		this.directory = directory;
+	}
+
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
@@ -296,5 +312,45 @@ public class Book extends BaseEntity{
 
 	public void setUpdateAt(Date updateAt) {
 		this.updateAt = updateAt;
+	}
+
+	public Double getAllPrice() {
+		return allPrice;
+	}
+
+	public void setAllPrice(Double allPrice) {
+		this.allPrice = allPrice;
+	}
+
+	public String getPubPrice() {
+		return pubPrice;
+	}
+
+	public void setPubPrice(String pubPrice) {
+		this.pubPrice = pubPrice;
+	}
+
+	public String getAuthorintro() {
+		return authorintro;
+	}
+
+	public void setAuthorintro(String authorintro) {
+		this.authorintro = authorintro;
+	}
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
+
+	public Integer getIslock() {
+		return islock;
+	}
+
+	public void setIslock(Integer islock) {
+		this.islock = islock;
 	}	
 }

@@ -68,7 +68,10 @@ public class User extends BaseEntity implements Serializable{
 	private String email;//邮箱
 	@Size(max=2)
 	private String isCompany = BaseEntity.NO;//默认为普通用户,No表示公司用户
+
+	private String avatar;//头像
 	
+	private String description;//心情说明
 	
 	//心情、动态
 	//私信
@@ -81,7 +84,6 @@ public class User extends BaseEntity implements Serializable{
 	private String wantRead ;//在读书籍列表//1-n
 	@Size(max=5)
 	private String hasRead ;//在读书籍列表//1-n
-	
 	
 	
 	//多对多定义
@@ -139,6 +141,12 @@ public class User extends BaseEntity implements Serializable{
 		this.createDate = createDate;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public String getEmail() {
 		return email;
 	}
@@ -179,6 +187,12 @@ public class User extends BaseEntity implements Serializable{
 		this.wantRead = wantRead;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 	public String getHasRead() {
 		return hasRead;
 	}

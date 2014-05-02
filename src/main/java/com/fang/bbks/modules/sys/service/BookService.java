@@ -95,6 +95,21 @@ public class BookService {
 	}
 	
 	/**
+	 * 分页分类查询图书
+	 * @param page
+	 * @param catlogId
+	 * @return
+	 */
+	public Page<Book> findBook(Page<Book> page,Long catlogId){
+		Category catlog = categoryDao.findOne(catlogId);
+		if(catlog == null){
+			return null;
+		}
+		Book b = new Book(catlog);
+		return findBook(page, b);
+	}
+	
+	/**
 	 * 找书
 	 */
 	public Page<Book> findBook(Page<Book> page,Book book){

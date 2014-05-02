@@ -23,7 +23,10 @@ import com.fang.bbks.common.utils.mapper.JsonMapper;
 import com.fang.bbks.modules.sys.entity.Book;
 import com.fang.bbks.modules.sys.entity.BookContent;
 import com.fang.bbks.modules.sys.entity.Category;
+import com.fang.bbks.modules.sys.entity.Comment;
+import com.fang.bbks.modules.sys.entity.CommentType;
 import com.fang.bbks.modules.sys.entity.Resource;
+import com.fang.bbks.modules.sys.entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 
@@ -34,7 +37,7 @@ import com.google.common.collect.Lists;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:/applicationContext.xml")
-//@Transactional
+@Transactional
 public class BookServiceTest {
 
 	@Autowired
@@ -42,6 +45,12 @@ public class BookServiceTest {
 	
 	@Autowired
 	CategoryService cs;
+	
+	@Autowired
+	CommentService commentService;
+	
+	@Autowired
+	UserService userService;
 	
 	
 	@Before
@@ -70,6 +79,11 @@ public class BookServiceTest {
 //
 	@Test
 	public void testSave() {
+		
+		User user = new User();
+		user = userService.signUp("name", "name@name.com", "name");
+		
+		
 		Category c1 = new Category("小说","小说");
 		Category c2 = new Category("军事","散文");
 		Category c3 = new Category("散文","散文");
@@ -91,10 +105,18 @@ public class BookServiceTest {
 			}else{
 				book.setCategory(c3);
 			}
-			bs.save(book);
+			book = bs.save(book);
+			
+			for(int j=0;j<3;j++){
+				Comment c = new Comment();
+				c.setContentId(book.getId());
+				c.setTitle(book.getBookName());
+				c.setContent("content:::"+j);
+				commentService.addComment(CommentType.BOOK, c, user);
+			}	
 		}
-		
 	}
+	
 	
 	@Test
 	public void testFindBook(){
@@ -115,6 +137,19 @@ public class BookServiceTest {
 			bcs.add(bc);
 		}
 		return bcs;
+	}
+	
+	private List<Comment> comments(Book book,User user){
+		List<Comment> list = Lists.newArrayList();
+		for(int a=0;a<5;a++){
+			Comment comment  = new Comment();
+			comment.setContent("content "+a);
+//			comment.setAvatar(user.getAvatar());
+//			comment.setName(user.getUsername());
+//			comment.set
+			list.add(comment);
+		}
+		return list;
 	}
 //
 //	@Test
