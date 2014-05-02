@@ -31,7 +31,7 @@ public class CategoryService {
 	 * @param id
 	 * @return
 	 */
-	public Category findOne(Integer id){
+	public Category findOne(Long id){
 		return categoryDao.findOne(id);
 	}
 	
@@ -40,7 +40,7 @@ public class CategoryService {
 	 * @param id
 	 */
 	@Transactional(readOnly = false)
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		categoryDao.deleteById(id);
 		//TODO 从列表中也出这本书及的信息
 	}
@@ -51,6 +51,7 @@ public class CategoryService {
 	 */
 	@Transactional(readOnly = false)
 	public Category save(Category category){
+		categoryDao.clear();
 		return categoryDao.save(category);
 	}
 }

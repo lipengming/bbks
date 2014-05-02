@@ -15,11 +15,11 @@ import com.fang.bbks.modules.sys.entity.User;
  * @author Lee
  * @Date 2013-8-1
  */
-public interface UserDao extends UserDaoCustom,CrudRepository<User, Integer>{
+public interface UserDao extends UserDaoCustom,CrudRepository<User, Long>{
 	
 	@Modifying
 	@Query("update User set delFlag=" + User.DEL_FLAG_DELETE + " where id = ?1")
-	public int deleteById(Integer id);
+	public int deleteById(Long id);
 	
 	@Query("from User where username = ?1 and password = ?2 and delFlag = " +User.DEL_FLAG_NORMAL)
 	public User findByUserNameAndPassword(String name,String pwd);
@@ -43,19 +43,19 @@ interface UserDaoCustom extends BaseDao<User>{
 	 * @param id 被关注人的id
 	 * @return
 	 */
-	public boolean following(User u,Integer id);
+	public boolean following(User u,Long id);
 	
 	/**
 	 * 获取用户[id]关注的人
 	 * @return
 	 */
-	public List<User> getFollowing(Integer id);
+	public List<User> getFollowing(Long id);
 	
 	/**
 	 * 获取用户[id]的粉丝
 	 * @return
 	 */
-	public List<User> getFollowed(Integer id);
+	public List<User> getFollowed(Long id);
 	
 }
 
@@ -63,19 +63,19 @@ interface UserDaoCustom extends BaseDao<User>{
 class UserDaoImpl extends BaseDaoImpl<User> implements UserDaoCustom{
 
 	@Override
-	public boolean following(User u, Integer id) {
+	public boolean following(User u, Long id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<User> getFollowing(Integer id) {
+	public List<User> getFollowing(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<User> getFollowed(Integer id) {
+	public List<User> getFollowed(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

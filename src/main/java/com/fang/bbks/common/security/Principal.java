@@ -18,7 +18,7 @@ public class Principal implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	private Long id;
 	private String name;
 	private Map<String, Object> cacheMap;
 
@@ -26,8 +26,8 @@ public class Principal implements Serializable {
 		this.id = user.getId();
 		this.name = user.getUsername();
 	}
-
-	public Integer getId() {
+	
+	public Long getId() {
 		return id;
 	}
 

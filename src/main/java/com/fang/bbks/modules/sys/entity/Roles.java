@@ -37,62 +37,63 @@ import com.google.common.collect.Lists;
 
 @Entity
 @Table(name = "TB_ROLE")
-public class Roles extends BaseEntity implements Serializable {
+public class Roles extends BaseEntity{
 	private static final long serialVersionUID = 3446263144818124242L;
-	//主键id
-    @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
-    private String value;//url
-    private String permission;//shiro permission;
-    @Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
-    
-    public Integer getDelFlag() {
-		return delFlag;
-	}
-
-
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
-	}
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;	 // 编号
+	private String name; // 角色名称
+	private String delFlag; // 删除标记（0：正常；1：删除）
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
+	@JoinTable(name = "sys_user_role", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
+	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
 	@OrderBy("id")
 	@Fetch(FetchMode.SUBSELECT)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private List<User> userList = Lists.newArrayList(); // 拥有用户列表
 
-    
-	public Roles() {}
+	public Roles() {
+		this.delFlag = DEL_FLAG_NORMAL;
+	}
 
+	public Roles(Long id, String name) {
+		this();
+		this.id = id;
+		this.name = name;
+	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-	public String getValue() {
-		return value;
+	public String getName() {
+		return name;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getPermission() {
-		return permission;
+	public String getDelFlag() {
+		return delFlag;
 	}
 
-	public void setPermission(String permission) {
-		this.permission = permission;
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
 	}
+
+	public List<User> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(List<User> userList) {
+		this.userList = userList;
+	}
+
 }

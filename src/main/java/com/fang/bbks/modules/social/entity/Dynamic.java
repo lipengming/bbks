@@ -42,7 +42,7 @@ public class Dynamic extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private Integer creatBy;
 	
 	private Date createAt;
@@ -50,8 +50,8 @@ public class Dynamic extends BaseEntity implements Serializable{
 
 	@Size(max=ApplicationCanstant.commonMessageSize)
 	private String content;
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+	
+    private String delFlag;	//删除标记（0：正常；1：删除）
 	
 	
 	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY)
@@ -61,11 +61,26 @@ public class Dynamic extends BaseEntity implements Serializable{
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private List<Resource> resources;
 	
-	public Integer getId() {
+	/**
+	 * 
+	 */
+	public Dynamic() {
+		this.delFlag = DEL_FLAG_NORMAL;
+	}
+	public Dynamic(Long id){
+		super();
+		this.id = id;
+	}
+	
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
 	}
 	public String getContent() {
 		return content;
@@ -91,13 +106,6 @@ public class Dynamic extends BaseEntity implements Serializable{
 	}
 	public void setCreatBy(Integer creatBy) {
 		this.creatBy = creatBy;
-	}
-	
-	public Integer getDelFlag() {
-		return delFlag;
-	}
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
 	}
 	/**
 	 * @return the resources

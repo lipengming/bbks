@@ -37,19 +37,11 @@ public class BookContent extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	private Integer pageNum;
 	private String content;//文字内容
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
-	
-	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY)
-	@JoinColumn(name="pics")
-	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
-	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<Resource> pics = new HashSet<Resource>();//图片文件资源
+    private String delFlag ;	//删除标记（0：正常；1：删除）
 	
 
 	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY)
@@ -58,11 +50,18 @@ public class BookContent extends BaseEntity implements Serializable{
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Book book;//所属书籍
 	
-	public Integer getId() {
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
 	}
 	public Integer getPageNum() {
 		return pageNum;
@@ -76,23 +75,14 @@ public class BookContent extends BaseEntity implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Integer getDelFlag() {
-		return delFlag;
-	}
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
-	}
-	public Set<Resource> getPics() {
-		return pics;
-	}
-	public void setPics(Set<Resource> pics) {
-		this.pics = pics;
-	}
-	public BookContent(Integer pageNum, String content, Integer delFlag) {
+	
+	public BookContent(Integer pageNum, String content) {
+		super();
 		this.pageNum = pageNum;
 		this.content = content;
-		this.delFlag = delFlag;
 	}
-	public BookContent(){}
+	public BookContent(){
+		this.delFlag = DEL_FLAG_NORMAL;
+	}
 	
 }

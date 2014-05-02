@@ -21,7 +21,7 @@ import com.fang.bbks.modules.social.entity.Message;
  */
 @Service("messageService")
 @Transactional(readOnly = true)
-public class MessageService implements IMessageService {
+public class MessageService{
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(MessageService.class);
 	
@@ -34,8 +34,7 @@ public class MessageService implements IMessageService {
 	 * @param from
 	 * @param to
 	 */
-	@Override
-	public void sendMessage(String content,Integer from,Integer to){
+	public void sendMessage(String content,Long from,Long to){
 		
 		Message m = new Message();
 		
@@ -54,8 +53,7 @@ public class MessageService implements IMessageService {
 	 * @param from
 	 * @return
 	 */
-	@Override
-	public List<Message> ISend(Integer from){
+	public List<Message> ISend(Long from){
 		return messageDao.findByFrom(from);
 	}
 	
@@ -64,8 +62,7 @@ public class MessageService implements IMessageService {
 	 * @param to
 	 * @return
 	 */
-	@Override
-	public List<Message> IRecived(Integer to){
+	public List<Message> IRecived(Long to){
 		return messageDao.findByTo(to);
 	}
 	
@@ -74,8 +71,7 @@ public class MessageService implements IMessageService {
 	 * @param to
 	 * @return
 	 */
-	@Override
-	public List<Message> unRead(Integer to){
+	public List<Message> unRead(Long to){
 		return messageDao.findUnRead(to);
 	}
 		
@@ -85,17 +81,14 @@ public class MessageService implements IMessageService {
 	 * @param id
 	 * @return
 	 */
-	@Override
-	public Message findOne(Integer id){
+	public Message findOne(Long id){
 		return messageDao.findOne(id);
 	}
 	
 	
-	@Override
 	@Transactional(readOnly = false)
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		messageDao.deleteById(id);
-		//TODO 从列表中也出这本书及的信息
 	}
 	
 	

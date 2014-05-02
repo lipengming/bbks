@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.fang.bbks.common.constant.ApplicationCanstant;
 import com.fang.bbks.common.persistence.BaseEntity;
 
@@ -23,21 +26,42 @@ import com.fang.bbks.common.persistence.BaseEntity;
 @SuppressWarnings("serial")
 @Table(name = "TB_MESSAGE")
 @Entity
-public class Message extends BaseEntity implements Serializable{
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Message extends BaseEntity{
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private Integer isRead;//阅读的标记
 	
-	private Integer fromu;//发件人
-	private Integer tou;//收件人
+	private Long fromu;//发件人
+	private Long tou;//收件人
 	
 	@Size(max=ApplicationCanstant.commonMessageSize)
 	private String content;
 	
 	private Date creatAt;
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+	private Date updateAt;
+    private String delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+
+    
+    public Message() {
+		this.delFlag = DEL_FLAG_NORMAL;
+		this.creatAt = new Date();
+		this.isRead = READ_HIDE;
+	}
+	
+	public Message(Long id){
+		super();
+		this.id = id;
+	}
+	
+    public Message(Long from,Long to,String content) {
+    	super();
+    	this.fromu = from;
+    	this.tou = to;
+    	this.content = content;
+    }
 
 	
 	public Integer getIsRead() {
@@ -49,20 +73,19 @@ public class Message extends BaseEntity implements Serializable{
 	}
 
 
-
-	public Integer getFromu() {
+	public Long getFromu() {
 		return fromu;
 	}
 
-	public void setFromu(Integer fromu) {
+	public void setFromu(Long fromu) {
 		this.fromu = fromu;
 	}
 
-	public Integer getTou() {
+	public Long getTou() {
 		return tou;
 	}
 
-	public void setTou(Integer tou) {
+	public void setTou(Long tou) {
 		this.tou = tou;
 	}
 
@@ -72,14 +95,6 @@ public class Message extends BaseEntity implements Serializable{
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	/**
@@ -96,17 +111,28 @@ public class Message extends BaseEntity implements Serializable{
 		this.creatAt = creatAt;
 	}
 
-	/**
-	 * @return the delFlag
-	 */
-	public Integer getDelFlag() {
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
+	}
+
+	public String getDelFlag() {
 		return delFlag;
 	}
 
-	/**
-	 * @param delFlag the delFlag to set
-	 */
-	public void setDelFlag(Integer delFlag) {
+	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
 	}
+
 }

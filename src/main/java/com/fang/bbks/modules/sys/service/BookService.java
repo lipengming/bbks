@@ -1,5 +1,7 @@
 package com.fang.bbks.modules.sys.service;
 
+import java.util.Date;
+
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -18,13 +20,17 @@ import org.hibernate.engine.spi.TypedValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Reference;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fang.bbks.common.persistence.Page;
 import com.fang.bbks.common.utils.StringUtils;
 import com.fang.bbks.modules.sys.dao.BookDao;
+import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Book;
+import com.fang.bbks.modules.sys.entity.BookContent;
+import com.fang.bbks.modules.sys.entity.Category;
 
 /**
  * @Intro Book service Component
@@ -40,22 +46,27 @@ public class BookService {
 	@Autowired
 	BookDao bookDao;
 	
+	@Reference
+	CategoryDao categoryDao;
+	
 	/**
 	 * 获取书籍信息
 	 * @param id
 	 * @return
 	 */
-	public Book findOne(Integer id){
+	public Book findOne(Long id){
 		return bookDao.findOne(id);
 	}
 	
 	@Transactional(readOnly = false)
 	public Book save(Book book){
+		book.setUpdateAt(new Date());
+		bookDao.clear();
 		return bookDao.save(book);
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		bookDao.deleteById(id);
 		//TODO 从列表中也出这本书及的信息
 	}
@@ -90,15 +101,13 @@ public class BookService {
 		DetachedCriteria dc = bookDao.createDetachedCriteria();
 		//设置查询条件
 		addCondition(dc,book);
-		//dc.add(Restrictions.eq("delFlag", Book.DEL_FLAG_NORMAL));
-		//dc.addOrder(Order.asc("likeCount"));
 		return bookDao.find(page, dc);
 	}
 	
-	public Page<Book> findBookByCatLog(Page<Book> page,String catelog){
-		
-		return null;
-	}
+	
+	//////////////////////////
+	//////////////////////////
+	//////////////////////////
 	
 	/**
 	 * 添加查询条件
@@ -107,10 +116,26 @@ public class BookService {
 	 */
 	private void addCondition(DetachedCriteria dc,Book book){
 		if(book == null) return;
+		
+		dc.createAlias("category", "category");
+		
 		if(book.isFree()){
 			//查询免费书籍
 			dc.add(Restrictions.eq("isFreee", book.isFree()));
 		}
+		//分类
+		if(book.getCategory() != null && book.getCategory().getId() != null){
+			Category category = categoryDao.findOne(book.getCategory().getId());
+			if (category!=null){
+				dc.add(Restrictions.or(
+						Restrictions.eq("category.id", category.getId()),
+						Restrictions.eq("category.parent.id", category.getId()),
+						Restrictions.like("category.parentIds", "%,"+category.getId()+",%")));
+				book.setCategory(category);
+			}
+		}
+		
+		
 		if(StringUtils.isNotEmpty(book.getBookName())){
 			//根据书名查询
 			dc.add(Restrictions.like("bookName", book.getBookName()+"%"));
@@ -124,15 +149,16 @@ public class BookService {
 		}
 	}
 	
+	
 	/**
 	 * 跟新索引
 	 */
 	public void createdAndUpdateIndex(){
 		long startTime=System.currentTimeMillis();   //获取开始时间
-		logger.debug("执行索引开始。。。{}",startTime);
+		System.out.println("执行索引开始。。。"+startTime);
 		bookDao.createIndex();
 		long endTime=System.currentTimeMillis();   //获取结束时间
-		logger.debug("执行索引结束。。。{},{}",endTime,(endTime-startTime));
+		System.out.println("执行索引结束。。。"+endTime+"---"+(endTime-startTime));
 		
 	}
 }

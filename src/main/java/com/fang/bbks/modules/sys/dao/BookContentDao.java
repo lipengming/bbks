@@ -25,11 +25,11 @@ import com.fang.bbks.modules.sys.entity.BookContent;
  * @author Lee
  * @Date 2013-8-1
  */
-public interface BookContentDao extends BookContentDaoCustom,CrudRepository<BookContent, Integer>{
+public interface BookContentDao extends BookContentDaoCustom,CrudRepository<BookContent, Long>{
 	
 	@Modifying
 	@Query("update BookContent set delFlag=" + BookContent.DEL_FLAG_DELETE + " where id = ?1")
-	public int deleteById(Integer id);
+	public int deleteById(Long id);
 	
 	
 }

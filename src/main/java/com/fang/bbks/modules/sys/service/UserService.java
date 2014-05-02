@@ -45,13 +45,13 @@ public class UserService {
 		return false;
 	}
 	
-	public User findOne(Integer id){
+	public User findOne(Long id){
 		return userDao.findOne(id);
 	}
 	
 	
 	@Transactional(readOnly = false)
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		userDao.deleteById(id);
 		//TODO 从列表中也出这本书及的信息
 	}

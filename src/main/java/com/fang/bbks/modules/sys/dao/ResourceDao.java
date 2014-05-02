@@ -13,7 +13,7 @@ import com.fang.bbks.modules.sys.entity.Resource;
  * @author Lee
  * @Date 2013-8-1
  */
-public interface ResourceDao extends ResourceDaoCustom,CrudRepository<Resource, Integer>{
+public interface ResourceDao extends ResourceDaoCustom,CrudRepository<Resource, Long>{
 	
 	@Modifying
 	@Query("update Resource set delFlag='" + Resource.DEL_FLAG_DELETE + "' where id = ?1")

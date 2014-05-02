@@ -66,7 +66,6 @@ public class DynamicService {
 	@Transactional(readOnly = false)
 	public void delete(Integer id) {
 		dynamicDao.deleteById(id);
-		//TODO 从列表中也出这本书及的信息
 	}
 	
 	

@@ -28,26 +28,39 @@ public class Resource extends BaseEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@Size(max=4)
 	private String type;//资源类型（0：文档；1：图片；2：其他；）
 	private String resSrc;//资源的原路径
 	private String resId;//资源的使用路径
 	private Integer[] orgSize;//原始大小
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+    private String delFlag;	//删除标记（0：正常；1：删除）
 	
-	public Integer getDelFlag() {
-		return delFlag;
-	}
-	public void setDelFlag(Integer delFlag) {
+    
+    /**
+	 * @param delFlag the delFlag to set
+	 */
+	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
 	}
-	public Integer getId() {
+	/**
+	 * @return the delFlag
+	 */
+	public String getDelFlag() {
+		return delFlag;
+	}
+    
+    /**
+	 * @return the id
+	 */
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getType() {
@@ -80,6 +93,8 @@ public class Resource extends BaseEntity implements Serializable{
 		this.resSrc = resSrc;
 		this.resId = resId;
 	}
-	public Resource(){}	
+	public Resource(){
+		this.delFlag = DEL_FLAG_NORMAL;
+	}	
 	
 }

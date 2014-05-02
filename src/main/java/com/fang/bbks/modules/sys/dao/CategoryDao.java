@@ -13,11 +13,11 @@ import com.fang.bbks.modules.sys.entity.Category;
  * @author Lee
  * @Date 2013-8-1
  */
-public interface CategoryDao extends CategoryDaoCustom,CrudRepository<Category, Integer>{
+public interface CategoryDao extends CategoryDaoCustom,CrudRepository<Category, Long>{
 	
 	@Modifying
 	@Query("update Category set delFlag=" + Category.DEL_FLAG_DELETE + " where id = ?1")
-	public int deleteById(Integer id);
+	public int deleteById(Long id);
 	
 	
 }

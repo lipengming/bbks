@@ -7,6 +7,7 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.apache.noggit.JSONUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +25,7 @@ import com.fang.bbks.modules.sys.entity.BookContent;
 import com.fang.bbks.modules.sys.entity.Category;
 import com.fang.bbks.modules.sys.entity.Resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 
 /**
  * @Intro descrption here
@@ -32,17 +34,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:/applicationContext.xml")
-@Transactional
+//@Transactional
 public class BookServiceTest {
 
 	@Autowired
 	BookService bs;
 	
+	@Autowired
+	CategoryService cs;
 	
-	Book book;
-	Set<Resource> resources = new HashSet<Resource>();
-	Category ca;
-	BookContent bc;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -55,7 +55,7 @@ public class BookServiceTest {
 	@Test
 	public void testPage(){
 		Book b = new Book();
-//		b.setBookName("谁的青春不迷茫");
+		b.setBookName("谁的青春不迷茫");
 		Page<Book> page = bs.findBook(new Page<Book>(0, 20), b);
 		for(Book bk : page.getList()){
 			System.out.println(bk.getBookName());
@@ -68,10 +68,54 @@ public class BookServiceTest {
 //		Assert.assertEquals(book.getBookName(), b.getBookName());
 //	}
 //
-//	@Test
-//	public void testSave() {
-//		bs.save(book);
-//	}
+	@Test
+	public void testSave() {
+		Category c1 = new Category("小说","小说");
+		Category c2 = new Category("军事","散文");
+		Category c3 = new Category("散文","散文");
+		
+		c1 = cs.save(c1);
+		c2 = cs.save(c2);
+		c3 = cs.save(c3);
+		
+		for(int a = 0 ;a<100;a++){
+			Book book = new Book("小说"+a, "2000001"+a, "translator:"+a, "author:"+a);
+			book.setCoverPic("http--");
+			
+			book.setContents(get(book));
+			
+			if(a % 5 == 0){
+				book.setCategory(c1);
+			}else if(a % 3 == 0){
+				book.setCategory(c2);
+			}else{
+				book.setCategory(c3);
+			}
+			bs.save(book);
+		}
+		
+	}
+	
+	@Test
+	public void testFindBook(){
+		Page<Book> page = new Page<Book>(1, 20);
+		Category c = cs.findOne(new Long(15));
+		Book b = new Book(c);
+		Page<Book> pages = bs.findBook(page, b);
+		
+		System.out.println(pages.getCount() + "----"+pages.getList());
+		System.out.println(JSONUtil.toJSON(pages.getList()));
+	}
+	
+	private List<BookContent> get(Book book){
+		List<BookContent> bcs = Lists.newArrayList();
+		for(int i =0;i<10;i++){
+			BookContent bc = new BookContent(i, "content:::"+i);
+			bc.setBook(book);
+			bcs.add(bc);
+		}
+		return bcs;
+	}
 //
 //	@Test
 //	public void testDelete() {

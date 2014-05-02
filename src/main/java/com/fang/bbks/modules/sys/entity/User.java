@@ -1,8 +1,11 @@
 package com.fang.bbks.modules.sys.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
@@ -31,7 +35,9 @@ import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Email;
 
 import com.fang.bbks.common.persistence.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 
 /**
  * 用户基本表
@@ -45,26 +51,24 @@ public class User extends BaseEntity implements Serializable{
 	 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;//主键id
+    private Long id;//主键id
     
     private String username;//登录名称
     private String password;//登录密码
     
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
     private Date createDate;//创建日期
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+08:00")
     private Date updateDate;//创建日期
     
-    @Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+	private String delFlag;	// 删除标记（0：正常；1：删除）
 	
 	@Email
 	private String email;//邮箱
 	@Size(max=2)
 	private String isCompany = BaseEntity.NO;//默认为普通用户,No表示公司用户
 	
-	
-//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//	@JoinColumn(name="avatar") 
-//	private Resource avatar;//头像
 	
 	//心情、动态
 	//私信
@@ -82,27 +86,35 @@ public class User extends BaseEntity implements Serializable{
 	
 	//多对多定义
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@JoinTable(name = "sys_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
 	@OrderBy("id")
 	@Fetch(FetchMode.SUBSELECT)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@JsonIgnore
-	private Set<Roles> roleList = new HashSet<Roles>();//拥有能访问的资源/链接()
+	private List<Roles> roleList = Lists.newArrayList(); // 拥有角色列表
     
 	
 	
-	public User(){}
-
-	public Integer getId() {
-		return id;
+	public User(){
+		this.createDate = new Date();
+		this.delFlag = DEL_FLAG_NORMAL;
 	}
-
-	public void setId(Integer id) {
+	public User(Long id){
+		super();
 		this.id = id;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -125,14 +137,6 @@ public class User extends BaseEntity implements Serializable{
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
-	}
-
-	public Integer getDelFlag() {
-		return delFlag;
-	}
-
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
 	}
 
 	public String getEmail() {
@@ -183,14 +187,21 @@ public class User extends BaseEntity implements Serializable{
 		this.hasRead = hasRead;
 	}
 
-	public Set<Roles> getRoleList() {
+	public String getLiking() {
+		return liking;
+	}
+	public void setLiking(String liking) {
+		this.liking = liking;
+	}
+	public List<Roles> getRoleList() {
 		return roleList;
 	}
-
-	public void setRoleList(Set<Roles> roleList) {
+	public void setRoleList(List<Roles> roleList) {
 		this.roleList = roleList;
 	}
-
+	public String getDelFlag() {
+		return delFlag;
+	}
 	/**
 	 * @return the updateDate
 	 */
@@ -204,5 +215,26 @@ public class User extends BaseEntity implements Serializable{
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+	
+	@Transient
+	@JsonIgnore
+	public List<Long> getRoleIdList() {
+		List<Long> roleIdList = Lists.newArrayList();
+		for (Roles role : roleList) {
+			roleIdList.add(role.getId());
+		}
+		return roleIdList;
+	}
+
+	@Transient
+	public void setRoleIdList(List<Long> roleIdList) {
+		roleList = Lists.newArrayList();
+		for (Long roleId : roleIdList) {
+			Roles role = new Roles();
+			role.setId(roleId);
+			roleList.add(role);
+		}
+	}
+	
 
 }

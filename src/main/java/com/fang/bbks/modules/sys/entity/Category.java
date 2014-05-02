@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -35,11 +36,11 @@ import com.google.common.collect.Lists;
 @Entity
 @Table(name = "TB_CATEGORY")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Category extends BaseEntity implements Serializable{
+public class Category extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="parent_id")
@@ -54,23 +55,46 @@ public class Category extends BaseEntity implements Serializable{
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private List<Category> childList = Lists.newArrayList();
 	
-	private String parentIds;// 所有父级编号｛"a",'cc','dd'｝
+//	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY,mappedBy="category")
+//	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
+//	@OrderBy(value="code")
+//	@NotFound(action = NotFoundAction.IGNORE)
+//	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//	private List<Book> bookList = Lists.newArrayList();
+	
+	
 	private String name; 	// 分类名称
 	private String intro; 	// 分类描述
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+    private String delFlag;	//删除标记（0：正常；1：删除）
+	
+	/**
+	 * 
+	 */
+	public Category() {
+		this.delFlag = DEL_FLAG_NORMAL;
+	}
+	public Category(Long id) {
+		super();
+		this.id = id;
+	}
+	public Category(String name,String intro) {
+		super();
+		this.name = name;
+		this.intro = intro;
+	}
 	
 	
-	public Integer getDelFlag() {
+	
+	public String getDelFlag() {
 		return delFlag;
 	}
-	public void setDelFlag(Integer delFlag) {
+	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
-	}
-	public Integer getId() {
+	}	
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Category getParent() {
@@ -85,12 +109,6 @@ public class Category extends BaseEntity implements Serializable{
 	public void setChildList(List<Category> childList) {
 		this.childList = childList;
 	}
-	public String getParentIds() {
-		return parentIds;
-	}
-	public void setParentIds(String parentIds) {
-		this.parentIds = parentIds;
-	}
 	public String getName() {
 		return name;
 	}
@@ -104,4 +122,34 @@ public class Category extends BaseEntity implements Serializable{
 		this.intro = intro;
 	}
 	
+	
+	@Transient
+	public static void sortList(List<Category> list, List<Category> sourcelist, Long parentId){
+		for (int i=0; i<sourcelist.size(); i++){
+			Category e = sourcelist.get(i);
+			if (e.getParent()!=null && e.getParent().getId()!=null
+					&& e.getParent().getId().equals(parentId)){
+				list.add(e);
+				// 判断是否还有子节点, 有则继续获取子节点
+				for (int j=0; j<sourcelist.size(); j++){
+					Category child = sourcelist.get(j);
+					if (child.getParent()!=null && child.getParent().getId()!=null
+							&& child.getParent().getId().equals(e.getId())){
+						sortList(list, sourcelist, e.getId());
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	@Transient
+	public boolean isRoot(){
+		return isRoot(this.id);
+	}
+	
+	@Transient
+	public static boolean isRoot(Long id){
+		return id != null && id.equals(1L);
+	}
 }	

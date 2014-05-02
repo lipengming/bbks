@@ -55,7 +55,7 @@ public class CookieUtils {
 			return null;
 		}
 		try{
-			u.setId(Integer.parseInt(is));
+			u.setId(Long.parseLong(is));
 		}catch(NumberFormatException e){
 			return null;
 		}

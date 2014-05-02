@@ -14,7 +14,7 @@ import com.fang.bbks.modules.sys.entity.Book;
  * @author Lee
  * @Date 2013-8-1
  */
-public interface BookDao extends BookDaoCustom,CrudRepository<Book, Integer>{
+public interface BookDao extends BookDaoCustom,CrudRepository<Book, Long>{
 	
 	/**
 	 * 设置图书为删除状态【实际数据仍旧保留】
@@ -23,10 +23,10 @@ public interface BookDao extends BookDaoCustom,CrudRepository<Book, Integer>{
 	 */
 	@Modifying
 	@Query("update Book set delFlag=" + Book.DEL_FLAG_DELETE + " where id = ?1")
-	public int deleteById(Integer id);
+	public int deleteById(Long id);
 	
 	@Query("from Book where id = ?1 and delFlag = " + Book.DEL_FLAG_NORMAL)
-	public Book findOne(Integer id);
+	public Book findOne(Long id);
 	
 	
 }

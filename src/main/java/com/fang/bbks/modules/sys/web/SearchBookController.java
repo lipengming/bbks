@@ -59,7 +59,7 @@ public class SearchBookController extends BaseController{
 	}
 	
 	@RequestMapping(value={"/search/{bookId}"},method=RequestMethod.GET)
-	public String search(@PathVariable("bookId") Integer bookId,
+	public String search(@PathVariable("bookId") Long bookId,
 			Model uiModel,HttpServletRequest request){
 
 		Book book = bs.findOne(bookId);

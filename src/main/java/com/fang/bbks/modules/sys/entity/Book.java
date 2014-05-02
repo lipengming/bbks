@@ -6,7 +6,9 @@
 package com.fang.bbks.modules.sys.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -37,6 +40,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import com.fang.bbks.common.persistence.BaseEntity;
+import com.google.common.collect.Lists;
 
 /**
  * 书籍基本信息表
@@ -46,16 +50,13 @@ import com.fang.bbks.common.persistence.BaseEntity;
 @Entity
 @Table(name = "TB_BOOK")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Indexed(index="")
+@Indexed
 @Analyzer(impl = IKAnalyzer.class)
-public class Book extends BaseEntity implements Serializable{
+public class Book extends BaseEntity{
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;//主键
-	
-//	private User user;//所属用户！！！！！！
-	
+	private Long id;//主键
 	
 	@NotBlank
 	@Size(min=0, max=250)
@@ -83,25 +84,22 @@ public class Book extends BaseEntity implements Serializable{
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String outline;//图书概述
 	
-	@Column(nullable = false,columnDefinition="int(2) default "+DEL_FLAG_NORMAL)
-    private Integer delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
+    private String delFlag;	//删除标记（0：正常；1：删除）
 	
 	private String coverPic;//封面图片
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="category_id")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Category category;//分类
 	
-	//直接属性，并无关联
-	private String catLog;//目录：格式为：[{"第1章",1},{"第2章",23},{"第3章",55}]Set<Map<String,Integer>>
-	
 	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY,mappedBy="book")
-	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
+	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
+	@OrderBy(value="code")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<BookContent> contents = new HashSet<BookContent>();//书记内容
+	private List<BookContent> contents = Lists.newArrayList();//书记内容
 	
 	private boolean isFree;//免费阅读：true,收费false
 	private Double price;//价格
@@ -112,12 +110,40 @@ public class Book extends BaseEntity implements Serializable{
 	private Integer hasRead;//读过人数
 	private Integer commentCount;//读过人数
 	
-	public Integer getId() {
-		return id;
+	private String bookSrc;//电子书源文件
+	private String eFlag;//电子书
+	
+	private Date createdAt;
+	private Date updateAt;
+	
+	/**
+	 * 
+	 */
+	public Book() {
+		this.delFlag = DEL_FLAG_NORMAL;
+		this.createdAt = new Date();
+		this.eFlag = EBOOK_NO;
 	}
-	public void setId(Integer id) {
+	
+	public Book(Long id) {
+		super();
 		this.id = id;
 	}
+	
+	public Book(Category category){
+		this();
+		this.category = category;
+	}
+	
+	public Book(String bookName,String isbn,String translator,String author){
+		super();
+		this.bookName = bookName;
+		this.isbn = isbn;
+		this.translator = translator;
+		this.author = author;
+		this.category = new Category("不明分类","unknown");
+	}
+	
 	public String getBookName() {
 		return bookName;
 	}
@@ -208,44 +234,67 @@ public class Book extends BaseEntity implements Serializable{
 	public void setHasRead(Integer hasRead) {
 		this.hasRead = hasRead;
 	}
-	public Integer getDelFlag() {
-		return delFlag;
-	}
-	public void setDelFlag(Integer delFlag) {
-		this.delFlag = delFlag;
-	}
-	public Book() {
-	}
-	public Book(String bookName, String author, String isbn) {
-		this.bookName = bookName;
-		this.author = author;
-		this.isbn = isbn;
-	}
+	
+	
 	public Category getCategory() {
 		return category;
 	}
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	
-	public Set<BookContent> getContents() {
-		return contents;
-	}
-	public void setContents(Set<BookContent> contents) {
+	/**
+	 * @param contents the contents to set
+	 */
+	public void setContents(List<BookContent> contents) {
 		this.contents = contents;
+	}/**
+	 * @return the contents
+	 */
+	public List<BookContent> getContents() {
+		return contents;
+	}	
+	public Long getId() {
+		return id;
 	}
-	public String getCatLog() {
-		return catLog;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public void setCatLog(String catLog) {
-		this.catLog = catLog;
+	public String getDelFlag() {
+		return delFlag;
 	}
-	
-//	public List<Map<String,Integer>> catLogMapping(String catlog){
-//		//[{c,'csdvs'},{b,'casca'},{a,'casca'}]
-//		List<Map<String,Integer>> res = new ArrayList<Map<String,Integer>>();
-//		JSONArray ja = 
-//		return res;
-//	}
-	
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
+
+	public String getBookSrc() {
+		return bookSrc;
+	}
+
+	public void setBookSrc(String bookSrc) {
+		this.bookSrc = bookSrc;
+	}
+
+	public String geteFlag() {
+		return eFlag;
+	}
+
+	public void seteFlag(String eFlag) {
+		this.eFlag = eFlag;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdateAt() {
+		return updateAt;
+	}
+
+	public void setUpdateAt(Date updateAt) {
+		this.updateAt = updateAt;
+	}	
 }

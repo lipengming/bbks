@@ -14,8 +14,8 @@ public abstract class BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// 删除标记（0：正常；1：删除）
-	public static final int DEL_FLAG_NORMAL = 0;
-	public static final int DEL_FLAG_DELETE = 1;
+	public static final String DEL_FLAG_NORMAL = "0";
+	public static final String DEL_FLAG_DELETE = "1";
 
 	// 显示/隐藏
 	public static final String SHOW = "1";
@@ -40,7 +40,6 @@ public abstract class BaseEntity implements Serializable {
 	public static final int READ_SHOW = 1;
 	
 	// AT类型（0：AT人；1：AT书，2：AT其他）
-	public static final int AT_USER = 0;
-	public static final int AT_BOOK = 1;
-	public static final int AT_TH = 2;
+	public static final String EBOOK_YEW = "0";
+	public static final String EBOOK_NO = "1";
 }
