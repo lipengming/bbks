@@ -103,8 +103,8 @@ public class Book extends BaseEntity{
 	
 	private boolean isFree;//免费阅读：true,收费false
 	private Double price;//价格
-	private Double allPrice;//竞价
-	private String pubPrice;//竞价
+	private String allPrice;//竞价
+	private Double pubPrice;//竞价
 	
 	private Integer wantRead;//想读人数
 	private Integer likeCount;//喜欢人数
@@ -314,19 +314,21 @@ public class Book extends BaseEntity{
 		this.updateAt = updateAt;
 	}
 
-	public Double getAllPrice() {
+
+
+	public String getAllPrice() {
 		return allPrice;
 	}
 
-	public void setAllPrice(Double allPrice) {
+	public void setAllPrice(String allPrice) {
 		this.allPrice = allPrice;
 	}
 
-	public String getPubPrice() {
+	public Double getPubPrice() {
 		return pubPrice;
 	}
 
-	public void setPubPrice(String pubPrice) {
+	public void setPubPrice(Double pubPrice) {
 		this.pubPrice = pubPrice;
 	}
 

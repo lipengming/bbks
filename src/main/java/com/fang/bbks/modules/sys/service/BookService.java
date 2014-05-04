@@ -46,7 +46,7 @@ public class BookService {
 	@Autowired
 	BookDao bookDao;
 	
-	@Reference
+	@Autowired
 	CategoryDao categoryDao;
 	
 	/**
@@ -140,16 +140,10 @@ public class BookService {
 		}
 		//分类
 		if(book.getCategory() != null && book.getCategory().getId() != null){
-			Category category = categoryDao.findOne(book.getCategory().getId());
-			if (category!=null){
-				dc.add(Restrictions.or(
-						Restrictions.eq("category.id", category.getId()),
-						Restrictions.eq("category.parent.id", category.getId()),
-						Restrictions.like("category.parentIds", "%,"+category.getId()+",%")));
-				book.setCategory(category);
+			if (book.getCategory()!=null){
+				dc.add(Restrictions.eq("category.id", book.getCategory().getId()));
 			}
-		}
-		
+		}	
 		
 		if(StringUtils.isNotEmpty(book.getBookName())){
 			//根据书名查询

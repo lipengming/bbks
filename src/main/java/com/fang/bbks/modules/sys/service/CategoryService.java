@@ -1,5 +1,8 @@
 package com.fang.bbks.modules.sys.service;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.persistence.Transient;
 
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Category;
+import com.google.common.collect.Lists;
 
 /**
  * @Intro Book service Component
@@ -26,6 +30,8 @@ public class CategoryService {
 	@Autowired
 	CategoryDao categoryDao;
 	
+	private static List<Category> result = Lists.newArrayList();
+
 	/**
 	 * 获取书籍信息
 	 * @param id
@@ -53,5 +59,20 @@ public class CategoryService {
 	public Category save(Category category){
 		categoryDao.clear();
 		return categoryDao.save(category);
+	}
+	
+	/**
+	 * 缓存所有的Category
+	 * @return
+	 */
+	public List<Category> getCaList(){
+		if(result.isEmpty()){
+			Iterator<Category> iterator = categoryDao.findAll().iterator();
+			List<Category> result = Lists.newArrayList();
+			while(iterator.hasNext()){
+				result.add(iterator.next());
+			}
+		}
+		return result;
 	}
 }

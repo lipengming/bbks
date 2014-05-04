@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath }"/>  
 <c:set var="ctxRes" value="${pageContext.request.contextPath }/static"/>  
 <!-- search bar start -->
 	<div class="W960">
@@ -20,23 +21,22 @@
         </div>
         <div class="screen_class">
         	<dl class="class">
-            	<dt><a href="#">全部</a></dt>
-                <dd><a href="#">小说</a></dd>
-                <dd><a href="#" class="hover">文学</a></dd>
-                <dd><a href="#">教材</a></dd>
-                <dd><a href="#">历史</a></dd>
-                <dd><a href="#">管理</a></dd>
+            	<dt><a href="#" class="hover">全部</a></dt>
+                <dd><a href="${ctx}/book/catlog?catlog=4">小说</a></dd>
+                <dd><a href="${ctx}/book/catlog?catlog=5">外国文学</a></dd>
+                <dd><a href="${ctx}/book/catlog?catlog=7">随笔</a></dd>
+                <dd><a href="${ctx}/book/catlog?catlog=8">中国文学</a></dd>
+                <dd><a href="${ctx}/book/catlog?catlog=9">经典</a></dd>
+                
                 <dd>
                 	<a href="#" class="more" id="more_drop">更多</a>
                     <div class="more_div">
                     	<ul>
-                        	<li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
-                            <li><a href="#">社会</a></li>
+                        	<li><a href="${ctx}/book/catlog?catlog=4">小说</a></li>
+			                <li><a href="${ctx}/book/catlog?catlog=5">外文学</a></li>
+			                <li><a href="${ctx}/book/catlog?catlog=7">随笔</a></li>
+			                <li><a href="${ctx}/book/catlog?catlog=8">中文学</a></li>
+			                <li><a href="${ctx}/book/catlog?catlog=9">经典</a></li>
                         </ul>
                     </div>
                 </dd>

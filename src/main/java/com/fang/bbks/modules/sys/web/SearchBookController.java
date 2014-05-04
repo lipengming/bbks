@@ -19,7 +19,9 @@ import com.fang.bbks.common.constant.ApplicationCanstant;
 import com.fang.bbks.common.persistence.Page;
 import com.fang.bbks.common.utils.StringUtils;
 import com.fang.bbks.common.web.BaseController;
+import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Book;
+import com.fang.bbks.modules.sys.entity.Category;
 import com.fang.bbks.modules.sys.service.BookService;
 
 /**
@@ -33,22 +35,37 @@ public class SearchBookController extends BaseController{
 	
 	@Autowired
 	BookService bs;
+	@Autowired
+	CategoryDao categoryDao;
 	
 	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String searchIndex(Model model,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value="categroy_id",required=false) String catlog,
 			@RequestParam(value="kw",required=false) String kw) {
+		
 		Page<Book> page = new Page<Book>(request, response);
+		
 		if (StringUtils.isNotBlank(kw)){
+			
 			if ("cmd:reindex".equals(kw)){
+				
 				System.out.println("重建索引！--start");
 				bs.createdAndUpdateIndex();
 				System.out.println("重建索引！--end");
+				
 				model.addAttribute("message", "重建索引成功");
+				
 			}else{
+				
 				page = bs.findByKeyWords(page, kw);
+				
 			}
+			
 		}else{
-			page = doSearch(request,response);
+			
+			page = doSearch(request,response,catlog);
+			
 		}
 		
 		if(page != null && !page.getList().isEmpty()){
@@ -76,7 +93,7 @@ public class SearchBookController extends BaseController{
 	 * @param request
 	 * @return
 	 */
-	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response){
+	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response,String catlog){
 		Page<Book> page = new Page<Book>(request, response);
 		Book book = new Book();
 		
@@ -88,26 +105,26 @@ public class SearchBookController extends BaseController{
 		book.setBookName(bookName);
 		book.setTranslator(translator);
 		
-		page = bs.findBook(page, book);
+		System.out.println("search by catlog..."+catlog);
+
 		
+		if(StringUtils.isNotBlank(catlog) && StringUtils.isNumeric(catlog)){
+			
+			Long catlog_id = Long.parseLong(catlog);
+			if(catlog_id != null && catlog_id > 0){
+				Category ca = categoryDao.findOne(catlog_id);
+				if(ca != null && ca.getId() == catlog_id){
+					book.setCategory(ca);
+				}
+			}
+		}
+		
+		page = bs.findBook(page, book);
+				
 		if(page.getCount() <= page.getFirstResult()){
 			return null;
 		}
+		
 		return page;
-	}
-	
-	/**
-	 * 数据装置
-	 * @param page
-	 * @return
-	 */
-	private List<Book> adapteeData(Page<Book> page){
-		if(page == null)
-			return null;
-		List<Book> list = new ArrayList<Book>();
-		for(Book book : page.getList()){
-			//...do filter
-		}
-		return list;
 	}
 }
