@@ -101,12 +101,17 @@ public class BookService {
 	 * @return
 	 */
 	public Page<Book> findBook(Page<Book> page,Long catlogId){
-		Category catlog = categoryDao.findOne(catlogId);
-		if(catlog == null){
-			return null;
+		Book b = new Book();
+		if(catlogId != null && catlogId > 0){
+			Category catlog = categoryDao.findOne(catlogId);
+			if(catlog == null){
+				return null;
+			}
+			b.setCategory(catlog);
 		}
-		Book b = new Book(catlog);
 		return findBook(page, b);
+		
+		
 	}
 	
 	/**

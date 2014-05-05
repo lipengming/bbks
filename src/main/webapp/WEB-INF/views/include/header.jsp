@@ -26,7 +26,7 @@
                 	<li><a href="#">主页</a></li>
                 </ul>
             	<dl>
-                	<dt>笔墨酷手机客户端</dt>
+                	<dt>墨屋手机客户端</dt>
                     <dd><a href="#">iPhone</a></dd>
                     <dd><a href="#">Android</a></dd>
                 </dl>

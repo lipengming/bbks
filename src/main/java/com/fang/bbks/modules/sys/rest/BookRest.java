@@ -19,7 +19,12 @@ import com.fang.bbks.modules.sys.service.BookService;
 import com.google.common.collect.Lists;
 
 /**
- * @Intro descrption here
+ * @Intro 第三方接口
+ * 
+ * "/api/book/find?catlog=?"[catlog|pageSize|pageNo]
+ * "/api/book/search?keywords=?"[pageSize|pageNo]
+ * "/api/book/findone?bookId=?"[pageSize|pageNo]
+ * 
  * @author Lee [shouli1990@gmail.com]
  * @Version V0.0.1
  * @Date 2014-5-2
@@ -27,11 +32,11 @@ import com.google.common.collect.Lists;
  */
 
 @Controller
-@RequestMapping(value = BaseController.REST_PREFIX+"/book")
+@RequestMapping(BaseController.REST_PREFIX+"/book")
 public class BookRest extends BaseController{
 	
 	@Resource
-	BookService bs;
+	private BookService bs;
 	
 	@RequestMapping(value={"/find"},method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String find(
@@ -49,12 +54,12 @@ public class BookRest extends BaseController{
 			jr.setRows(Lists.newArrayList());
 			jr.setMessage("成功！");
 		}
-		return jr.toJson();
+		return jr.toJson(jr);
 	}
 	
 	@RequestMapping(value={"/search"},method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String search(
-			@RequestParam(value="keywords" , required = false) String keywords){
+			@RequestParam(value="keywords" , required = true) String keywords){
 		JsonResult jr = new JsonResult();
 		
 		Page<Book> page = new Page<Book>(request, response);
@@ -66,9 +71,9 @@ public class BookRest extends BaseController{
 		}else{
 			jr.setIsSuccess(Boolean.FALSE);
 			jr.setRows(Lists.newArrayList());
-			jr.setMessage("成功！");
+			jr.setMessage("失败！");
 		}
-		return jr.toJson();
+		return jr.toJson(jr);
 	}
 	
 	@RequestMapping(value={"/findOne"},method={RequestMethod.GET,RequestMethod.POST})
@@ -84,9 +89,9 @@ public class BookRest extends BaseController{
 			jr.setMessage("成功！");
 		}else{
 			jr.setIsSuccess(Boolean.FALSE);
-			jr.setMessage("成功！");
+			jr.setMessage("失败！");
 		}
-		return jr.toJson();
+		return jr.toJson(jr);
 	}
 
 }

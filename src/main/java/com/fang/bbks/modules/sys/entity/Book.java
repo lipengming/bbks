@@ -77,6 +77,7 @@ public class Book extends BaseEntity{
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String press;//出版社
+	
 	private String version;//版本
 	private String directory;//目录
 	
@@ -96,7 +97,6 @@ public class Book extends BaseEntity{
 	
 	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY,mappedBy="book")
 	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
-	@OrderBy(value="code")
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private List<BookContent> contents = Lists.newArrayList();//书记内容
@@ -115,6 +115,7 @@ public class Book extends BaseEntity{
 	private String bookSrc;//电子书源文件
 	private String eFlag;//电子书
 	
+	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String authorintro;//作者简介<215
 	private String relationship;//关系列，存放：{'dd':'20','amazon':'231',}<50
 	

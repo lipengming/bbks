@@ -53,7 +53,7 @@ public class JsonResult implements Serializable{
 	public void setRows(List rows) {
 		this.rows = rows;
 	}
-	public String toJson(){
-		return new Gson().toJson(this);
+	public String toJson(JsonResult jr){
+		return new Gson().toJson(jr);
 	}
 }

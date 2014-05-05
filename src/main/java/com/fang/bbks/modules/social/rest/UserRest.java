@@ -1,14 +1,32 @@
 package com.fang.bbks.modules.social.rest;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fang.bbks.common.persistence.JsonResult;
+import com.fang.bbks.common.utils.CookieUtils;
+import com.fang.bbks.common.utils.SessionUtil;
+import com.fang.bbks.common.utils.Validate;
 import com.fang.bbks.common.web.BaseController;
+import com.fang.bbks.common.web.BaseResponse;
+import com.fang.bbks.modules.social.dao.DynamicDao;
+import com.fang.bbks.modules.social.entity.Dynamic;
+import com.fang.bbks.modules.social.service.DynamicService;
 import com.fang.bbks.modules.sys.entity.User;
 import com.fang.bbks.modules.sys.service.UserService;
 
@@ -16,30 +34,41 @@ import com.fang.bbks.modules.sys.service.UserService;
  * @Intro descrption here
  * @author Lee [shouli1990@gmail.com]
  * @Version V0.0.1
- * @Date 2014-5-2
- * @since 下午6:32:41	
+ * @Date 2013-12-2
+ * @since 下午3:26:36	
  */
 
 @Controller
-@RequestMapping(value = BaseController.REST_PREFIX+"/user")
+@RequestMapping(BaseController.REST_PREFIX + "/user")
 public class UserRest extends BaseController{
 	
-	@Autowired
-	UserService us;
+	private static final Logger logger = LoggerFactory.getLogger(UserRest.class);
 	
+	@Autowired
+	UserService userService;
+	@Autowired
+	DynamicService dynamicService;
+
 	@RequestMapping(value={"/login"},method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String login(
 			@RequestParam(value="name",required=true)String name,
 			@RequestParam(value="pwd",required=true)String pwd){
+		
 		JsonResult jr = new JsonResult();
 		
 		try{
-			User user = us.signIn(name, pwd);
+			User user = userService.signIn(name, pwd);
 			
 			if(user != null){
+				//设置session
+				SessionUtil.setSignInUser(request.getSession(), user);
+				//设置cookies
+				CookieUtils.setUser(response, user.getUsername(), pwd, user.getId()+"");
+				
 				jr.setIsSuccess(Boolean.TRUE);
 				jr.setMessage("成功！");
 				jr.setObj(user);
+				
 			}else{
 				jr.setIsSuccess(Boolean.FALSE);
 				jr.setMessage("失败！");
@@ -49,10 +78,10 @@ public class UserRest extends BaseController{
 			jr.setMessage("异常！");
 		}
 		
-		return jr.toJson();
+		return jr.toJson(jr);
 	}
 	
-	@RequestMapping(value={"/login"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/regist"},method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String login(
 			@RequestParam(value="name",required=true)String name,
 			@RequestParam(value="email",required=true)String email,
@@ -61,8 +90,25 @@ public class UserRest extends BaseController{
 		JsonResult jr = new JsonResult();
 		
 		try{
-			User user = us.signUp(name, email, pwd);
+			
+			if(userService.isExit(name)){
+				jr.setIsSuccess(Boolean.FALSE);
+				jr.setMessage("用户名被占用！");
+				return jr.toJson(jr);
+			}else if(userService.isExitEmail(email)){
+				jr.setIsSuccess(Boolean.FALSE);
+				jr.setMessage("邮箱被占用！");
+				return jr.toJson(jr);
+			}
+			
+			User user = userService.signUp(name, email, pwd);
+			
 			if(user != null){
+				//设置session
+				SessionUtil.setSignInUser(request.getSession(), user);
+				//设置cookies
+				CookieUtils.setUser(response, user.getUsername(), pwd, user.getId()+"");
+				
 				jr.setIsSuccess(Boolean.TRUE);
 				jr.setMessage("成功！");
 				jr.setObj(user);
@@ -70,13 +116,41 @@ public class UserRest extends BaseController{
 				jr.setIsSuccess(Boolean.FALSE);
 				jr.setMessage("失败！");
 			}
+			
 		}catch(Exception e){
 			jr.setIsSuccess(Boolean.FALSE);
 			jr.setMessage("异常！");
 		}
 		
-		return jr.toJson();
+		return jr.toJson(jr);
 	}
+	
+	/***dynamic****/
+	
+	@RequestMapping(value = {"/dynamics/:uid"}, method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"},headers={"Content-Type=*","Accept=application/json"} )
+	public @ResponseBody List<Dynamic> getDynamics(
+			@PathVariable(value="uid") Integer uid,
+			HttpServletRequest request,HttpSession session){
+		
+		List<Dynamic> ds = dynamicService.listDynamic(uid);
+		//TODO 需要对信息进行装载
+		
+		return ds;
+	}
+	
+	@RequestMapping(value = {"/dynamic/:uid"}, method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"},headers={"Content-Type=*","Accept=application/json"} )
+	public @ResponseBody ResponseEntity<BaseResponse> publishDynamic(
+			@PathVariable(value="uid") Integer uid,
+			@RequestParam(required = true,value = "content") String content,
+			HttpServletRequest request,HttpSession session){
+		try{
+			dynamicService.publishDynamic(content, uid);
+			return new ResponseEntity<BaseResponse>(defaultError(), HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<BaseResponse>(defaultOK(), HttpStatus.OK);
+		}
+	}
+	
 	
 	
 }
