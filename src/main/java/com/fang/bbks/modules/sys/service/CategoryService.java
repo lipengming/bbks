@@ -28,7 +28,7 @@ public class CategoryService {
 	private static Logger logger = LoggerFactory.getLogger(CategoryService.class);
 	
 	@Autowired
-	CategoryDao categoryDao;
+	private CategoryDao categoryDao;
 	
 	private static List<Category> result = Lists.newArrayList();
 
@@ -68,7 +68,6 @@ public class CategoryService {
 	public List<Category> getCaList(){
 		if(result.isEmpty()){
 			Iterator<Category> iterator = categoryDao.findAll().iterator();
-			List<Category> result = Lists.newArrayList();
 			while(iterator.hasNext()){
 				result.add(iterator.next());
 			}

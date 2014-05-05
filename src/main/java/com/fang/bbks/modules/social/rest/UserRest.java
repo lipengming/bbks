@@ -49,12 +49,12 @@ public class UserRest extends BaseController{
 	@Autowired
 	DynamicService dynamicService;
 
-	@RequestMapping(value={"/login"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/login"},produces="text/plain;charset=UTF-8")
 	public @ResponseBody String login(
 			@RequestParam(value="name",required=true)String name,
 			@RequestParam(value="pwd",required=true)String pwd){
 		
-		JsonResult jr = new JsonResult();
+		JsonResult jr = new JsonResult(request);
 		
 		try{
 			User user = userService.signIn(name, pwd);
@@ -81,13 +81,13 @@ public class UserRest extends BaseController{
 		return jr.toJson(jr);
 	}
 	
-	@RequestMapping(value={"/regist"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/regist"},produces="text/plain;charset=UTF-8")
 	public @ResponseBody String login(
 			@RequestParam(value="name",required=true)String name,
 			@RequestParam(value="email",required=true)String email,
 			@RequestParam(value="pwd",required=true)String pwd){
 		
-		JsonResult jr = new JsonResult();
+		JsonResult jr = new JsonResult(request);
 		
 		try{
 			
@@ -127,7 +127,7 @@ public class UserRest extends BaseController{
 	
 	/***dynamic****/
 	
-	@RequestMapping(value = {"/dynamics/:uid"}, method = RequestMethod.GET,produces = {"application/json;charset=UTF-8"},headers={"Content-Type=*","Accept=application/json"} )
+	@RequestMapping(value = {"/dynamics/:uid"},produces="text/plain;charset=UTF-8" )
 	public @ResponseBody List<Dynamic> getDynamics(
 			@PathVariable(value="uid") Integer uid,
 			HttpServletRequest request,HttpSession session){
@@ -138,7 +138,7 @@ public class UserRest extends BaseController{
 		return ds;
 	}
 	
-	@RequestMapping(value = {"/dynamic/:uid"}, method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"},headers={"Content-Type=*","Accept=application/json"} )
+	@RequestMapping(value = {"/dynamic/:uid"}, produces = {"application/json;charset=UTF-8"} )
 	public @ResponseBody ResponseEntity<BaseResponse> publishDynamic(
 			@PathVariable(value="uid") Integer uid,
 			@RequestParam(required = true,value = "content") String content,

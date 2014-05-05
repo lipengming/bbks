@@ -30,10 +30,10 @@ import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:/applicationContext.xml")
-//@Transactional
+@Transactional
 public class CategoryServiceTest {
 
-	@Autowired
+	//@Autowired
 	CategoryService cService;
 	@Autowired
 	CategoryDao categoryDao;
@@ -45,6 +45,13 @@ public class CategoryServiceTest {
 	}
 	
 	@Test
+	public void testFind1(){
+		Category c = cService.findOne(new Long(4));
+		Assert.assertNotNull(c);
+		System.out.println(c.getName());
+	}
+	
+	@Test
 	public void testFind(){
 //		List<Category> all = cService.getCaList();
 		Iterator<Category> iterator = categoryDao.findAll().iterator();
@@ -52,7 +59,8 @@ public class CategoryServiceTest {
 		while(iterator.hasNext()){
 			all.add(iterator.next());
 		}
-		Assert.assertNull(all);
+		System.out.println(all.size());
+		Assert.assertNotNull(all);
 		Assert.assertTrue(all.size() > 0);
 	}
 }

@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,7 @@ import com.google.common.collect.Lists;
  */
 @Controller("/home")
 public class HomeController extends BaseController{
-	
+	private static Logger log = LoggerFactory.getLogger(HomeController.class);
 	@Resource
 	private CategoryService categoryService;
 	
@@ -64,19 +66,38 @@ public class HomeController extends BaseController{
 	
 	private List<Category> top5(){
 		List<Category> top = Lists.newArrayList();
-		//TODO
-//		for(int a = 0;a < 5; a++){
-//			top.add(categoryService.getCaList().get(a+3));
-//		}
+		
+		if(all.isEmpty()){
+			all.addAll(categoryService.getCaList());
+		}
+
+		if(all.isEmpty()){
+			log.error("catlog is null..");
+			return all;
+		}
+				
+		for(int a = 0;a < 5; a++){
+			top.add(all.get(a+3));
+		}
+		
 		return top;
 	}
 	
 	private List<Category> more(){
 		List<Category> top = Lists.newArrayList();
-		//TODO
-//		for(int a = 0;a < 5; a++){
-//			top.add(categoryService.getCaList().get(a+9));
-//		}
+		
+		if(all.isEmpty()){
+			all.addAll(categoryService.getCaList());
+		}
+
+		if(all.isEmpty()){
+			log.error("catlog is null..");
+			return all;
+		}
+		
+		for(int a = 0;a < 5; a++){
+			top.add(all.get(a+9));
+		}
 		return top;
 	}
 }

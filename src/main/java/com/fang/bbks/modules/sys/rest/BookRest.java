@@ -38,7 +38,7 @@ public class BookRest extends BaseController{
 	@Resource
 	private BookService bs;
 	
-	@RequestMapping(value={"/find"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/find"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String find(
 			@RequestParam(value="catlog" , required = false) Long catlog){
 		JsonResult jr = new JsonResult();
@@ -57,7 +57,7 @@ public class BookRest extends BaseController{
 		return jr.toJson(jr);
 	}
 	
-	@RequestMapping(value={"/search"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/search"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String search(
 			@RequestParam(value="keywords" , required = true) String keywords){
 		JsonResult jr = new JsonResult();
@@ -76,7 +76,7 @@ public class BookRest extends BaseController{
 		return jr.toJson(jr);
 	}
 	
-	@RequestMapping(value={"/findOne"},method={RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping(value={"/findOne"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String findOne(
 			@RequestParam(value="bookId" , required = false) Long bookId){
 		
