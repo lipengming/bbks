@@ -22,13 +22,18 @@
 	<div id="layout">
     	<div class="person_info">
         	<div class="img">
-            	<img src="../images/photo2.gif" width="180" height="180" alt="" />
+            	<c:when test="${userInfo.avatar == null }">
+      				<img src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
+      			</c:when>
+      			<c:otherwise>
+      				<img src="${ctxStatic}/images/photo.gif" width="110" height="110" alt="" />
+      			</c:otherwise>
             </div>
             <div class="info_co">
-            	<h1><a href="#">孙陶然</a></h1>
-                <h3><a href="#">http://ziyunwan.com/83901069856</a></h3>
+            	<h1><a href="#">${userInfo.username }</a></h1>
+                <h3><a href="${ctx}/user/detail/${userInfo.id}">http://bbks.com/user/detail/${userInfo.id} </a></h3>
                 <h4>位置：家在北京朝阳，现在北京朝阳</h4>
-                <p>状态：世界真大，我们相遇...</p>
+                <p>状态：${userInfo.description }</p>
                 <div class="info_btn_cont">
                		<input type="button" value="私信"  class="info_btn sx"/>
                     <div class="sixin">
@@ -79,9 +84,9 @@
             <div class="person_gz">
             	<div class="gz_btn_cont"><input class="gz_btn" type="button" /></div>
                 <ul class="gz_list">
-                	<li><a href="#"><span class="num">566</span>消息</a></li>
-                    <li><a href="../user_attention.html"><span class="num">1244</span>关注</a></li>
-                    <li><a href="#"><span class="num">78</span>粉丝</a></li>
+                	<li><a href="#"><span class="num">${userInfo.messages }</span>消息</a></li>
+                    <li><a href="#"><span class="num">${userInfo.flowings }</span>关注</a></li>
+                    <li><a href="#"><span class="num">${userInfo.floweds }</span>粉丝</a></li>
                 </ul>
             </div>
         </div>

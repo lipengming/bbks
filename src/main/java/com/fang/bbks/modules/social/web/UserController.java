@@ -68,9 +68,17 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/detail/{uid}" })
-	public String detail(@PathVariable("uid") Integer uid, Model uiModel,
+	public String detail(@PathVariable("uid") Long uid, Model uiModel,
 			HttpServletRequest request, HttpSession session) {
-
+		User cu =SessionUtil.getSignInUser(session);
+		if(cu == null){
+			return "redirect:/login";
+		}
+		User u = userService.findOne(uid);
+		if(u == null){
+			return "redirect:/login";
+		}
+		uiModel.addAttribute("userInfo", u);
 		return "/user/detail";
 	}
 	
