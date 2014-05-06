@@ -42,7 +42,7 @@ public class UserServiceTest {
 		user = new User();
 		user.setEmail("sho@g.com");
 		user.setCreateDate(new Date());
-		user.setHasRead(User.NO);
+		user.setHasRead(1);
 		user.setUsername("aaaaaaaaaa");
 		user.setIsCompany(User.YES);
 	}

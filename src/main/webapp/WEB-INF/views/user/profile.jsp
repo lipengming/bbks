@@ -55,14 +55,24 @@
             </div>
             <div class="info_base">
             	<div class="info_base_con">
-                	<a href="#"><img src="../images/photo.gif" width="110" height="110" alt="" /></a>
-                    <h1><a href="#">赵晓临</a></h1>
+                	<a href="#">
+                		<c:choose>
+                			<c:when test="${userInfo.avatar == null }">
+                				<img src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
+                			</c:when>
+                			<c:otherwise>
+                				<img src="${ctxStatic}/images/photo.gif" width="110" height="110" alt="" />
+                			</c:otherwise>
+                		</c:choose>
+                		
+                	</a>
+                    <h1><a href="#">${userInfo.username }</a></h1>
                     <div class="base_num">
-                    	<span>粉丝<a href="#">678</a></span><span>消息<a href="#">678</a></span><span>关注<a href="#">678</a></span>
+                    	<span>粉丝<a href="#">${userInfo.floweds }</a></span><span>消息<a href="#">${userInfo.messages }</a></span><span>关注<a href="#">${userInfo.flowings }</a></span>
                     </div>
                 </div>
                 <div class="info_cont">
-                	<p>状态：拼命地赚钱、拼命省钱，拼命捐钱！</p>
+                	<p>状态：${userInfo.description }</p>
                     <div class="info_con">
                     	<input type="text" class="info_text" />
                         <input type="button" class="info_btn" />
@@ -86,9 +96,9 @@
                 </div>
             	<div class="tab" id="tabBox">
                 	<ul class="tab_ul">
-                    	<li class="active">全部</li>
+                    	<li class="active">动态</li>
                         <li>消息</li>
-                        <li>状态</li>
+                        <li>评论</li>
                         <li>关系</li>
                     </ul>
                     <div class="tab_cont">
@@ -314,9 +324,9 @@
                 </div>
                 <dl class="my_book">
                 	<dt><h3><a href="#">我的书架</a></h3></dt>
-                    <dd><a href="#">在读 （38）</a></dd>
-                    <dd><a href="#">想读 （89）</a></dd>
-                    <dd><a href="#">已读 （89）</a></dd>
+                    <dd><a href="#">在读 （${userInfo.reading}）</a></dd>
+                    <dd><a href="#">想读 （${userInfo.wantRead}）</a></dd>
+                    <dd><a href="#">已读 （${userInfo.hasRead}）</a></dd>
                 </dl>
             </div>
         </div>

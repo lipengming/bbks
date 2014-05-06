@@ -100,6 +100,16 @@ public class User extends BaseEntity implements Serializable{
 	public User(){
 		this.createDate = new Date();
 		this.delFlag = DEL_FLAG_NORMAL;
+		this.isCompany = NO;
+		
+		this.floweds =  0;
+		this.flowings =  0;
+		this.hasRead = 0;
+		this.liking = 0;
+		this.updateDate = new Date();
+		this.wantRead = 0;
+		this.reading = 0;
+		this.messages = 0;
 	}
 	public User(Long id){
 		super();
