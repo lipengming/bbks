@@ -68,7 +68,7 @@ public class UserRest extends BaseController{
 				jr.setIsSuccess(Boolean.TRUE);
 				jr.setMessage("成功！");
 				jr.setObj(user);
-				
+				jr.setUser_id(user.getId());
 			}else{
 				jr.setIsSuccess(Boolean.FALSE);
 				jr.setMessage("失败！");
@@ -112,6 +112,7 @@ public class UserRest extends BaseController{
 				jr.setIsSuccess(Boolean.TRUE);
 				jr.setMessage("成功！");
 				jr.setObj(user);
+				jr.setUser_id(user.getId());
 			}else{
 				jr.setIsSuccess(Boolean.FALSE);
 				jr.setMessage("失败！");

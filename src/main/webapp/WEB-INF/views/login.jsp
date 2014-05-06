@@ -19,40 +19,19 @@
 <body>
 <div id="otherreg">
 	<div class="otherreg_logo">
-    	<a href="#"><img src="${ctx}/static/images/reg_logo.gif" width="186" height="94" alt="" /></a>
+    	<a href="${ctx }"><img src="${ctx}/static/images/logo.gif" width="186" height="94" alt="" /></a>
     </div>
 	<div class="reg_step1">
-    	<form action="${ctx }/login" method="post">
+    	<form action="${ctx }/login" method="post" id="login_form">
 	        <ul>
-	            <li class="email_reg"><input id="login_name" name="username" class="text foucs_text" type="text"  value="注册邮箱/用户名" onfocus="emputyInput(this)"/></li>
-	            <li class="pass_reg1"><input id="login_pwd" name="password" class="text foucs_text" type="password" value="密码" onfocus="emputyInput(this)"/></li>
+	            <li class="email_reg"><input id="login_name" name="username" class="text foucs_text" type="text"  onfocus="emputyInput(this)"/></li>
+	            <li class="pass_reg1"><input id="login_pwd" name="password" class="text foucs_text" type="password"  onfocus="emputyInput(this)"/></li>
 	         </ul>
-	        <input type="submit" class="login_btn"/><!--  onclick="login('${ctx}/login')" -->
-	        <span class="forget"><a onclick="resetPasswd()" href="javascript:void(0)">忘记密码？</a></span>
-	        <div class="someinfos">还没有书管家账号？<a href="#">立即注册</a></div>
+	        <input class="login_btn" onclick="login();"/>
+	        <span class="forget"><a onclick="reset();" href="javascript:void(0)">忘记密码？</a></span>
+	        <div class="someinfos">还没有墨屋的账号？<a href="${ctx }/regist">立即注册</a></div>
         </form>
     </div>
-    <!--重新登录-->
-    <div class="reg_step2">
-    	<ul>
-            <li class="email_reg"><input class="text foucs_text" type="text"  value="注册邮箱" onfocus="emputyInput(this)"/></li>
-        </ul>
-        <input type="button" class="reset_btn" />
-        <span class="forget"><a onclick="rememberPasswd()" href="javascript:void(0)">哦，又想起来了！</a></span>
-        <div class="someinfos">还没有书管家账号？<a href="#">立即注册</a></div>
-    </div>
-    
-    <div class="or"><img src="${ctx}/static/images/otherreg.png"/></div>
-    
-    <div class="other_reg">
-        <ul>
-        	<li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-        </ul>
-    </div>
-    
 </div>
 </body>
 </html>

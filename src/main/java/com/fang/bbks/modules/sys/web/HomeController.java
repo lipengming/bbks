@@ -40,29 +40,91 @@ public class HomeController extends BaseController{
 		uiModel.addAttribute("qStr", "");
 		uiModel.addAttribute("top5", top5());
 		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(0));
 		return "index";
 	}
 	
 	@RequestMapping(value = {"/book/search"}, method = {RequestMethod.POST,RequestMethod.GET})
 	public String search(Model uiModel,HttpServletRequest request,HttpSession session,
-			@RequestParam(value="keywords",required=true)String keywords){
-		String qStr = "kw="+keywords+"&";
+			@RequestParam(value="keywords",required=true)String keywords,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "kw="+keywords+"&sortby="+sort+"&sortOrders"+sortOrder;
 		uiModel.addAttribute("qStr", qStr);
 		uiModel.addAttribute("top5", top5());
 		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(0));
 		return "index";
 	}
 	
 	@RequestMapping(value = {"/book/catlog"}, method = {RequestMethod.POST,RequestMethod.GET})
 	public String catlog(Model uiModel,HttpServletRequest request,HttpSession session,
-			@RequestParam(value="catlog",required=true) String catlog){
-		String qStr = "categroy_id="+catlog+"&";
+			@RequestParam(value="catlog",required=true) String catlog,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "categroy_id="+catlog+"&sortby="+sort+"&sortOrders"+sortOrder;
 		uiModel.addAttribute("qStr", qStr);
-		uiModel.addAttribute("categroy",catlog);
+		uiModel.addAttribute("categroy",categoryService.findOne(Long.parseLong(catlog)));
 		uiModel.addAttribute("top5", top5());
 		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(0));
 		return "index";
 	}
+	
+	@RequestMapping(value = {"/book/news"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String news(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "sortby="+sort+"&typeStr=news"+"&sortOrders"+sortOrder;;
+		uiModel.addAttribute("qStr", qStr);
+		uiModel.addAttribute("top5", top5());
+		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(1));
+		return "index";
+	}
+	
+	@RequestMapping(value = {"/book/promotion"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String promotion(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "sortby="+sort+"&&typeStr=promotion"+"&sortOrders"+sortOrder;;
+		uiModel.addAttribute("qStr", qStr);
+		uiModel.addAttribute("top5", top5());
+		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(2));
+		return "index";
+	}
+	
+	@RequestMapping(value = {"/book/salerank"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String saleRank(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "sortby="+sort+"&typeStr=salerank"+"&sortOrders"+sortOrder;;
+		uiModel.addAttribute("qStr", qStr);
+		uiModel.addAttribute("top5", top5());
+		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(3));
+		return "index";
+	}
+	
+
+	@RequestMapping(value = {"/book/searchrank"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String searchRank(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "sortby="+sort+"&typeStr=searchrank"+"&sortOrders"+sortOrder;;
+		uiModel.addAttribute("qStr", qStr);
+		uiModel.addAttribute("top5", top5());
+		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(4));
+		return "index";
+	}
+	
+	
+	
+	
+	//////////////////////////////////////////
+	//////////////////////////////////////////	
 	
 	private List<Category> top5(){
 		List<Category> top = Lists.newArrayList();
@@ -95,7 +157,7 @@ public class HomeController extends BaseController{
 			return all;
 		}
 		
-		for(int a = 0;a < 5; a++){
+		for(int a = 0;a < 20; a++){
 			top.add(all.get(a+9));
 		}
 		return top;

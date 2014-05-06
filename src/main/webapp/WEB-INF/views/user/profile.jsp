@@ -41,29 +41,16 @@
                 	<textarea class="text" name="" cols="" rows=""></textarea>
                     <div class="fb">
                     	<div class="fn-right fb_btn"><input type="button" class="btn" /></div>
-                    	<ul class="fb_list">
+                    	<!-- <ul class="fb_list">
                         	<li><a href="#"></a></li>
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
                             <li><a href="#"></a></li>
-                        </ul>
+                        </ul> -->
                     </div>
-                    <div class="speak">
-                    	<h2><span class="close"></span></h2>
-                        <h4>还可以输入123个字</h4>
-                        <textarea name="" cols="" rows="" class="speak_text"></textarea>
-                        <div class="speak_fb">
-                        	<div class="fs"></div>
-                            <ul>
-                            	<li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                                <li><a href="#"></a></li>
-                            </ul>
-                        </div>
-                    </div>
+                 
                 </div>
             </div>
             <div class="info_base">
@@ -86,7 +73,7 @@
         <div id="ul_btn">
         	<ul>
             	<li><a href="../user_homePage.html" class="hover">动态</a></li>
-                <li><a href="#">@提到我的</a></li>
+                <li><a href="#">消息</a></li>
                 <li><a href="#" class="pl">评论</a></li>
                 <li><a href="#">随便看看</a></li>
             </ul>

@@ -22,24 +22,26 @@ public class JsonResult implements Serializable{
 	private Integer code;
 	private String message;
 	private Boolean isSuccess;
-	private String user_id;
+	private Long user_id;
 	
 	private Object obj;
 	private List rows;
 	
 	public JsonResult(){}
 	public JsonResult(HttpServletRequest request){
+		super();
 		User u = SessionUtil.getSignInUser(request.getSession());
-		user_id = u.getId()+"";
+		if(u != null){
+			user_id = u.getId();
+		}
 	}
 	
 	
-	
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-	public String getUser_id() {
+	public Long getUser_id() {
 		return user_id;
+	}
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
 	}
 	public Integer getCode() {
 		return code;

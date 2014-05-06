@@ -32,21 +32,26 @@ $(function(){
 	});
 	//我在做什么
 	$("#layout .info .doing .con .text").focus(function(){
-		$(this).next(".fb").show();
-		$("#layout .speak").show();
-		$("#layout .speak").css({left:"800px",top:"60px"});
+		$("#layout .info .doing .con .fb").show();
+		
+//		$("#layout .speak").show();
+//		$("#layout .speak").css({left:"800px",top:"60px"});
 	});
-	$("#layout .speak_fb .fs,#layout .speak h2 .close").click(function(){
-		$("#layout .speak").hide();
-	});
+//	$("#layout .speak_fb .fs,#layout .speak h2 .close").click(function(){
+//		$("#layout .speak").hide();
+//	});
 	//点击div之外关闭div
-	$(document).blur(function(){
-		  if(!$("div.fb").hide()){
-			  $("div.fb").hide();
-		  }
-	});
+//	$(document).blur(function(){
+////		  if(!$("div.fb").hide()){
+////			  $("div.fb").hide();
+////		  }
+//		if($("div.fb").hide()){
+//			  $("div.fb").show();
+//		  }
+//	});
 	$("#layout .info .doing .con .fb .fb_btn .btn,.fb_list a").click(function(){
-		$(this).parents(".fb").hide();
+		//$(this).parents(".fb").hide();
+		$("#layout .info .doing .con .text").val("");
 	});
 	//图书弹出
 	$(".book_info").hide();

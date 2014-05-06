@@ -21,23 +21,23 @@
 	<div class="W960">
     	<div class="index_menu">
         	<ul>
-            	<li><a href="#" class="index">书城</a></li>
-            <li><a href="#">新书</a></li>
-                <li><a href="#">特价</a></li>
-                <li><a href="#">销售排行榜</a></li>
-                <li><a href="#">搜索排行榜</a></li>
+            	<li><a href="${ctx}" class="index">书城</a></li>
+                <li><a href="${ctx}/book/news">新书</a></li>
+                <li><a href="${ctx}/book/promotion">特价</a></li>
+                <li><a href="${ctx}/book/salerank">热销</a></li>
+                <li><a href="${ctx}/book/searchrank">热搜</a></li>
             </ul>
+            
             <ul class="ul_user">
                 <li><a href="#">兴趣</a></li>
-                <li><a href="#">书架</a></li>
-                <li><a href="#">社交网络</a></li>
+                <li><a href="${ctx}/user/bookshelft">书架</a></li>
+                <li><a href="${ctx}/user/bookshelft">社交网络</a></li>
             </ul>
         </div>
         <div class="ul_menu">
             <a href="#" class="mulu">目  录</a> 
             <div class="ml_con">
-            	<h3>《2001：太空漫游》</h3>
-                <p>悼库布里克 1</p>
+                <p>${bookInfo.directory }</p>
             </div>
             <a href="#" class="online">在线试读</a>
             <div class="online_con">
@@ -73,7 +73,7 @@
                 <div class="star">
                 	<em class="gb_star"></em><em class="gb_star"></em><em class="gb_star"></em><em class="gb_star"></em><em class="gb_star"></em>
                     <span class="fs">4.2</span>
-                    <span class="pj">（126人评级）</span>
+                    <span class="pj">（0人评级）</span>
                 </div>
                 <div class="text">
                 	<p>${bookInfo.outline }</p>
@@ -116,52 +116,32 @@
             <div class="gb_tab" id="tabBox">
             	<ul class="gb_ul">
                 	<li  class="active">图书概述</li>
-                    <li>书评笔记</li>
-                    <li>图书微博</li>
+                    <li>作者简介</li>
+                    <li>图书目录</li>
                     <li>图书推荐</li>
                 </ul>
                 <div class="gb_tab_k">
                 	<div class="gb_tab_con"  style="display:block;">
                     	<dl class="gb_list">
-                        	<dt><span class="more_show"><a href="#">18条相似结果 »</a></span><h3>内容介绍</h3></dt>
-                            <dd>
-                            	<p>
-                                	《创新与企业家精神》人人都知道创新的重要性，激烈的竞争，瞬息万变的市场和技术已经让人们对此深信不
-疑，但关键问题是，该如何进行创新呢？创新是每位高层管理者的职责，   它始于有意识地寻找机遇。  如果你
-懂得在哪里以及如何寻找创新机遇，  你就能系统化地管理创新；  如果你懂得运用创新的原则，你就能使创新
-发展为可行的事来。 这就是德鲁克在《创新与企业家精神》   中为我们揭示的重点
-                                </p>
-                            </dd>
+                        	<p>${bookInfo.outline }</p>
                         </dl>
                     </div>
                 	<div class="gb_tab_con">
                     	<dl class="sp_list">
-                    	无
+                    	<p>${bookInfo.authorintro }</p>
                         </dl>
                     </div>
                     <div class="gb_tab_con">
                     	<dl class="gb_list">
-                        	<dt><span class="more_show"><a href="#">18条相似结果 »</a></span><h3>内容介绍</h3></dt>
-                            <dd>
-                            	<p>
-                                	《创新与企业家精神》人人都知道创新的重要性，激烈的竞争，瞬息万变的市场和技术已经让人们对此深信不
-疑，但关键问题是，该如何进行创新呢？创新是每位高层管理者的职责，   它始于有意识地寻找机遇。  如果你
-懂得在哪里以及如何寻找创新机遇，  你就能系统化地管理创新；  如果你懂得运用创新的原则，你就能使创新
-发展为可行的事来。 这就是德鲁克在《创新与企业家精神》   中为我们揭示的重点
-                                </p>
-                            </dd>
-                            
+                        	<p> ${bookInfo.directory }</p>
                         </dl>
                     </div>
                     <div class="gb_tab_con">
                     	<dl class="gb_list">
-                        	<dt><span class="more_show"><a href="#">18条相似结果 »</a></span><h3>内容介绍</h3></dt>
+                        	<dt><span class="more_show"><a href="#">未找到结果</a></span><h3>图书推荐</h3></dt>
                             <dd>
                             	<p>
-                                	《创新与企业家精神》人人都知道创新的重要性，激烈的竞争，瞬息万变的市场和技术已经让人们对此深信不
-疑，但关键问题是，该如何进行创新呢？创新是每位高层管理者的职责，   它始于有意识地寻找机遇。  如果你
-懂得在哪里以及如何寻找创新机遇，  你就能系统化地管理创新；  如果你懂得运用创新的原则，你就能使创新
-发展为可行的事来。 这就是德鲁克在《创新与企业家精神》   中为我们揭示的重点
+                                	无
                                 </p>
                             </dd>                            
                         </dl>
@@ -178,41 +158,43 @@
         
   			<!--start book relation -->		      
         	<div class="reader">
-            	<a href="#">298人想读</a>|<a href="#">91人读过</a>|<a href="#">5人已读</a><em></em>
-                <div class="reader_list">
+            	<a href="#">${bookInfo.wantRead}想读</a>|<a href="#">${bookInfo.hasRead}人读过</a>|<a href="#">${bookInfo.isReading}在已读</a><em></em>
+                <!-- <div class="reader_list">
                 	<ul>
                     	<li>162人喜欢</li>
                         <li>162人搜过</li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <!--end book relation -->
             
             <!--start book price -->
             <div class="pb_bj">
-            	<h2>定价：25元</h2>
+            	<h2>定价：${bookInfo.pubPrice} 元</h2>
                 <dl class="pb_bj_list">
                 	<dt>购买新书</dt>
+                    <!-- <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd>
                     <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd>
-                    <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd>
+                     -->
                 </dl>
                 <dl class="pb_bj_list">
                 	<dt>购买二手书</dt>
-                    <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd>
+                    <!-- <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd> -->
                 </dl>
                 <dl class="pb_bj_list">
-                	<dt>购买电子书</dt>
+                	<dt>购买电子书</dt><!-- 
                     <dd><span class="dd_money">￥18元</span><a href="#">当当网:</a></dd>
+                     -->
                 </dl>
             </div>
             <!--end book price -->
             
             <!--start book tag -->
             <div class="pb_book_span">
-            	<h2><a href="#">书签（32个）</a></h2>
+            	<h2><a href="#">书签</a></h2>
                 <div class="span_list">
                 	<ul> 
-                    	<li><a href="#">管理</a>(1009)</li>
+                    	<!-- <li><a href="#">管理</a>(1009)</li>
                         <li><a href="#">德鲁克</a>(725)</li>
                         <li><a href="#">管理的实践</a>(323)</li>
                         <li><a href="#">管理学</a>(254)</li>
@@ -222,6 +204,7 @@
                         <li><a href="#">管理学</a>(254)</li>
                         <li><a href="#">管理经典</a>(163)</li>
                         <li><a href="#">大师</a>(62)</li>
+                         -->
                     </ul>
                     <p><a href="#">>更多</a></p>
                 </div>

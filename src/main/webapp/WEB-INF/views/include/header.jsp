@@ -10,7 +10,9 @@
 <!-- unsigned -->
 <div id="index_top" class="fn-clear">
 	<div class="W960 header">
-    	<div id="logo"><img src="${ctxRes }/images/logo.gif" width="93" height="42" alt="" /></div>
+    	<div id="logo">
+    		<a href="${ctx}"><img src="${ctxRes }/images/logo.gif" width="93" height="42" alt="" /></a>
+    	</div>
         <form action="<c:url value="/book/search"/>" method="post" id="index_search_form">
         	<div id="index_search">
 	        	<input type="text" name="keywords" class="s_text foucs_text" value="搜索书名，作者、出版社等"/>
@@ -59,21 +61,21 @@
 <!-- signed -->
 <div id="top">
     	<div class="top_con">
-            <div id="logos"><a href="#"><img src="${ctxRes }/images/logo.gif" width="93" height="42" alt=""></a></div>
+            <div id="logos"><a href="${ctx}"><img src="${ctxRes }/images/logo.gif" width="93" height="42" alt=""></a></div>
             <div class="nav">
                 <ul>
                     <li class="class">
                     	<a href="#">书城</a>
                         <dl class="sc_dlist" style="display: none;">
-                        	<dd><a href="#">新书</a></dd>
-                            <dd><a href="#">特价</a></dd>
-                            <dd><a href="#">搜索排行榜</a></dd>
-                            <dd><a href="#">销售排行榜</a></dd>
+                        	<dd><a href="${ctx}/book/news">新书</a></dd>
+                            <dd><a href="${ctx}/book/promotion">特价</a></dd>
+                            <dd><a href="${ctx}/book/searchrank">搜索排行榜</a></dd>
+                            <dd><a href="${ctx}/book/salerank">销售排行榜</a></dd>
                         </dl>
                     </li>
                     <li><a href="#">兴趣</a></li>
-                    <li><a href="../user_bookshelf.html">书架</a></li>
-                    <li><a href="../user_index.html">社交网络</a></li>
+                    <li><a href="${ctx}/user/bookshelft">书架</a></li>
+                    <li><a href="${ctx}/user/profile">社交网络</a></li>
                 </ul>
             </div>
             <div class="search">

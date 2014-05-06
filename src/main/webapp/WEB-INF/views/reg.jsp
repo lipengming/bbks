@@ -7,7 +7,6 @@
 
 <html>
 <head>
-<base href="${ctx}/static/"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>注册</title>
 <link href="${ctx}/static/css/common.css" rel="stylesheet" type="text/css" />
@@ -19,29 +18,26 @@
 <body>
 <div class="W890">
 	<div class="reg_logo">
-    	<a href="#"><img src="${ctx}/static/images/reg_logo.gif" width="186" height="94" alt="" /></a>
+    	<a href="${ctx}">
+    		<img src="${ctx}/static/images/logo.gif" width="186" height="94" alt="" />
+    	</a>
     </div>
-    <div class="reg_fg"></div>
-    <div class="other_reg">
-    	<h2>你可以选择下方合作网站账号直接登录书管家，一分钟完成注册</h2>
-        <ul>
-        	<li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-        </ul>
+    <div class="reg_fg">
+    	<strong style="background-color: red;">
+    		${error}
+    	</strong>
     </div>
+    
     <div class="reg_step">
-    	<h2>你也可以直接注册书管家，三步完成注册</h2>
-        <form action="${ctx }/regist" method="post">	
+        <form action="${ctx }/regist" method="post" id="register_form">	
 	        <ul>
 	        	<li class="use_reg"><input name="username" id="reg_name" class="text foucs_text" type="text" value="昵称" /></li>
 	            <li class="email_reg"><input name="email" id="reg_email" class="text foucs_text" type="text"  value="登录邮箱地址"/></li>
 	            <li class="pass_reg"><input name="password" id="reg_pwd" class="text foucs_text" type="text"  value="密码"/></li>
 	            <li class="pass_reg"><input name="repassword" id="reg_repwd" class="text foucs_text" type="text" value="密码" /></li>
 	        </ul>
-	        <h4>我以认真阅读并接受<a href="#">《笔墨酷免责声明》</a></h4>
-	        <input type="submit" class="reg_btn"  /><!-- onclick="reg('${ctx}/regist');"  -->
+	        <h4>我以认真阅读并接受<a href="#">《墨屋免责声明》</a></h4>
+	        <input class="reg_btn" onclick="register();"/>
         </form>
     </div>
 </div>

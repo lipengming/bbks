@@ -11,9 +11,12 @@ $(function(){
 			$(this).val(this.defaultValue);
 		 }
 	});
-	
 });
 
+
+function register(){
+	$("#register_form").submit();
+}
 
 /**
  * 检查输入的邮箱格式是否正确

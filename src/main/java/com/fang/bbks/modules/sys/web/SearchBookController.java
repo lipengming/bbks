@@ -41,31 +41,36 @@ public class SearchBookController extends BaseController{
 	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String searchIndex(Model model,HttpServletRequest request,
 			HttpServletResponse response,
+			@RequestParam(value="typeStr",required=false) String typeStr,
 			@RequestParam(value="categroy_id",required=false) String catlog,
-			@RequestParam(value="kw",required=false) String kw) {
+			@RequestParam(value="kw",required=false) String kw,
+			@RequestParam(value="sortby",required=false) String sortBy,
+			@RequestParam(value="sortOders",required=false) Integer sortOders) {
 		
 		Page<Book> page = new Page<Book>(request, response);
+		if(sortOders == null){
+			sortOders = 1;
+		}
 		
 		if (StringUtils.isNotBlank(kw)){
-			
-			if ("cmd:reindex".equals(kw)){
-				
+			if ("cmd:reindex".equals(kw)){	
 				System.out.println("重建索引！--start");
 				bs.createdAndUpdateIndex();
 				System.out.println("重建索引！--end");
-				
 				model.addAttribute("message", "重建索引成功");
-				
 			}else{
-				
-				page = bs.findByKeyWords(page, kw);
-				
+				page = bs.findByKeyWords(page, kw,sortBy,sortOders);
 			}
-			
+		}else if(StringUtils.isNotBlank(typeStr) && "news".equals(typeStr)){
+			page = doSearch(request,response,catlog,sortBy,sortOders);
+		}else if(StringUtils.isNotBlank(typeStr) && "promotion".equals(typeStr)){
+			page = doSearch(request,response,catlog,sortBy,sortOders);
+		}else if(StringUtils.isNotBlank(typeStr) && "salerank".equals(typeStr)){
+			page = doSearch(request,response,catlog,sortBy,sortOders);
+		}else if(StringUtils.isNotBlank(typeStr) && "searchrank".equals(typeStr)){
+			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else{
-			
-			page = doSearch(request,response,catlog);
-			
+			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}
 		
 		if(page != null && !page.getList().isEmpty()){
@@ -93,7 +98,7 @@ public class SearchBookController extends BaseController{
 	 * @param request
 	 * @return
 	 */
-	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response,String catlog){
+	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response,String catlog,String sortby,int orders){
 		Page<Book> page = new Page<Book>(request, response);
 		Book book = new Book();
 		
@@ -104,9 +109,6 @@ public class SearchBookController extends BaseController{
 		book.setAuthor(author);
 		book.setBookName(bookName);
 		book.setTranslator(translator);
-		
-		System.out.println("search by catlog..."+catlog);
-
 		
 		if(StringUtils.isNotBlank(catlog) && StringUtils.isNumeric(catlog)){
 			
@@ -119,7 +121,7 @@ public class SearchBookController extends BaseController{
 			}
 		}
 		
-		page = bs.findBook(page, book);
+		page = bs.findBook(page, book,sortby,orders);
 				
 		if(page.getCount() <= page.getFirstResult()){
 			return null;

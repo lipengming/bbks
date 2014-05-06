@@ -38,7 +38,7 @@ public class AccountController extends BaseController{
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(method=RequestMethod.GET,value={"/signIn","/login","/signin"})
+	@RequestMapping(method=RequestMethod.GET,value={"/login"})
 	public String signIn(HttpServletRequest request,HttpServletResponse response,HttpSession session){
 		
 		if(SessionUtil.getSignInUser(session) != null)
@@ -51,14 +51,12 @@ public class AccountController extends BaseController{
 		return "login";
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,value={"/signUp","/regist","signup"})
+	@RequestMapping(method=RequestMethod.GET,value={"/regist"})
 	public String signUp(){
 		return "reg";
 	}
 	
-	
-	
-	@RequestMapping(method=RequestMethod.POST,value={"/signIn","/login","/signin"})
+	@RequestMapping(method=RequestMethod.POST,value={"/login"})
 	public String doSignIn(
 			@RequestParam(value="username",required=false) String username,
 			@RequestParam(value="password",required=false) String pwd,
@@ -82,7 +80,7 @@ public class AccountController extends BaseController{
 		return "redirect:/login";
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,value={"/signUp","/regist","signup"})
+	@RequestMapping(method=RequestMethod.POST,value={"/regist"})
 	public String  doSignUp(
 			@RequestParam(value="username",required=true) String username,
 			@RequestParam(value="email",required=true) String email,
@@ -95,15 +93,15 @@ public class AccountController extends BaseController{
 		boolean ispwd = pwd == null|| "".equals(pwd) || pwd.length() < 3;
 		boolean isEmail = email == null || !Validate.isEmail(email);
 		
-		if(!isname && !ispwd && !isEmail){
+		if(!isname && !ispwd && ! isEmail){
 			if(userService.isExit(username)){
-				uiModel.addAttribute("emailerror", "用户名已被占用");
-				return "redirect:/reg";
+				uiModel.addAttribute("error", "用户名已被占用");
+				return "redirect:/regist";
 			}
 			
 			if(userService.isExitEmail(email)){
-				uiModel.addAttribute("emailerror", "邮件已被占用");
-				return "redirect:/reg";
+				uiModel.addAttribute("error", "邮件已被占用");
+				return "redirect:/regist";
 			}
 			
 			User u = userService.signUp(username,email, pwd);
@@ -112,24 +110,17 @@ public class AccountController extends BaseController{
 				//注册成功，去登录
 				return "redirect:/login";
 			}
+		}else{
+			uiModel.addAttribute("error", "为满足校验规则！");
 		}
 		
-		return "redirect:/reg";
+		return "redirect:/regist";
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value={"/logout","/logOut"})
 	public String logOut(HttpSession session,HttpServletRequest request){
 		SessionUtil.logOut(session);
 		return "redirect:/index";
-	}
-	
-	
-	@RequestMapping(method=RequestMethod.POST,value={"/test"})
-	public @ResponseBody BaseResponse doTest(
-			HttpServletRequest request,
-			HttpSession session,
-			HttpServletResponse response){
-		return defaultError();
 	}
 }
 

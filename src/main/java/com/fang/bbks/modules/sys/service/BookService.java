@@ -77,6 +77,49 @@ public class BookService {
 	 * @param keywords
 	 * @return
 	 */
+	public Page<Book> findByKeyWords(Page<Book> page,String keywords,String sortBy,Integer orders){
+		
+		System.out.println(sortBy+"--"+orders);
+
+		
+		// 设置查询条件
+		BooleanQuery query = bookDao.getFullTextQuery(keywords, "bookName","outline","author");
+		// 设置过滤条件
+		BooleanQuery queryFilter = bookDao.getFullTextQuery(
+				new BooleanClause(new TermQuery(new Term("delFlag", Book.DEL_FLAG_NORMAL+"")), Occur.MUST));
+		//设置排序
+		Sort sort = new Sort(new SortField("updateTime", SortField.DOC, true));
+		if(StringUtils.isNotEmpty(sortBy)){
+			if( "comment".equals(sortBy)){
+				if(orders == 0){
+					sort.setSort(new SortField("commentCount", SortField.DOC,true));
+				}else{
+					sort.setSort(new SortField("commentCount", SortField.DOC,false));
+				}
+			}else if("price".equals(sortBy)){
+				if(orders == 0){
+					sort.setSort(new SortField("pubPrice", SortField.DOC,true));
+				}else{
+					sort.setSort(new SortField("pubPrice", SortField.DOC,false));
+				}
+			}
+		}
+		
+		// 全文检索
+		//bookDao.search(page, query, queryFilter, sort);
+		bookDao.search(page, query, null, sort);
+		// 关键字高亮
+		//bookDao.keywordsHighlight(query, page.getList(), "outline");
+		
+		return page;		
+	}
+	
+	/**
+	 * 全文检索
+	 * @param page
+	 * @param keywords
+	 * @return
+	 */
 	public Page<Book> findByKeyWords(Page<Book> page,String keywords){
 		// 设置查询条件
 		BooleanQuery query = bookDao.getFullTextQuery(keywords, "bookName","outline","author");
@@ -89,7 +132,7 @@ public class BookService {
 		//bookDao.search(page, query, queryFilter, sort);
 		bookDao.search(page, query, null, null);
 		// 关键字高亮
-		bookDao.keywordsHighlight(query, page.getList(), "outline");
+		//bookDao.keywordsHighlight(query, page.getList(), "outline");
 		
 		return page;		
 	}
@@ -113,6 +156,35 @@ public class BookService {
 		
 		
 	}
+	
+	public Page<Book> findBook(Page<Book> page,Book book,String sortBy,int orders){
+		DetachedCriteria dc = bookDao.createDetachedCriteria();
+		//设置查询条件
+		addCondition(dc,book);
+		
+		System.out.println(sortBy+"--"+orders);
+		
+		if(StringUtils.isNotEmpty(sortBy)){
+			if( "comment".equals(sortBy)){
+				if(orders == 0){
+					dc.addOrder(Order.desc("commentCount"));
+				}else{
+					dc.addOrder(Order.asc("commentCount"));
+				}
+				
+			}else if("price".equals(sortBy)){
+				if(orders == 0){
+					dc.addOrder(Order.desc("pubPrice"));
+				}else{
+					dc.addOrder(Order.asc("pubPrice"));
+				}
+				
+			}
+		}
+		return bookDao.find(page, dc);
+
+	}
+	
 	
 	/**
 	 * 找书

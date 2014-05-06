@@ -1,4 +1,3 @@
-// author:LvBin QQ:286504720
 $(function(){
 	//搜索框字体消失和显示
 	$(".foucs_text").focus(function(){
@@ -303,18 +302,45 @@ $(function(){
 	//登录
 	$("#index_top .index_member .l_btn").click(
 		function(){
-			console.log("lllllllllllll");
 			$(".box_login").show();
 			$(".box_login .shadow").height($(document.body).height());
 			$(".box_login .shadow,#login .close,#login .lg .l_btn").click(function(){
-				$(".box_login").hide();	
+				
+				var name = $("#login_name").val();
+				var pwd = $("#login_pwd").val();
+				
+				if(name != "" && pwd != ""){
+					var url = "api/user/login";
+					var mdata = {"name":name,"pwd":pwd};
+					
+					$.ajax({
+					    type: "POST",
+					    dataType: "json",
+					    data:mdata,
+					    url: url,
+					    success: function(result){
+					    	if(result.isSuccess){
+					    		windows.localtion("/");
+					    	}else{
+					    		alert(result.message);
+					    		$(".box_login").hide();
+					    	}
+					    },
+					    error:function(err){
+					    	alert(err);
+					    	$(".box_login").hide();
+					    }
+					});
+				}else{
+					$(".box_login").hide();
+				}
+				
 			});
 		}
 	);
 	//注册
 	$("#index_top .index_member .r_btn").click(
 		function(){
-			console.log("rrrrrrrrrrr");
 			$(".box_reg").show();
 			$(".box_reg .shadow").height($(document.body).height());
 			$(".box_reg .shadow,.box_reg .close").click(function(){

@@ -66,31 +66,29 @@ public class User extends BaseEntity implements Serializable{
 	
 	@Email
 	private String email;//邮箱
+	
 	@Size(max=2)
 	private String isCompany = BaseEntity.NO;//默认为普通用户,No表示公司用户
 
 	private String avatar;//头像
-	
 	private String description;//心情说明
 	
-	//心情、动态
-	//私信
-	//评论
-	@Size(max=5)
-	private String reading ;//在读书籍列表//1-n
-	@Size(max=5)
-	private String liking ;//在读书籍列表//1-n
-	@Size(max=5)
-	private String wantRead ;//在读书籍列表//1-n
-	@Size(max=5)
-	private String hasRead ;//在读书籍列表//1-n
+	
+	private Integer reading ;//在读书籍//1-n
+	private Integer liking ;//喜欢读书籍//1-n
+	private Integer wantRead ;//在读书籍//1-n
+	private Integer hasRead ;//已读书籍//1-n
+	
+	private Integer flowings;//关注数
+	private Integer floweds;//粉丝数
+	private Integer messages;//粉丝数
 	
 	
 	//多对多定义
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "sys_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
-	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
-	@OrderBy("id")
+	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
+	//@OrderBy("id")
 	@Fetch(FetchMode.SUBSELECT)
 	@NotFound(action = NotFoundAction.IGNORE)
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -163,50 +161,13 @@ public class User extends BaseEntity implements Serializable{
 		this.isCompany = isCompany;
 	}
 	
-	public String getReading() {
-		return reading;
-	}
-
-	public void setReading(String reading) {
-		this.reading = reading;
-	}
-
-	public String getLike() {
-		return liking;
-	}
-
-	public void setLike(String like) {
-		this.liking = like;
-	}
-
-	public String getWantRead() {
-		return wantRead;
-	}
-
-	public void setWantRead(String wantRead) {
-		this.wantRead = wantRead;
-	}
-
 	public String getAvatar() {
 		return avatar;
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	public String getHasRead() {
-		return hasRead;
-	}
-
-	public void setHasRead(String hasRead) {
-		this.hasRead = hasRead;
-	}
-
-	public String getLiking() {
-		return liking;
-	}
-	public void setLiking(String liking) {
-		this.liking = liking;
-	}
+	
 	public List<Roles> getRoleList() {
 		return roleList;
 	}
@@ -215,6 +176,12 @@ public class User extends BaseEntity implements Serializable{
 	}
 	public String getDelFlag() {
 		return delFlag;
+	}
+	public Integer getMessages() {
+		return messages;
+	}
+	public void setMessages(Integer messages) {
+		this.messages = messages;
 	}
 	/**
 	 * @return the updateDate
@@ -230,6 +197,42 @@ public class User extends BaseEntity implements Serializable{
 		this.updateDate = updateDate;
 	}
 	
+	public Integer getReading() {
+		return reading;
+	}
+	public void setReading(Integer reading) {
+		this.reading = reading;
+	}
+	public Integer getLiking() {
+		return liking;
+	}
+	public void setLiking(Integer liking) {
+		this.liking = liking;
+	}
+	public Integer getWantRead() {
+		return wantRead;
+	}
+	public void setWantRead(Integer wantRead) {
+		this.wantRead = wantRead;
+	}
+	public Integer getHasRead() {
+		return hasRead;
+	}
+	public void setHasRead(Integer hasRead) {
+		this.hasRead = hasRead;
+	}
+	public Integer getFlowings() {
+		return flowings;
+	}
+	public void setFlowings(Integer flowings) {
+		this.flowings = flowings;
+	}
+	public Integer getFloweds() {
+		return floweds;
+	}
+	public void setFloweds(Integer floweds) {
+		this.floweds = floweds;
+	}
 	@Transient
 	@JsonIgnore
 	public List<Long> getRoleIdList() {

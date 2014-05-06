@@ -30,6 +30,14 @@ function back_login(){
 	});
 }
 
+function login(){
+	$("#login_form").submit();
+}
+
+function reset(){
+	$("#login_name").val("");
+	$("#login_pwd").val("");
+}
 
 function json_login(url){
 	var name = $("#login_name").val();
