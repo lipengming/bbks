@@ -320,7 +320,8 @@ $(function(){
 					    url: url,
 					    success: function(result){
 					    	if(result.isSuccess){
-					    		windows.localtion("/");
+					    		window.location = "";
+					    		alert(result.message);
 					    	}else{
 					    		alert(result.message);
 					    		$(".box_login").hide();
@@ -341,13 +342,14 @@ $(function(){
 	//注册
 	$("#index_top .index_member .r_btn").click(
 		function(){
-			$(".box_reg").show();
-			$(".box_reg .shadow").height($(document.body).height());
-			$(".box_reg .shadow,.box_reg .close").click(function(){
-				$(".box_reg").hide();	
-			});
-		}
-	);
+			window.location = "regist";	
+		
+//			$(".box_reg").show();
+//			$(".box_reg .shadow").height($(document.body).height());
+//			$(".box_reg .shadow,.box_reg .close").click(function(){
+//				$(".box_reg").hide();	
+//			});
+	});
 	$("#reg .dq em").click(function(){
 			var  list = $(this).parents(".dq").find(".dq_list");
 			list.show();

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctxRes" value="${pageContext.request.contextPath }/static"/>  
+<c:set var="ctx" value="${pageContext.request.contextPath }"/>  
 
 
 <div class="box_login">
@@ -25,7 +27,7 @@
                 <div class="lt">使用注册邮箱登录</div>
                 <div class="ld user"><input type="text" name="username" id="login_name"/></div>
                 <div class="ld pass1"><input type="text" name="pwd" id="login_pwd"/></div>
-                <div class="lg"><span class="fotegt"><a href="#">忘记了密码？</a></span>
+                <div class="lg"><span class="fotegt"><a href="${ctx }/regist">忘记了密码？</a></span>
                 <input type="button" class="l_btn" onclick=""/></div>
             </div>
         </div>

@@ -312,7 +312,7 @@ body{ background:#ebeef0;}
 #login .login_zh p{ clear:both; color:#a5a5a5; font:14px/24px "微软雅黑"; padding-top:30px; }
 #login .login_main{ float:left; width:350px; height:265px; padding-left:100px; background:url(../images/l.gif) repeat-y left top;}
 #login .login_main .ld{ margin-top:15px; width:254px; height:48px; color:#c1c9d0; padding-left:54px; font:14px/48px "微软雅黑";}
-#login .login_main .ld input{ border:none 0; background:none; margin:6px 0; height:36px; font:14px/36px "微软雅黑"; color:#c1c9d0; width:307px;}
+#login .login_main .ld input{ border:none 0; background:none; margin:6px 0; height:36px; font:14px/36px "微软雅黑"; color:#c1c9d0; width:250px;}
 #login .user{ background: url(../images/user.gif) no-repeat;}
 #login .pass1{ background:url(../images/pass.gif) no-repeat;display:block;}
 #login .pass2{ background:url(../images/pass.gif) no-repeat;display:none;}
