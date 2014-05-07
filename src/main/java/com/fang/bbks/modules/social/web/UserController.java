@@ -11,10 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fang.bbks.common.utils.SessionUtil;
@@ -37,7 +40,7 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
-	
+		
 	/**
 	 * 个人主页
 	 * 
@@ -82,6 +85,38 @@ public class UserController extends BaseController {
 		return "/user/detail";
 	}
 	
+	/**
+	 * 跟新用户状态信息
+	 * @param uiModel
+	 * @param request
+	 * @param response
+	 * @param description
+	 * @return
+	 */
+	@RequestMapping(value = { "/updateStatus" })
+	public String updateStatus( Model uiModel,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "description",required = true) String description){
+		
+		log.debug("update description...{}",description);
+		
+		User u = SessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+		}
+		
+		try{
+			userService.updateState(description,u.getId());
+			
+			u.setDescription(description);
+			SessionUtil.setSignInUser(request.getSession(), u);
+			
+		}catch(Exception e){
+			log.error("数据操作异常，{}",e.getMessage(),e);
+			uiModel.addAttribute(HANDLER_MSG,"系统异常，稍后再试！");
+		}
+		return "redirect:/user/profile";
+	}
 	
-
+	
 }

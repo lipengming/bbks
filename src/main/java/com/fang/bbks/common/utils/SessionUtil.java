@@ -41,6 +41,17 @@ public class SessionUtil {
 	}
 	
 	/**
+	 * 登录--yes
+	 * 未登录--No
+	 * @param session
+	 * @return
+	 */
+	public static Boolean isLogin(HttpSession session){
+		return session.getAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER) != null;
+	}
+	
+	
+	/**
 	 * 设置登录用户信息
 	 * @param session
 	 * @param user

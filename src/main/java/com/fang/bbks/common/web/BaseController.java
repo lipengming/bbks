@@ -6,6 +6,7 @@
 package com.fang.bbks.common.web;
 
 import java.beans.PropertyEditorSupport;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -16,12 +17,14 @@ import javax.validation.Validator;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fang.bbks.common.utils.BeanValidators;
 import com.fang.bbks.common.utils.DateUtils;
+import com.fang.bbks.common.utils.SessionUtil;
 
 
 
@@ -56,6 +59,8 @@ public abstract class BaseController {
 	 */
 	public static final String REST_PREFIX = "/api";
 	
+	protected final static String HANDLER_MSG = "handler_msg";
+
 	
 	/**
 	 * 请求对象
@@ -127,7 +132,6 @@ public abstract class BaseController {
 		return new BaseResponse(402, "接口尚未实现");
 	}
 	
-	
 	/**
 	 * 请求成功
 	 * @return
@@ -195,4 +199,20 @@ public abstract class BaseController {
 		return new BaseResponse(400, message);
 	}
 	
+	public static String getBaseRepository(){
+		return File.separator + "static" + File.separator + "upload";
+	}
+	
+	public static String getRepositor(Long uid){
+		return getBaseRepository() + File.separator + uid;
+	}
+	
+	public static String getAvatarRepositor(Long uid){
+		return getRepositor(uid) + File.separator + "avatar";
+	}
+	
+	public static String getNewFileName(String orgName){
+		return new StringBuilder().append(System.currentTimeMillis())
+			.append(orgName.substring(orgName.lastIndexOf('.'))).toString();
+	}
 }

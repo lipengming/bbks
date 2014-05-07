@@ -55,13 +55,13 @@
             </div>
             <div class="info_base">
             	<div class="info_base_con">
-                	<a href="#">
+                	<a href="#" onclick="updateAvatar();">
                 		<c:choose>
                 			<c:when test="${userInfo.avatar == null }">
                 				<img src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
                 			</c:when>
                 			<c:otherwise>
-                				<img src="${ctxStatic}/images/photo.gif" width="110" height="110" alt="" />
+                				<img src="${ctxStatic}/{userInfo.avatar}" width="110" height="110" alt="" />
                 			</c:otherwise>
                 		</c:choose>
                 		
@@ -74,15 +74,17 @@
                 <div class="info_cont">
                 	<p>状态：${userInfo.description }</p>
                     <div class="info_con">
-                    	<input type="text" class="info_text" />
-                        <input type="button" class="info_btn" />
+                    	<form action="${ctx }/user/updateStatus" method="post">
+	                    	<input type="text" class="info_text" name="description" />
+	                        <input type="button" class="info_btn" onclick="javascript:this.form.submit();"/>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
         <div id="ul_btn">
         	<ul>
-            	<li><a href="../user_homePage.html" class="hover">动态</a></li>
+            	<li><a href="#" class="hover">动态</a></li>
                 <li><a href="#">消息</a></li>
                 <li><a href="#" class="pl">评论</a></li>
                 <li><a href="#">随便看看</a></li>
@@ -380,7 +382,17 @@
     <div class="shadow">
     </div>
 </div>
+
+
 <script type="text/javascript"> 
+	
+	function updateAvatar(){
+		$('#chooseFile-model').modal('show');
+	}
+	
+	
+
+
  function tabMenu(tabBox,navClass){
   var tabNavLi=document.getElementById(tabBox).getElementsByTagName("ul")[0].getElementsByTagName("li");
   var tabCon=document.getElementById(tabBox).getElementsByTagName("div")[0].getElementsByTagName("div");
@@ -402,5 +414,7 @@ window.onload=function(){
  tabMenu("tabBox","active");
 }
 </script>
+<jsp:include page="./imageCut.jsp" flush="false"></jsp:include>
+
 </body>
 </html>

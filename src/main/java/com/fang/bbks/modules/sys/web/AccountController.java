@@ -73,7 +73,7 @@ public class AccountController extends BaseController{
 				//设置session
 				SessionUtil.setSignInUser(session, u);
 				//设置cookies
-				//CookieUtils.setUser(response, username, pwd, u.getId()+"");
+				CookieUtils.setUser(response, username, pwd, u.getId().toString());
 				return "redirect:/index";
 			}
 		}

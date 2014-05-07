@@ -401,6 +401,7 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1</version>
         </dependency>
+        
 		<!-- common-logging 实际调用slf4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -457,7 +458,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		<dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
 		<!-- google java library -->
 		<dependency>
 			<groupId>com.google.guava</groupId>

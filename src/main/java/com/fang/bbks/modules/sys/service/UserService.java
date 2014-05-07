@@ -31,24 +31,20 @@ public class UserService {
 	@Autowired
 	DynamicDao dynamicDao;
 	
+	/**
+	 * 跟新个人状态
+	 * @param description
+	 */
+	public void updateState(String description,Long id){
+		userDao.update("update User set description = ? where id = ?", description,id);
+	}
+	
 	@Autowired
 	MessageDao messageDao;
-	
-	
-	public boolean doLogin(String name,String pwd){
-		
-		return false;
-	}
-	
-	public boolean doReg(String username,String email,String password,String repassword){
-		
-		return false;
-	}
 	
 	public User findOne(Long id){
 		return userDao.findOne(id);
 	}
-	
 	
 	@Transactional(readOnly = false)
 	public void delete(Long id) {
