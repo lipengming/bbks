@@ -1,0 +1,6 @@
+*.class
+*.apk
+indexes/
+target/
+.settings/
+.idea/

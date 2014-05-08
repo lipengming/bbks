@@ -94,8 +94,17 @@ public class User extends BaseEntity implements Serializable{
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	@JsonIgnore
 	private List<Roles> roleList = Lists.newArrayList(); // 拥有角色列表
-    
-	
+     
+	@Size(max=50)
+	private String location;//位置
+	@Size(max=50)
+	private String address;//地址
+	@Size(max=50)
+	private String weibo;//微博
+	@Size(max=50)
+	private String blogs;//博客
+	@Size(max=512)
+	private String introduction;//自述
 	
 	public User(){
 		this.createDate = new Date();
@@ -242,6 +251,36 @@ public class User extends BaseEntity implements Serializable{
 	}
 	public void setFloweds(Integer floweds) {
 		this.floweds = floweds;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getWeibo() {
+		return weibo;
+	}
+	public void setWeibo(String weibo) {
+		this.weibo = weibo;
+	}
+	public String getBlogs() {
+		return blogs;
+	}
+	public void setBlogs(String blogs) {
+		this.blogs = blogs;
+	}
+	public String getIntroduction() {
+		return introduction;
+	}
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}
 	@Transient
 	@JsonIgnore

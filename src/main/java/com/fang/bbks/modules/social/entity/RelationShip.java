@@ -31,8 +31,8 @@ public class RelationShip extends BaseEntity{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String delFlag;
-	private String flowId;//关注发起方
-	private String flowedId;//被关注方
+	private Long flowId;//关注发起方
+	private Long flowedId;//被关注方
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -62,22 +62,6 @@ public class RelationShip extends BaseEntity{
 		this.delFlag = delFlag;
 	}
 
-	public String getFlowId() {
-		return flowId;
-	}
-
-	public void setFlowId(String flowId) {
-		this.flowId = flowId;
-	}
-
-	public String getFlowedId() {
-		return flowedId;
-	}
-
-	public void setFlowedId(String flowedId) {
-		this.flowedId = flowedId;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -92,5 +76,21 @@ public class RelationShip extends BaseEntity{
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Long getFlowId() {
+		return flowId;
+	}
+
+	public void setFlowId(Long flowId) {
+		this.flowId = flowId;
+	}
+
+	public Long getFlowedId() {
+		return flowedId;
+	}
+
+	public void setFlowedId(Long flowedId) {
+		this.flowedId = flowedId;
 	}
 }

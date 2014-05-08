@@ -100,9 +100,13 @@
 .person_info .gz_list li a .num{ display:block; float:left; width:66px; font:18px/50px "微软雅黑";}
 
 /*大选项*/
-#ul_btn{ clear:both; padding-bottom:10px; float:left;}
+#ul_btn{ clear:both; padding-bottom:10px; float:left; width:100%;}
 #ul_btn ul li{ float:left; margin-right:15px; height:30px; line-height:28px;}
-#ul_btn ul li a{ font:14px/30px "微软雅黑"; color:#4381bc; padding:0 10px; height:30px; display:block; float:left;text-decoration: none;}
+#ul_btn ul li a{ font:14px/30px "微软雅黑"; color:#4381bc; padding:0 10px; height:30px; display:block; float:left;  width:33px;}
+#ul_btn ul li a:hover{ text-decoration:none; background:url(../images/btn_hov.gif) no-repeat; height:30px; text-align:center;}
+#ul_btn ul li a.hover{ background:url(../images/btn_hover.gif) no-repeat; height:29px; width:30px; text-align:center; color:#000;}
+#ul_btn ul li a.pl{ background:url(../images/btn_hov.gif) no-repeat; width:33px; height:30px; text-align:center;}
+
 #tidaowo:hover{ text-decoration:none; background:url(../images/at_hg.png) no-repeat; height:30px; text-align:center;}
 #dongtai:hover{ text-decoration:none; background:url(../images/btn_hov.gif) no-repeat; height:30px; text-align:center;}
 #sskk:hover{ text-decoration:none; background:url(../images/sskk_hg.png) no-repeat; height:30px; text-align:center;}

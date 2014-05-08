@@ -1,5 +1,8 @@
 package com.fang.bbks.modules.social.web;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,6 +25,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fang.bbks.common.utils.SessionUtil;
 import com.fang.bbks.common.web.BaseController;
+import com.fang.bbks.modules.social.entity.Dynamic;
+import com.fang.bbks.modules.social.service.DynamicService;
+import com.fang.bbks.modules.social.service.NetWorkService;
+import com.fang.bbks.modules.social.service.RelationService;
 import com.fang.bbks.modules.sys.entity.User;
 import com.fang.bbks.modules.sys.service.UserService;
 
@@ -40,7 +47,13 @@ public class UserController extends BaseController {
 	
 	@Autowired
 	private UserService userService;
-		
+	@Autowired
+	private DynamicService dynamicService;
+	@Autowired
+	private NetWorkService netWorkService;
+	@Autowired
+	RelationService relationService;
+	
 	/**
 	 * 个人主页
 	 * 
@@ -50,16 +63,16 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/profile/index","/profile/","/profile" })
 	public String profile(Model uiModel,HttpServletRequest request,HttpServletResponse response) {
+		
 		User u = SessionUtil.getSignInUser(request.getSession());
 		
 		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
 		}
-		//TODO 动态信息
-		//TODO 评论信息
-		//TODO 关注的人
-		//TODO 消息列表
-		uiModel.addAttribute("userInfo",u);
+
+		uiModel = netWorkService.getUserInfo(u.getId(),uiModel);
+		
 		return "/user/profile";
 	}
 
@@ -74,14 +87,29 @@ public class UserController extends BaseController {
 	public String detail(@PathVariable("uid") Long uid, Model uiModel,
 			HttpServletRequest request, HttpSession session) {
 		User cu =SessionUtil.getSignInUser(session);
+		//未登录
 		if(cu == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
 		}
-		User u = userService.findOne(uid);
-		if(u == null){
-			return "redirect:/login";
+		
+		//资源不存在，转首页
+		if(userService.findOne(uid) == null){
+			uiModel.addAttribute(HANDLER_MSG, "您要访问的资源已经被删除！");
+			return "redirect:/index";
 		}
-		uiModel.addAttribute("userInfo", u);
+		
+		//转个人主页
+		if(uid == cu.getId()){
+			return "redirect:/user/profile";
+		}
+		
+		uiModel = netWorkService.getUserInfo(uid,uiModel);
+		
+		if(relationService.isFlow(cu.getId(), uid)){
+			uiModel.addAttribute("doFlow", true);
+		}
+		
 		return "/user/detail";
 	}
 	
@@ -103,6 +131,7 @@ public class UserController extends BaseController {
 		User u = SessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
 		}
 		
 		try{
@@ -118,5 +147,93 @@ public class UserController extends BaseController {
 		return "redirect:/user/profile";
 	}
 	
+	@RequestMapping(value = { "/updateAvatar" })
+	public String updateAvatar( Model uiModel,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "avatarSrc",required = true) String avatarSrc){
+		
+		log.debug("update avatarSrc...{}",avatarSrc);
+		
+		User u = SessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		
+		try{
+			userService.updateAvatar(avatarSrc,u.getId());
+			
+			u.setAvatar(avatarSrc);
+			SessionUtil.setSignInUser(request.getSession(), u);
+			
+		}catch(Exception e){
+			log.error("数据操作异常，{}",e.getMessage(),e);
+			uiModel.addAttribute(HANDLER_MSG,"系统异常，稍后再试！");
+		}
+		return "redirect:/user/profile";
+	}
 	
+	@RequestMapping(value = { "/publishDynamic" })
+	public String publishDynamic( Model uiModel,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "content",required = true) String content){
+		
+		log.debug("update content...{}",content);
+		
+		User u = SessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		
+		try{
+			dynamicService.publishDynamic(content, u.getId());
+		}catch(Exception e){
+			log.error("数据操作异常，{}",e.getMessage(),e);
+			uiModel.addAttribute(HANDLER_MSG,"系统异常，稍后再试！");
+		}
+		return "redirect:/user/profile";
+	}
+	
+	@RequestMapping(value = { "/flow" })
+	public String flow( Model uiModel,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "uid",required = true) Long uid){
+		log.debug("flow...{}",uid);
+		
+		User u = SessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		try{
+			netWorkService.flow(u.getId(), uid);
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("err flow handler,{},{}", e.getMessage(),e);
+		}
+		
+		return "redirect:/user/detail/"+uid;
+	}
+	
+	@RequestMapping(value = { "/unflow" })
+	public String unflow( Model uiModel,HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "uid",required = true) Long uid){
+		log.debug("unflow...{}",uid);
+		
+		User u = SessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		try{
+			netWorkService.unflow(u.getId(), uid);
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("err flow handler,{},{}", e.getMessage(),e);
+		}
+		
+		return "redirect:/user/detail/"+uid;
+	}
 }

@@ -43,7 +43,7 @@ public class Dynamic extends BaseEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private Integer creatBy;
+	private Long creatBy;
 	
 	private Date createAt;
 	private Date updateAt;
@@ -52,14 +52,7 @@ public class Dynamic extends BaseEntity implements Serializable{
 	private String content;
 	
     private String delFlag;	//删除标记（0：正常；1：删除）
-	
-	
-	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY)
-	@JoinColumn(name="pics")
-	@Where(clause="del_flag='"+DEL_FLAG_NORMAL+"'")
-	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private List<Resource> resources;
+
 	
 	/**
 	 * 
@@ -100,25 +93,13 @@ public class Dynamic extends BaseEntity implements Serializable{
 	public void setUpdateAt(Date updateAt) {
 		this.updateAt = updateAt;
 	}
-	
-	public Integer getCreatBy() {
+	public Long getCreatBy() {
 		return creatBy;
 	}
-	public void setCreatBy(Integer creatBy) {
+	public void setCreatBy(Long creatBy) {
 		this.creatBy = creatBy;
 	}
-	/**
-	 * @return the resources
-	 */
-	public List<Resource> getResources() {
-		return resources;
-	}
-	/**
-	 * @param resources the resources to set
-	 */
-	public void setResources(List<Resource> resources) {
-		this.resources = resources;
-	}
-	
-	
+	public String getDelFlag() {
+		return delFlag;
+	}	
 }

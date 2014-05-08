@@ -22,17 +22,28 @@
 	<div id="layout">
     	<div class="person_info">
         	<div class="img">
+        	<c:choose>
             	<c:when test="${userInfo.avatar == null }">
       				<img src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
       			</c:when>
       			<c:otherwise>
-      				<img src="${ctxStatic}/images/photo.gif" width="110" height="110" alt="" />
+      				<img src="${userInfo.avatar }" width="110" height="110" alt="" />
       			</c:otherwise>
+      		</c:choose>
             </div>
             <div class="info_co">
             	<h1><a href="#">${userInfo.username }</a></h1>
-                <h3><a href="${ctx}/user/detail/${userInfo.id}">http://bbks.com/user/detail/${userInfo.id} </a></h3>
-                <h4>位置：家在北京朝阳，现在北京朝阳</h4>
+                <h3><a href="${ctx}/user/detail/${userInfo.id}">http://www.bbks.com/user/detail/${userInfo.id} </a></h3>
+                <h4>类型：
+                	<c:choose>
+                		<c:when test="${userInfo.isCompany == 0}">
+                			个人用户
+                		</c:when>
+                		<c:otherwise>
+							企业用户
+                		</c:otherwise>
+                	</c:choose>
+                </h4>
                 <p>状态：${userInfo.description }</p>
                 <div class="info_btn_cont">
                		<input type="button" value="私信"  class="info_btn sx"/>
@@ -42,29 +53,17 @@
                         	<span class="fn-left">发给：</span>
                             <div class="drop_sx">
                             	<span class="more_d"></span>
-                        		<div class="sx_name"><img src="../images/photo2.gif" width="24" height="24" />孙陶然</div>
+                        		<div class="sx_name"><img src="${userInfo.avatar }" width="24" height="24" />${userInfo.username }</div>
                             </div>
                         </label>
                         <label>
-                        	<span class="fn-left">内容：</span><textarea name="" cols="" rows="" class="sixin_text"></textarea>
+                        	<span class="fn-left">
+                        		内容：</span><textarea name="" cols="" rows="" class="sixin_text">
+                        	</textarea>
                         </label>
                         <label><input type="button" class="fs" /></label>
                     </div>
-                    <div class="sixin">
-                    	<h2><span class="close"></span>发私信</h2>
-                        <label>
-                        	<span class="fn-left">发给：</span>
-                            <div class="drop_sx">
-                            	<span class="more_d"></span>
-                        		<div class="sx_name"><img src="../images/photo2.gif" width="24" height="24" />孙陶然</div>
-                            </div>
-                        </label>
-                        <label>
-                        	<span class="fn-left">内容：</span><textarea name="" cols="" rows="" class="sixin_text"></textarea>
-                        </label>
-                        <label><input type="button" class="fs" /></label>
-                    </div>
-                    <input type="button" value="@"  class="info_btn sp"/>
+                    <!-- <input type="button" value="@"  class="info_btn sp"/>
                     <div class="speak">
                     	<h2><span class="close"></span>快来说点什么吧...</h2>
                         <h4>还可以输入123个字</h4>
@@ -78,11 +77,25 @@
                                 <li><a href="#"></a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="person_gz">
-            	<div class="gz_btn_cont"><input class="gz_btn" type="button" /></div>
+            	<div class="gz_btn_cont">
+            		
+            		<c:choose>
+            			<c:when test="${doFlow != null }">
+							<form action="${ctx }/user/unflow?uid=${userInfo.id}" method="post">
+								<input class="gz_btn_off" type="button" onclick="javascript:this.form.submit();"/>
+							</form>
+            			</c:when>
+            			<c:otherwise>
+            				<form action="${ctx }/user/flow?uid=${userInfo.id}" method="post">
+            					<input class="gz_btn" type="button" onclick="javascript:this.form.submit();"/>
+            				</form>
+            			</c:otherwise>
+            		</c:choose>
+            	</div>
                 <ul class="gz_list">
                 	<li><a href="#"><span class="num">${userInfo.messages }</span>消息</a></li>
                     <li><a href="#"><span class="num">${userInfo.flowings }</span>关注</a></li>
@@ -93,8 +106,7 @@
         
         <div id="ul_btn">
         	<ul>
-            	<li><a href="../user_homePage.html" class="hover">动态</a></li>
-                <li><a href="#">@提到我的</a></li>
+            	<li><a href="#" class="hover">动态</a></li>
                 <li><a href="#" class="pl">评论</a></li>
                 <li><a href="#">随便看看</a></li>
             </ul>
@@ -106,42 +118,23 @@
                     <div class="tab_cont">
                     	<div class="tab_con" style="display:block;">
                         	<ul class="tab_list W100">
-                            	<li>
+                            	<c:forEach var="item" items="${dynamicInfo }">	
+                        		<li>
                                     <span class="list_con">
-                                        <h3>正在读<a href="#">《我和这个世界不熟》</a>，<a href="#">黄某某</a> 著，中国民族摄影艺术出版社</h3>
-                                        <p>《我和这个世界不熟》极力调侃生活的琐碎，巧解各路话题新闻，用简短、精炼的笔调刻画出生活舞台上一个个鲜活的小人物，当然亦有作者本人的各种领衔出演。这不仅仅是一部原创笑话段子集，更是作者的成长录，它收录了一个网络写手从默默无闻的路人甲到低调网络小红人的整个过程。这里有每个社会人的影子，无论小清新或是小邪恶。其实，人生就是一出悲喜剧，翻开书，用幽默战胜生命的低谷。</p>
-                                        <span class="book_img">
-                                                <a href="#"><img src="../images/book.gif" width="105" height="140" alt="" /></a>
-                                                <span class="book_info">
-                                                    <h2><a href="#">上面好安静</a></h2>
-                                                    <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                                    <h3>出版社：<a href="#">人们出版社</a></h3>
-                                                    <h4>定价：30元</h4>
-                                                    <p>
-                                                    《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-            弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-            欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-            年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-            被迫中断大学学业，从此与 牛羊为伍……
-                                                    </p>
-                                                    <span class="book_info_btn">
-                                                        <input type="text" class="text" />
-                                                        <input type="text" class="join" />
-                                                    </span>
-                                                </span>
-                                            </span>
+                                        ${item.content}
                                         <p class="bott">
                                         	<span class="p_function">
-                                            	<a href="#">转发（23）</a>|
+                                            	<a href="#">转发</a>|
                                                 <a href="#">收藏</a>|
-                                                <a href="#">评论（13）</a>
+                                                <a href="#">评论</a>
                                             </span>
                                             <span class="time">
-                                            	10月15日  17：35
+                                            	${item.createAt }
                                             </span>
                                         </p>
                                     </span>
                                 </li>
+                        		</c:forEach>
                             </ul>
                         </div>
                     </div>
@@ -150,19 +143,27 @@
             <div class="sidebar">
             	<div class="side_detail">
                 	<h2>个人资料.......</h2>
-                    <h4>家在：北京，朝阳区</h4>
-                    <h4>微博: <a href="#">http://weibo.com/suntaoran</a></h4>
-                    <h4>博客: <a href="#">http://www.lakala.com</a></h4>
-                    <p>自述：曾参与创办若干公司，偶尔做天使。北大企业家俱乐部执行理事，创始人俱乐部联合主席，《创业36条军规》作者，北京青联荣誉委员，长春青联副主席曾参与创办若干公司，偶尔做天使。北大企业家俱乐部执行理事，创始人俱乐部联合主席，《创业36条军规》作者，北京青联荣誉委员，长春青联副主席</p>
+                    <h4>家在：${userInfo.address }</h4>
+                    <h4>微博: <a href="#">${userInfo.weibo }</a></h4>
+                    <h4>博客: <a href="#">${userInfo.blogs }</a></h4>
+                    <p>自述：${userInfo.introduction }</p>
                     <h5><a href="#">更多...</a></h5>
                 </div>
+                <!-- 
                 <div class="sider_span">
-                	<h2>标签</h2>
-                    <p><a href="#">摄影</a> <a href="#">户外</a> <a href="#">创业36条军规</a> <a href="#">北京大学</a> <a href="#">拉卡拉</a></p>
+                	<h2>爱好</h2>
+                    <p>
+                    	<a href="#">摄影</a> 
+                    	<a href="#">户外</a> 
+                    	<a href="#">创业36条军规</a> 
+                    	<a href="#">北京大学</a> 
+                    	<a href="#">拉卡拉</a>
+                    </p>
                 </div>
+                 -->
                 <div class="now_read" style="z-index:3">
                 	<div class="title">
-                    	<h3><a href="#">共同兴趣.......（68）</a></h3>
+                    	<h3><a href="#">共同兴趣.......</a></h3>
                     </div>
                     <div class="read_list">
                     	<ul>

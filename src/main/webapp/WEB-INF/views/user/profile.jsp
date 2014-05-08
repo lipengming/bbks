@@ -38,9 +38,12 @@
         	<div class="doing">
             	<div class="title">我在做什么 ...</div>
                 <div class="con">
-                	<textarea class="text" name="" cols="" rows=""></textarea>
+                	<form action="${ctx }/user/publishDynamic" method="post" id="dynamicform">
+                	<textarea class="text" name="content" cols="" rows=""></textarea>
                     <div class="fb">
-                    	<div class="fn-right fb_btn"><input type="button" class="btn" /></div>
+                    	<div class="fn-right fb_btn">
+                    		<input type="button" class="btn" onclick="javascript:$('#dynamicform').submit();"/>
+                    	</div>
                     	<!-- <ul class="fb_list">
                         	<li><a href="#"></a></li>
                             <li><a href="#"></a></li>
@@ -50,7 +53,7 @@
                             <li><a href="#"></a></li>
                         </ul> -->
                     </div>
-                 
+                 </form>
                 </div>
             </div>
             <div class="info_base">
@@ -61,7 +64,7 @@
                 				<img id="user_avatar" src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
                 			</c:when>
                 			<c:otherwise>
-                				<img id="user_avatar" src="${ctxStatic}/{userInfo.avatar}" width="110" height="110" alt="" />
+                				<img id="user_avatar" src="${userInfo.avatar}" width="110" height="110" alt="" />
                 			</c:otherwise>
                 		</c:choose>
                 		
@@ -85,8 +88,8 @@
         <div id="ul_btn">
         	<ul>
             	<li><a href="#" class="hover">动态</a></li>
-                <li><a href="#">消息</a></li>
                 <li><a href="#" class="pl">评论</a></li>
+                <li><a href="#">消息</a></li>
                 <li><a href="#">随便看看</a></li>
             </ul>
         </div>
@@ -106,83 +109,44 @@
                     <div class="tab_cont">
                     	<div class="tab_con" style="display:block;">
                         	<ul class="tab_list">
-                            	<li>
+                            	<c:forEach var="item" items="${dynamicInfo }">	
+                        		<li>
                                     <span class="list_con">
-                                        <h3>正在读<a href="#">《我和这个世界不熟》</a>，<a href="#">黄某某</a> 著，中国民族摄影艺术出版社</h3>
-                                        <p>《我和这个世界不熟》极力调侃生活的琐碎，巧解各路话题新闻，用简短、精炼的笔调刻画出生活舞台上一个个鲜活的小人物，当然亦有作者本人的各种领衔出演。这不仅仅是一部原创笑话段子集，更是作者的成长录，它收录了一个网络写手从默默无闻的路人甲到低调网络小红人的整个过程。这里有每个社会人的影子，无论小清新或是小邪恶。其实，人生就是一出悲喜剧，翻开书，用幽默战胜生命的低谷。</p>
-                                        <span class="book_img">
-                                                <a href="#"><img src="../images/book.gif" width="105" height="140" alt="" /></a>
-                                                <span class="book_info">
-                                                    <h2><a href="#">上面好安静</a></h2>
-                                                    <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                                    <h3>出版社：<a href="#">人们出版社</a></h3>
-                                                    <h4>定价：30元</h4>
-                                                    <p>
-                                                    《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-            弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-            欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-            年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-            被迫中断大学学业，从此与 牛羊为伍……
-                                                    </p>
-                                                    <span class="book_info_btn">
-                                                        <input type="button" class="text" />
-                                                        <input type="button" class="join" />
-                                                    </span>
-                                                </span>
-                                            </span>
+                                        ${item.content}
                                         <p class="bott">
                                         	<span class="p_function">
-                                            	<a href="#">转发（23）</a>|
+                                            	<a href="#">转发</a>|
                                                 <a href="#">收藏</a>|
-                                                <a href="#">评论（13）</a>
+                                                <a href="#">评论</a>
                                             </span>
                                             <span class="time">
-                                            	10月15日  17：35
+                                            	${item.createAt }
                                             </span>
                                         </p>
                                     </span>
                                 </li>
+                        		</c:forEach>
                             </ul>
                         </div>
                         <div class="tab_con">
                         	<ul class="tab_list">
-                            	<li>
+                        		<c:forEach var="item" items="${dynamicInfo }">	
+                        		<li>
                                     <span class="list_con">
-                                        <h3>正在读<a href="#">《我和这个世界不熟》</a>，<a href="#">黄某某</a> 著，中国民族摄影艺术出版社</h3>
-                                        <p>《我和这个世界不熟》极力调侃生活的琐碎，巧解各路话题新闻，用简短、精炼的笔调刻画出生活舞台上一个个鲜活的小人物，当然亦有作者本人的各种领衔出演。这不仅仅是一部原创笑话段子集，更是作者的成长录，它收录了一个网络写手从默默无闻的路人甲到低调网络小红人的整个过程。这里有每个社会人的影子，无论小清新或是小邪恶。其实，人生就是一出悲喜剧，翻开书，用幽默战胜生命的低谷。</p>
-                                        <span class="book_img">
-                                                <a href="#"><img src="../images/book.gif" width="105" height="140" alt="" /></a>
-                                                <span class="book_info">
-                                                    <h2><a href="#">上面好安静</a></h2>
-                                                    <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                                    <h3>出版社：<a href="#">人们出版社</a></h3>
-                                                    <h4>定价：30元</h4>
-                                                    <p>
-                                                    《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-            弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-            欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-            年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-            被迫中断大学学业，从此与 牛羊为伍……
-                                                    </p>
-                                                    <span class="book_info_btn">
-                                                        <input type="button" class="text" />
-                                                        <input type="button" class="join" />
-                                                    </span>
-                                                </span>
-                                            </span>
+                                        ${item.content}
                                         <p class="bott">
                                         	<span class="p_function">
-                                            	<a href="#">转发（23）</a>|
+                                            	<a href="#">转发</a>|
                                                 <a href="#">收藏</a>|
-                                                <a href="#">评论（13）</a>
+                                                <a href="#">评论</a>
                                             </span>
                                             <span class="time">
-                                            	10月15日  17：35
+                                            	${item.createAt }
                                             </span>
                                         </p>
                                     </span>
                                 </li>
-                            	
+                        		</c:forEach>
                             </ul>
                         </div>
                         <div class="tab_con">
@@ -388,6 +352,10 @@
 	
 	function updateAvatar(){
 		$('#chooseFile-model').modal('show');
+	}
+	
+	function publishDy(){
+		console.log("--");
 	}
 	
 	

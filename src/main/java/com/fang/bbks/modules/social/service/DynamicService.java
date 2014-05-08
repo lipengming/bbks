@@ -33,7 +33,8 @@ public class DynamicService {
 	 * @param content
 	 * @param uid
 	 */
-	public void publishDynamic(String content,Integer uid){
+	@Transactional(readOnly = false)
+	public void publishDynamic(String content,Long uid){
 		Dynamic d = new Dynamic();
 		
 		d.setCreatBy(uid);
@@ -49,7 +50,7 @@ public class DynamicService {
 	 * @param creatBy
 	 * @return
 	 */
-	public List<Dynamic> listDynamic(Integer creatBy){
+	public List<Dynamic> listDynamic(Long creatBy){
 		return dynamicDao.findByCreatBy(creatBy);
 	}
 	
@@ -58,13 +59,13 @@ public class DynamicService {
 	 * @param id
 	 * @return
 	 */
-	public Dynamic findOne(Integer id){
+	public Dynamic findOne(Long id){
 		return dynamicDao.findOne(id);
 	}
 	
 	
 	@Transactional(readOnly = false)
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		dynamicDao.deleteById(id);
 	}
 	

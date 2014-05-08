@@ -1,6 +1,7 @@
 package com.fang.bbks.modules.sys.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fang.bbks.common.utils.MD5;
 import com.fang.bbks.modules.social.dao.DynamicDao;
 import com.fang.bbks.modules.social.dao.MessageDao;
+import com.fang.bbks.modules.social.dao.RelationDao;
+import com.fang.bbks.modules.social.service.RelationService;
 import com.fang.bbks.modules.sys.dao.UserDao;
 import com.fang.bbks.modules.sys.entity.User;
+import com.google.common.collect.Maps;
 
 /**
  * @Intro Book service Component
@@ -28,19 +32,21 @@ public class UserService {
 	@Autowired
 	UserDao userDao;
 	
-	@Autowired
-	DynamicDao dynamicDao;
 	
 	/**
 	 * 跟新个人状态
 	 * @param description
 	 */
+	@Transactional(readOnly = false)
 	public void updateState(String description,Long id){
 		userDao.update("update User set description = ? where id = ?", description,id);
 	}
 	
-	@Autowired
-	MessageDao messageDao;
+	@Transactional(readOnly = false)
+	public void updateAvatar(String avatar,Long id){
+		userDao.update("update User set avatar = ? where id = ?", avatar,id);
+	}
+	
 	
 	public User findOne(Long id){
 		return userDao.findOne(id);
@@ -100,5 +106,36 @@ public class UserService {
 	 */
 	public boolean isExitEmail(String email){
 		return userDao.findByEmail(email) != null ;
+	}
+	
+	/**
+	 * 关注
+	 * @param flow
+	 * @param flowed
+	 */
+	@Transactional(readOnly=false)
+	public void flow(Long flow, Long flowed){
+		int count = findOne(flow).getFlowings() + 1;
+		int counted = findOne(flowed).getFloweds() + 1;
+		
+		this.flow( flow, count,  flowed, counted);
+	}
+	
+	@Transactional(readOnly=false)
+	public void unflow(Long flow, Long flowed){
+		int count = findOne(flow).getFlowings() - 1;
+		int counted = findOne(flowed).getFloweds() - 1;
+		
+		this.flow( flow, count,  flowed, counted);
+	}
+	
+	/**
+	 * 关注
+	 * @param flow
+	 * @param flowed
+	 */
+	public void flow(Long flow,int count, Long flowed,int counted){
+		userDao.setFlowing(count,flow);
+		userDao.setFlowed(counted,flowed);
 	}
 }

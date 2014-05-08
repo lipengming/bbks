@@ -130,7 +130,7 @@ public class UserRest extends BaseController{
 	
 	@RequestMapping(value = {"/dynamics/:uid"},produces="text/plain;charset=UTF-8" )
 	public @ResponseBody List<Dynamic> getDynamics(
-			@PathVariable(value="uid") Integer uid,
+			@PathVariable(value="uid") Long uid,
 			HttpServletRequest request,HttpSession session){
 		
 		List<Dynamic> ds = dynamicService.listDynamic(uid);
@@ -141,7 +141,7 @@ public class UserRest extends BaseController{
 	
 	@RequestMapping(value = {"/dynamic/:uid"}, produces = {"application/json;charset=UTF-8"} )
 	public @ResponseBody ResponseEntity<BaseResponse> publishDynamic(
-			@PathVariable(value="uid") Integer uid,
+			@PathVariable(value="uid") Long uid,
 			@RequestParam(required = true,value = "content") String content,
 			HttpServletRequest request,HttpSession session){
 		try{

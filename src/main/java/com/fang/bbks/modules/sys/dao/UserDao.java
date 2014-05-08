@@ -21,6 +21,14 @@ public interface UserDao extends UserDaoCustom,CrudRepository<User, Long>{
 	@Query("update User set delFlag=" + User.DEL_FLAG_DELETE + " where id = ?1")
 	public int deleteById(Long id);
 	
+	@Modifying
+	@Query("update User set flowings=?1 where id = ?2")
+	public int setFlowing(int count,Long id);
+	
+	@Modifying
+	@Query("update User set floweds=?1 where id = ?2")
+	public int setFlowed(int count,Long id);
+	
 	@Query("from User where username = ?1 and password = ?2 and delFlag = " +User.DEL_FLAG_NORMAL)
 	public User findByUserNameAndPassword(String name,String pwd);
 	
