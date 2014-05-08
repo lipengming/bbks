@@ -58,10 +58,10 @@
                 	<a href="#" onclick="updateAvatar();">
                 		<c:choose>
                 			<c:when test="${userInfo.avatar == null }">
-                				<img src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
+                				<img id="user_avatar" src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
                 			</c:when>
                 			<c:otherwise>
-                				<img src="${ctxStatic}/{userInfo.avatar}" width="110" height="110" alt="" />
+                				<img id="user_avatar" src="${ctxStatic}/{userInfo.avatar}" width="110" height="110" alt="" />
                 			</c:otherwise>
                 		</c:choose>
                 		

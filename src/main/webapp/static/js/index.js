@@ -321,11 +321,10 @@ $(function(){
 					    success: function(result){
 					    	if(result.isSuccess){
 					    		window.location = "";
-					    		alert(result.message);
 					    	}else{
-					    		alert(result.message);
 					    		$(".box_login").hide();
 					    	}
+					    	alert(result.message);
 					    },
 					    error:function(err){
 					    	alert(err);
