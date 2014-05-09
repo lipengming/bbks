@@ -41,6 +41,15 @@ public class HomeController extends BaseController{
 		uiModel.addAttribute("top5", top5());
 		uiModel.addAttribute("more", more());
 		uiModel.addAttribute("indexOne",new Integer(0));
+		
+		if(request.getSession() !=null){
+			System.out.println("get.."+request.getSession().getAttribute("aaa"));
+		}else{
+			System.out.println("-----!-000000");
+		}
+		
+
+		
 		return "index";
 	}
 	

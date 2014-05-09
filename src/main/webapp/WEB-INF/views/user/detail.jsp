@@ -56,12 +56,14 @@
                         		<div class="sx_name"><img src="${userInfo.avatar }" width="24" height="24" />${userInfo.username }</div>
                             </div>
                         </label>
-                        <label>
-                        	<span class="fn-left">
-                        		内容：</span><textarea name="" cols="" rows="" class="sixin_text">
-                        	</textarea>
-                        </label>
-                        <label><input type="button" class="fs" /></label>
+                        <form action="${ctx }/user/sendMessage" method="post">
+	                        <label>
+	                        	<span class="fn-left">内容：</span>
+	                        	<input type="hidden" name="uid" value="${userInfo.id }"/>
+	                        	<textarea name="message" cols="" rows="" class="sixin_text"></textarea>
+	                        </label>
+	                        <label><input type="button" class="fs" onclick="javasript:this.form.submit();"/></label>
+                        </form>
                     </div>
                     <!-- <input type="button" value="@"  class="info_btn sp"/>
                     <div class="speak">

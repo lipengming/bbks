@@ -6,6 +6,8 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fang.bbks.common.utils.SessionUtil;
 import com.fang.bbks.modules.sys.entity.User;
 import com.google.gson.Gson;
@@ -28,13 +30,7 @@ public class JsonResult implements Serializable{
 	private List rows;
 	
 	public JsonResult(){}
-	public JsonResult(HttpServletRequest request){
-		super();
-		User u = SessionUtil.getSignInUser(request.getSession());
-		if(u != null){
-			user_id = u.getId();
-		}
-	}
+	
 	
 	
 	public Long getUser_id() {

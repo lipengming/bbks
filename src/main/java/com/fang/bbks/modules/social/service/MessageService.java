@@ -26,7 +26,7 @@ public class MessageService{
 	private static Logger logger = LoggerFactory.getLogger(MessageService.class);
 	
 	@Autowired
-	MessageDao messageDao;
+	private MessageDao messageDao;
 	
 	/**
 	 * 传送一则消息
@@ -34,9 +34,26 @@ public class MessageService{
 	 * @param from
 	 * @param to
 	 */
+	@Transactional(readOnly = false)
 	public void sendMessage(String content,Long from,Long to){
 		
 		Message m = new Message();
+		
+		m.setContent(content);
+		m.setFromu(from);
+		m.setTou(to);
+		
+		m.setIsReply(Message.READ_HIDE);//非回复消息
+		m.setIsRead(Message.READ_HIDE);
+		m.setCreatAt(new Date());
+		
+		messageDao.save(m);
+	}
+	
+	@Transactional(readOnly = false)
+	public void replyMessage(Long from,Long to,String content,Long messageId){
+		Message m = new Message();
+		m.setIsReply(Message.READ_SHOW);//表示回复
 		
 		m.setContent(content);
 		m.setFromu(from);
@@ -58,7 +75,7 @@ public class MessageService{
 	}
 	
 	/**
-	 * 我收到的消息
+	 * 我收到的所有消息
 	 * @param to
 	 * @return
 	 */
@@ -77,7 +94,7 @@ public class MessageService{
 		
 	
 	/**
-	 * 获取书籍信息
+	 * 获取单一信息详情
 	 * @param id
 	 * @return
 	 */

@@ -16,7 +16,7 @@ public class SessionUtil {
 	 * @param session
 	 * @return
 	 */
-	public static String getLastVisitedUrl(HttpSession session){
+	public String getLastVisitedUrl(HttpSession session){
 		String lastVisitedUrl = (String) session.getAttribute(ApplicationCanstant.SESSION_LAST_VISITED_URL);
 		return lastVisitedUrl != null ? lastVisitedUrl : "/";
 	}
@@ -36,7 +36,7 @@ public class SessionUtil {
 	 * @param session
 	 * @return
 	 */
-	public static User getSignInUser(HttpSession session){
+	public User getSignInUser(HttpSession session){
 		return (User)session.getAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER);
 	}
 	
@@ -46,7 +46,8 @@ public class SessionUtil {
 	 * @param session
 	 * @return
 	 */
-	public static Boolean isLogin(HttpSession session){
+	public Boolean isLogin(HttpSession session){
+		if(session == null){return false;}
 		return session.getAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER) != null;
 	}
 	
@@ -56,7 +57,7 @@ public class SessionUtil {
 	 * @param session
 	 * @param user
 	 */
-	public static void setSignInUser(HttpSession session,User user){
+	public void setSignInUser(HttpSession session,User user){
 		session.setAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER, user);
 	}
 	
@@ -64,7 +65,7 @@ public class SessionUtil {
 	 * 登出
 	 * @param session
 	 */
-	public static void logOut(HttpSession session){
+	public void logOut(HttpSession session){
 		if(session != null && session.getAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER) != null){
 			session.removeAttribute(ApplicationCanstant.APPLICATION_SIGNIN_USER);
 			session.invalidate();

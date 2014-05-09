@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,9 @@ import com.google.common.collect.Lists;
 public class CommentService {
 	
 	@Resource
-	CommentDao commentDao;
+	private CommentDao commentDao;
+	@Autowired
+	private SessionUtil sessionUtil;
 	
 	/**
 	 * 添加评论
@@ -44,7 +47,7 @@ public class CommentService {
 	 * @return
 	 */
 	public Comment addComment(CommentType type,HttpServletRequest request,Comment comment){
-		User user = SessionUtil.getSignInUser(request.getSession());
+		User user = sessionUtil.getSignInUser(request.getSession());
 		if(user == null){
 			return null;
 		}

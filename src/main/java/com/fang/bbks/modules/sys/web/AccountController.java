@@ -36,17 +36,25 @@ import com.fang.bbks.modules.sys.service.UserService;
 public class AccountController extends BaseController{
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
+	@Autowired
+	private SessionUtil sessionUtil;
 	
 	@RequestMapping(method=RequestMethod.GET,value={"/login"})
 	public String signIn(HttpServletRequest request,HttpServletResponse response,HttpSession session){
 		
-		if(SessionUtil.getSignInUser(session) != null)
-			return "redirect:/index";
-		if(CookieUtils.getUser(request) != null){
-			User u = CookieUtils.getUser(request);
-			return "redirect:/index";
-		}
+		if(sessionUtil.getSignInUser(session) != null)
+			return "redirect:"+sessionUtil.getLastVisitedUrl(session);
+//		if(CookieUtils.getUser(request) != null){
+//			User u = CookieUtils.getUser(request);
+//			//cookies登录
+//			User user = userService.signIn(u.getUsername(), u.getPassword());
+//			if(u != null){
+//				//设置session
+//				sessionUtil.setSignInUser(session, user);
+//			}
+//			return "redirect:"+sessionUtil.getLastVisitedUrl(session);
+//		}
 		
 		return "login";
 	}
@@ -60,21 +68,23 @@ public class AccountController extends BaseController{
 	public String doSignIn(
 			@RequestParam(value="username",required=false) String username,
 			@RequestParam(value="password",required=false) String pwd,
-			HttpServletRequest request,HttpServletResponse response,HttpSession session){
+			HttpServletRequest request,HttpServletResponse response){
 		
 		boolean isname = username == null || "".equals(username) || username.length() < 3;
 		boolean ispwd = pwd == null || "".equals(pwd) || pwd.length() < 3;
 		
 		System.out.println("login....");
+		request.getSession().setAttribute("aaa", "hhhhh");
+
 		
 		if(!isname && !ispwd){
 			User u = userService.signIn(username, pwd);
 			if(u != null){
 				//设置session
-				SessionUtil.setSignInUser(session, u);
-				//设置cookies
-				CookieUtils.setUser(response, username, pwd, u.getId().toString());
-				return "redirect:/index";
+				sessionUtil.setSignInUser(request.getSession(), u);
+//				//设置cookies
+//				CookieUtils.setUser(response, username, pwd, u.getId().toString());
+				return "redirect:"+sessionUtil.getLastVisitedUrl(request.getSession());
 			}
 		}
 		return "redirect:/login";
@@ -118,9 +128,11 @@ public class AccountController extends BaseController{
 	}
 	
 	@RequestMapping(method=RequestMethod.GET,value={"/logout","/logOut"})
-	public String logOut(HttpSession session,HttpServletRequest request){
-		SessionUtil.logOut(session);
-		return "redirect:/index";
+	public String logOut(HttpServletRequest request){
+		System.out.println("log out..!!");
+		String last = sessionUtil.getLastVisitedUrl(request.getSession());
+		sessionUtil.logOut(request.getSession());
+		return "redirect:"+last;
 	}
 }
 

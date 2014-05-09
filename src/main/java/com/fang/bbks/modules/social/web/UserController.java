@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
 import org.apache.http.HttpRequest;
@@ -27,6 +26,7 @@ import com.fang.bbks.common.utils.SessionUtil;
 import com.fang.bbks.common.web.BaseController;
 import com.fang.bbks.modules.social.entity.Dynamic;
 import com.fang.bbks.modules.social.service.DynamicService;
+import com.fang.bbks.modules.social.service.MessageService;
 import com.fang.bbks.modules.social.service.NetWorkService;
 import com.fang.bbks.modules.social.service.RelationService;
 import com.fang.bbks.modules.sys.entity.User;
@@ -52,26 +52,44 @@ public class UserController extends BaseController {
 	@Autowired
 	private NetWorkService netWorkService;
 	@Autowired
-	RelationService relationService;
+	private RelationService relationService;
+	@Autowired
+	private MessageService messageService;
+	@Autowired
+	private SessionUtil sessionUtil;
 	
 	/**
 	 * 个人主页
 	 * 
 	 * @param request
 	 * @param mv
-	 * @return
+	 * @return --> -->
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/profile/index","/profile/","/profile" })
-	public String profile(Model uiModel,HttpServletRequest request,HttpServletResponse response) {
+	public String profile(Model uiModel,HttpServletRequest request,
+			HttpServletResponse response) {
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
 		}
-
-		uiModel = netWorkService.getUserInfo(u.getId(),uiModel);
+		Long uid = u.getId();
+		//查询用户基本信息
+				uiModel.addAttribute("userBaseInfo", u);
+				//动态
+				uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
+				//粉丝
+				uiModel.addAttribute("flowing", relationService.findFlowings(uid));
+				//偶像
+				uiModel.addAttribute("flowing", relationService.findFloweds(uid));
+				//所有消息
+				uiModel.addAttribute("sendMessages", messageService.ISend(uid));
+				//收到的消息
+				uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
+				
+		//this.setUserInfo(u.getId(),uiModel,request,response);
 		
 		return "/user/profile";
 	}
@@ -85,8 +103,8 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/detail/{uid}" })
 	public String detail(@PathVariable("uid") Long uid, Model uiModel,
-			HttpServletRequest request, HttpSession session) {
-		User cu =SessionUtil.getSignInUser(session);
+			HttpServletRequest request) {		
+		User cu =sessionUtil.getSignInUser(request.getSession());
 		//未登录
 		if(cu == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
@@ -104,7 +122,7 @@ public class UserController extends BaseController {
 			return "redirect:/user/profile";
 		}
 		
-		uiModel = netWorkService.getUserInfo(uid,uiModel);
+		//this.setUserInfo(uid,uiModel,request,response);
 		
 		if(relationService.isFlow(cu.getId(), uid)){
 			uiModel.addAttribute("doFlow", true);
@@ -128,7 +146,7 @@ public class UserController extends BaseController {
 		
 		log.debug("update description...{}",description);
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
@@ -138,7 +156,7 @@ public class UserController extends BaseController {
 			userService.updateState(description,u.getId());
 			
 			u.setDescription(description);
-			SessionUtil.setSignInUser(request.getSession(), u);
+			sessionUtil.setSignInUser(request.getSession(), u);
 			
 		}catch(Exception e){
 			log.error("数据操作异常，{}",e.getMessage(),e);
@@ -154,7 +172,7 @@ public class UserController extends BaseController {
 		
 		log.debug("update avatarSrc...{}",avatarSrc);
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
@@ -164,7 +182,7 @@ public class UserController extends BaseController {
 			userService.updateAvatar(avatarSrc,u.getId());
 			
 			u.setAvatar(avatarSrc);
-			SessionUtil.setSignInUser(request.getSession(), u);
+			sessionUtil.setSignInUser(request.getSession(), u);
 			
 		}catch(Exception e){
 			log.error("数据操作异常，{}",e.getMessage(),e);
@@ -180,7 +198,7 @@ public class UserController extends BaseController {
 		
 		log.debug("update content...{}",content);
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
@@ -201,7 +219,7 @@ public class UserController extends BaseController {
 			@RequestParam(value = "uid",required = true) Long uid){
 		log.debug("flow...{}",uid);
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
@@ -222,7 +240,7 @@ public class UserController extends BaseController {
 			@RequestParam(value = "uid",required = true) Long uid){
 		log.debug("unflow...{}",uid);
 		
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if(u == null){
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
@@ -236,4 +254,84 @@ public class UserController extends BaseController {
 		
 		return "redirect:/user/detail/"+uid;
 	}
+	
+	@RequestMapping(value = { "/sendMessage" })
+	public String sendMessage( Model uiModel,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "message",required = true) String message,
+			@RequestParam(value = "uid",required = true) Long uid){
+		log.debug("sendMessage...{}",uid);
+		
+		User u = sessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		
+		//资源不存在，转首页
+		if(userService.findOne(uid) == null){
+			uiModel.addAttribute(HANDLER_MSG, "您要访问的资源已经被删除！");
+			return "redirect:/index";
+		}
+		
+		try{
+			messageService.sendMessage(message, u.getId(), uid);
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("err flow handler,{},{}", e.getMessage(),e);
+		}
+		
+		return "redirect:/user/profile";
+	}
+	
+	@RequestMapping(value = { "/replyMessage" })
+	public String replyMessage( Model uiModel,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(value = "messageId",required = true) Long messageId,
+			@RequestParam(value = "message",required = true) String message,
+			@RequestParam(value = "uid",required = true) Long uid){
+		log.debug("replyMessage...{},{},{}",uid,message,messageId);
+		
+		User u = sessionUtil.getSignInUser(request.getSession());
+		if(u == null){
+			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
+			return "redirect:/login";
+		}
+		
+		//资源不存在，转首页
+		if(userService.findOne(uid) == null){
+			uiModel.addAttribute(HANDLER_MSG, "您要访问的资源已经被删除！");
+			return "redirect:/index";
+		}
+		
+		try{
+			messageService.replyMessage(u.getId(), uid,message,messageId);
+		}catch(Exception e){
+			e.printStackTrace();
+			log.error("err reply handler,{},{}", e.getMessage(),e);
+		}
+		
+		return "redirect:/user/profile";
+	}
+	
+//	private void setUserInfo(Long uid,Model uiModel,HttpServletRequest request,
+//			HttpServletResponse response){
+//		//查询用户基本信息
+//		uiModel.addAttribute("userInfo", userService.findOne(uid));
+//		//动态
+//		uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
+//		//粉丝
+//		uiModel.addAttribute("flowing", relationService.findFlowings(uid));
+//		//偶像
+//		uiModel.addAttribute("flowing", relationService.findFloweds(uid));
+//		//所有消息
+//		uiModel.addAttribute("sendMessages", messageService.ISend(uid));
+//		//收到的消息
+//		uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
+//		
+//		//TODO...
+//	}
+	
 }

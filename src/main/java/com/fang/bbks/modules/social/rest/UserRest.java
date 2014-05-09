@@ -45,23 +45,25 @@ public class UserRest extends BaseController{
 	private static final Logger logger = LoggerFactory.getLogger(UserRest.class);
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	@Autowired
-	DynamicService dynamicService;
+	private DynamicService dynamicService;
+	@Autowired
+	private SessionUtil sessionUtil;
 
 	@RequestMapping(value={"/login"},produces="text/plain;charset=UTF-8")
 	public @ResponseBody String login(
 			@RequestParam(value="name",required=true)String name,
 			@RequestParam(value="pwd",required=true)String pwd){
 		
-		JsonResult jr = new JsonResult(request);
+		JsonResult jr = new JsonResult();
 		
 		try{
 			User user = userService.signIn(name, pwd);
 			
 			if(user != null){
 				//设置session
-				SessionUtil.setSignInUser(request.getSession(), user);
+				sessionUtil.setSignInUser(request.getSession(), user);
 				//设置cookies
 				CookieUtils.setUser(response, user.getUsername(), pwd, user.getId()+"");
 				
@@ -87,7 +89,7 @@ public class UserRest extends BaseController{
 			@RequestParam(value="email",required=true)String email,
 			@RequestParam(value="pwd",required=true)String pwd){
 		
-		JsonResult jr = new JsonResult(request);
+		JsonResult jr = new JsonResult();
 		
 		try{
 			
@@ -105,7 +107,7 @@ public class UserRest extends BaseController{
 			
 			if(user != null){
 				//设置session
-				SessionUtil.setSignInUser(request.getSession(), user);
+				sessionUtil.setSignInUser(request.getSession(), user);
 				//设置cookies
 				CookieUtils.setUser(response, user.getUsername(), pwd, user.getId()+"");
 				

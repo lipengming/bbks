@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.fang.bbks.common.utils.AjaxUtils;
 import com.fang.bbks.common.utils.SessionUtil;
@@ -20,41 +21,34 @@ import com.fang.bbks.common.utils.SessionUtil;
  * @Date 2013-12-11
  * @since 下午1:09:15	
  */
-public class LastVistUrlInterceptor implements HandlerInterceptor{
+public class LastVistUrlInterceptor extends HandlerInterceptorAdapter{
 	
-	@Autowired
-	SessionUtil sessionUtil;
-	
-	@Autowired
-	AjaxUtils ajaxUtils;
-	
-	@Override
-	public void afterCompletion(HttpServletRequest arg0,
-			HttpServletResponse arg1, Object arg2, Exception arg3)
-			throws Exception {
-		
-	}
 
+	@Autowired
+	private SessionUtil sessionUtil;
+	
 	@Override
-	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
-			Object arg2, ModelAndView arg3) throws Exception {
+	public boolean preHandle(HttpServletRequest request,
+			HttpServletResponse response, Object handler) throws Exception {
 		
-	}
-
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-			Object obj) throws Exception {
-		if(ajaxUtils.isAjax(request) && request.getMethod().equals(RequestMethod.GET.name())){
+		if(!AjaxUtils.isAjax(request) && 
+				request.getMethod().equals(RequestMethod.GET.name())){
+			
 			HttpSession session = request.getSession();
+			
 			String referUrl = StringUtils.trimAllWhitespace(request.getHeader("referer"));
+			
 			if(StringUtils.hasText(referUrl) &&
 					!referUrl.endsWith(".js") &&
-					!referUrl.endsWith(".csss")){
-				sessionUtil.setLastVistUrl(session, referUrl);
-				return true;
+					!referUrl.endsWith(".csss") &&
+					!referUrl.contains("/logout") &&
+					!referUrl.contains("/login") &&
+					!referUrl.contains("/signIn")){
+				System.out.println("last vist..." + request.getHeader("referer"));
+				sessionUtil.setLastVistUrl(session,request.getHeader("referer"));
 			}
 		}
-		return false;
+		return super.preHandle(request, response, handler);
 	}
 
 }

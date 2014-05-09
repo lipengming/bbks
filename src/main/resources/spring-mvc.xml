@@ -56,5 +56,11 @@
 		    <property name="maxUploadSize" value="5120000"/>
 		    <property name="maxInMemorySize" value="4096"/>
 	</bean>
-	
+	<!-- 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.fang.bbks.common.interceptor.LastVistUrlInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
 </beans>

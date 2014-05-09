@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
@@ -45,10 +46,13 @@ public class ImageController extends BaseController implements
 		ApplicationContextAware {
 	private static Logger logger = LoggerFactory.getLogger(ImageController.class);
 	private ApplicationContext ac;
+	
+	@Autowired
+	private SessionUtil sessionUtil;
 
 	@ModelAttribute("tempRepositories")
 	public String getRepositorLocaltion(HttpServletRequest request) {
-		User u = SessionUtil.getSignInUser(request.getSession());
+		User u = sessionUtil.getSignInUser(request.getSession());
 		if (u == null) {
 			return null;
 		} else {
@@ -104,8 +108,8 @@ public class ImageController extends BaseController implements
 			jr.setIsSuccess(true);
 			
 			String imgPath = new StringBuffer("http://").append(request.getServerName()).append(":")
-					.append(request.getServerPort()).append("/").append(request.getContextPath())
-					.append("/").append(tempRepositories).append("/").append(newName)
+					.append(request.getServerPort()).append(request.getContextPath())
+					.append(tempRepositories).append(File.separator).append(newName)
 					.toString();
 			
 			jr.setObj(imgPath);

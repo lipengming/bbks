@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
  * @Date 2013-12-11
  * @since 下午1:11:19	
  */
-
-@Component
 public class AjaxUtils {
 	
 	/**
@@ -21,7 +19,7 @@ public class AjaxUtils {
 	 * @param request
 	 * @return
 	 */
-	public boolean isAjax(HttpServletRequest request){
+	public static boolean isAjax(HttpServletRequest request){
 		String requestedWith = request.getHeader("X-Requested-With");
 		return requestedWith != null ? 
 				"XMLHttpRequest".equals(requestedWith)

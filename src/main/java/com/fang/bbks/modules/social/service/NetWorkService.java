@@ -2,6 +2,9 @@ package com.fang.bbks.modules.social.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,21 +30,9 @@ public class NetWorkService {
 	private UserService userService;
 	@Autowired
 	private DynamicService dynamicService;
-	
+	@Autowired
+	private MessageService messageService;
 
-	public Model getUserInfo(Long uid,Model uiModel){
-		//查询用户基本信息
-		uiModel.addAttribute("userInfo", userService.findOne(uid));
-		//动态
-		uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
-		//粉丝
-		uiModel.addAttribute("flowing", relationService.findFlowings(uid));
-		//偶像
-		uiModel.addAttribute("flowing", relationService.findFloweds(uid));
-		//TODO...
-		return uiModel;
-	}
-	
 	@Transactional(readOnly=false)
 	public void flow(Long flowId,Long flowedId){
 		//加入关系

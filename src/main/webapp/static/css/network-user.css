@@ -544,6 +544,7 @@
 .box_wap .bookshelf .close{ position:absolute; background:url(../images/close.gif) no-repeat; width:17px; height:14px; right:5px; top:5px; cursor:pointer; }
 .box_wap .bookshelf{left:50%; top:50%; position:fixed;  background:#f0f0f0; border:1px solid #ddd; margin-left:-214px; margin-top:-250px;  z-index:9999; width:428px; display:none; padding-bottom:30px;}
 .box_wap .bookshelf .img{ margin:20px; text-align:center; background:#fff;}
+
 .box_wap .bookshelf .read{ clear:both; margin:15px; height:34px; line-height:34px; background:#fff; padding:0 5px; z-index:2; position:relative;}
 .box_wap .bookshelf .read a{ color:#333; font-size:14px;}
 .box_wap .bookshelf .read .more{ float:right; width:42px; z-index:9;}
@@ -556,6 +557,8 @@
 .box_wap .bookshelf .read_span a .x{ background:url(../images/span_x.gif) no-repeat; width:13px; height:12px; display:block; float:right; margin:6px 5px 0 0;}
 .box_wap .bookshelf .add{ margin:0 15px;}
 .box_wap .bookshelf .add_btn{ background:url(../images/add_btn.gif) no-repeat; width:74px; height:34px; border:none 0;}
+
+
 
 /*收藏 页面  author:huangxiaolong  */
 #collect_info_con{position:absolute; top:5px; left:0; background:url(../images/info_con.gif) no-repeat; width:260px; height:34px;}
@@ -632,4 +635,80 @@
 	color:#96B8DA;
 }
 
+/********弹窗*******/
+.dialogDiv {
+    width:100%; 
+    position: absolute; 
+    top:0; left:0; 
+    text-align: center;
+    display:none; z-index:99;
+}
 
+.dialogDiv .shadow{ 
+	position:absolute; 
+	width:100%; 
+	display:block; 
+	top:0; left:0; 
+	background:#000; 
+	filter:alpha(opacity=40); opacity:0.4; z-index:999;
+}
+
+.dialogDiv .dialogBox {
+	left:50%; top:50%; 
+	position:fixed; 
+	background:#fff; 
+	border:1px solid #ddd;
+	 z-index:9999; 
+	 text-align: center;
+	 margin-left:-185px; 
+	 margin-top:-225px; 
+	 width:500px; 
+}
+
+.dialogDiv .dialogBox .header {
+    background: #4794c5;
+    margin: 2px;
+    height: 26px;
+    text-align: left;
+}
+
+.dialogDiv .dialogBox .header .header_left {
+    float: left;
+}
+
+.dialogDiv .dialogBox .header .header_right {
+    float: right;
+    text-align: center;
+    width: 24px;
+}
+.dialogDiv .dialogBox .header .header_right .close{
+    margin-top: 4px;
+}
+.dialogDiv .dialogBox .header h3 {
+    font-size: 14px;
+    color: #ffffff;
+    padding-left: 6px;
+    padding-top: 4px;
+}
+
+.dialogDiv .dialogBox .content {
+    font-size: 12px;
+    color: #6e6d6d;
+    background: #ffffff;
+    margin: auto 0;
+    margin-top: 8px;
+}
+
+.dialogDiv .dialogBox .content ul {
+    font-size: 12px;
+    color: #6e6d6d;
+    background: #ffffff;
+    margin-bottom: 8px;
+}
+
+.dialogDiv .dialogBox .content ul li {
+    font-size: 12px;
+    color: #6e6d6d;
+    background: #ffffff;
+    margin: 6px;
+}

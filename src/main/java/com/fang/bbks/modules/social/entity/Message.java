@@ -33,6 +33,7 @@ public class Message extends BaseEntity{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private Integer isRead;//阅读的标记
+	private Integer isReply;//是否是消息的回复
 	
 	private Long fromu;//发件人
 	private Long tou;//收件人
@@ -64,6 +65,14 @@ public class Message extends BaseEntity{
     }
 
 	
+	public Integer getIsReply() {
+		return isReply;
+	}
+
+	public void setIsReply(Integer isReply) {
+		this.isReply = isReply;
+	}
+
 	public Integer getIsRead() {
 		return isRead;
 	}

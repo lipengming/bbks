@@ -6,8 +6,7 @@
 <link href="${ctxStatic }/css/common.css" rel="stylesheet" type="text/css" />
 <link href="${ctxStatic }/css/network-user.css" rel="stylesheet" type="text/css" />
 <link href="${ctxStatic }/css/index.css" rel="stylesheet" type="text/css" />
-
-<script src="${ctxStatic }/js/jquery-1.7.2.js" type="text/javascript"></script>
+<script src="${ctxStatic }/js/jquery-1.8.3.js" type="text/javascript"></script>
 
 <script src="${ctxStatic }/js/index.js" type="text/javascript"></script>
 <script src="${ctxStatic }/js/jquery.masonry.js" type="text/javascript"></script>

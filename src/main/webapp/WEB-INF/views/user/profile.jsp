@@ -4,14 +4,13 @@
 <c:set var="ctx" value="${pageContext.request.contextPath }"/> 
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>社交网络-首页</title>
 
-<jsp:include page="../include/script.jsp" flush="false"></jsp:include>
+<jsp:include page="../include/user-script.jsp" flush="false"></jsp:include>
 
 <script type="text/javascript">
 	$(function(){
@@ -58,24 +57,23 @@
             </div>
             <div class="info_base">
             	<div class="info_base_con">
-                	<a href="#" onclick="updateAvatar();">
+                	<a href="#" id="userAvatar">
                 		<c:choose>
-                			<c:when test="${userInfo.avatar == null }">
+                			<c:when test="${empty userBaseInfo.avatar}">
                 				<img id="user_avatar" src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
                 			</c:when>
                 			<c:otherwise>
-                				<img id="user_avatar" src="${userInfo.avatar}" width="110" height="110" alt="" />
+                				<img id="user_avatar" src="${userBaseInfo.avatar }" width="110" height="110" alt="" />
                 			</c:otherwise>
                 		</c:choose>
-                		
                 	</a>
-                    <h1><a href="#">${userInfo.username }</a></h1>
+                    <h1><a href="#">${userBaseInfo.username }</a></h1>
                     <div class="base_num">
-                    	<span>粉丝<a href="#">${userInfo.floweds }</a></span><span>消息<a href="#">${userInfo.messages }</a></span><span>关注<a href="#">${userInfo.flowings }</a></span>
+                    	<span>粉丝<a href="#">${userBaseInfo.floweds }</a></span><span>消息<a href="#">${userBaseInfo.messages }</a></span><span>关注<a href="#">${userBaseInfo.flowings }</a></span>
                     </div>
                 </div>
                 <div class="info_cont">
-                	<p>状态：${userInfo.description }</p>
+                	<p>状态：${userBaseInfo.description }</p>
                     <div class="info_con">
                     	<form action="${ctx }/user/updateStatus" method="post">
 	                    	<input type="text" class="info_text" name="description" />
@@ -88,9 +86,8 @@
         <div id="ul_btn">
         	<ul>
             	<li><a href="#" class="hover">动态</a></li>
-                <li><a href="#" class="pl">评论</a></li>
                 <li><a href="#">消息</a></li>
-                <li><a href="#">随便看看</a></li>
+                <li><a href="#">评论</a></li>
             </ul>
         </div>
         <div class="main">
@@ -102,9 +99,9 @@
             	<div class="tab" id="tabBox">
                 	<ul class="tab_ul">
                     	<li class="active">动态</li>
-                        <li>消息</li>
-                        <li>评论</li>
-                        <li>关系</li>
+                         <li>好友</li>
+                         <li>消息</li>
+                         <li>我的未读消息</li>
                     </ul>
                     <div class="tab_cont">
                     	<div class="tab_con" style="display:block;">
@@ -149,6 +146,70 @@
                         		</c:forEach>
                             </ul>
                         </div>
+                        
+                        <!-- 发送的消息 -->
+                        <div class="tab_con">
+                        	<ul class="tab_list">
+                        		<c:forEach var="item" items="${sendMessages }">	
+                        		<li>
+                                    <span class="list_con">
+                                        ${item.content}
+                                        <p class="bott">
+                                        	<span class="p_function">
+                                            	|<a href="#">回复</a>|
+                                            </span>
+                                            <span class="time">
+                                            	${item.creatAt }
+                                            </span>
+                                           <!--  <div class="info_btn_cont"></div>
+                                            	<input type="button" value="私信" class="info_btn sx">
+	                                            <div class="sixin">
+						                    	<h2><span class="close"></span>发私信</h2>
+						                        <label>
+						                        	<span class="fn-left">发给：</span>
+						                            <div class="drop_sx">
+						                            	<span class="more_d"></span>
+						                        		<div class="sx_name"><img src="${userBaseInfo.avatar }" width="24" height="24" />${userBaseInfo.username }</div>
+						                            </div>
+						                        </label>
+						                        <form action="${ctx }/user/sendMessage" method="post">
+							                        <label>
+							                        	<span class="fn-left">内容：</span>
+							                        	<input type="hidden" name="uid" value="${userBaseInfo.id }"/>
+							                        	<textarea name="message" cols="" rows="" class="sixin_text"></textarea>
+							                        </label>
+							                        <label><input type="button" class="fs" onclick="javasript:this.form.submit();"/></label>
+						                        </form>
+	                    					</div>
+	                    					</div>-->
+                                        </p>
+                                    </span>
+                                </li>
+                        		</c:forEach>
+                            </ul>
+                        </div>
+                        
+                         <!-- 发送的消息 -->
+                        <div class="tab_con">
+                        	<ul class="tab_list">
+                        		<c:forEach var="item" items="${recievdMessages }">	
+                        		<li>
+                                    <span class="list_con">
+                                        ${item.content}
+                                        <p class="bott">
+                                        	<span class="p_function">
+                                            	|<a href="#">回复</a>|
+                                            </span>
+                                            <span class="time">
+                                            	${item.creatAt }
+                                            </span>
+                                        </p>
+                                    </span>
+                                </li>
+                        		</c:forEach>
+                            </ul>
+                        </div>
+                        
                         <div class="tab_con">
                         	<ul class="tab_list">
                             	<li>
@@ -290,14 +351,16 @@
                 </div>
                 <dl class="my_book">
                 	<dt><h3><a href="#">我的书架</a></h3></dt>
-                    <dd><a href="#">在读 （${userInfo.reading}）</a></dd>
-                    <dd><a href="#">想读 （${userInfo.wantRead}）</a></dd>
-                    <dd><a href="#">已读 （${userInfo.hasRead}）</a></dd>
+                    <dd><a href="#">在读 （${userBaseInfo.reading}）</a></dd>
+                    <dd><a href="#">想读 （${userBaseInfo.wantRead}）</a></dd>
+                    <dd><a href="#">已读 （${userBaseInfo.hasRead}）</a></dd>
                 </dl>
             </div>
         </div>
     </div>
 </div>
+
+<!-- 书架弹出框 -->
 <div class="box_wap">
 	<div class="bookshelf">
     	<div class="po">
@@ -346,20 +409,67 @@
     <div class="shadow">
     </div>
 </div>
-
-
+<!-- 上传头像 -->
+<div class="dialogDiv" style="display: none;" id="chooseFile-model">
+	<div class="dialogBox">
+		<div class="header">
+			<div class="header_left">
+				<h3>上传图片</h3>
+			</div>
+			<div class="header_right">
+				<a href="javascript:;" onclick="javascript:$('#chooseFile-model').hide();"><img
+					class="close" src="${ctxStatic }/images/close.png" /></a>
+			</div>
+		</div>
+		<div class="content">
+				<input id="file_upload" name="file_upload" type="file" />
+				
+				<div id="updateFile_model" style="display:none;">
+					 <form action="${ctx}/user/updateAvatar" method="post" id="updateAvatarForm">
+					 	<img src="" id="avatar_target" alt="avatar"  onload="javascript:if(this.width>400)this.width=400"/>
+					 	<input type="hidden" id="h_image_src" name="avatarSrc"/>
+					 </form>
+				</div>
+				
+				<input type="button" onclick="javascript:$('#file_upload').omFileUpload('upload');" value="上传文件" class="button gray small" /> 
+			    <input type="button" onclick="javascript:$('#updateAvatarForm').submit();" value="跟新头像" class="button gray small" /> 
+			    <input type="button" onclick="javascript:$('#chooseFile-model').hide();" value="取消" class="button gray small" />
+			  
+		</div>
+	</div>
+	<div class="shadow"></div>
+</div>
 <script type="text/javascript"> 
-	
-	function updateAvatar(){
-		$('#chooseFile-model').modal('show');
-	}
-	
-	function publishDy(){
-		console.log("--");
-	}
-	
-	
 
+$("#userAvatar").click(function(){
+	$( "#chooseFile-model").show();
+});
+
+
+$('#file_upload').omFileUpload({
+    action : "<c:url value='/f/uploadImage' />",
+    swf : '${ctxStatic }/om/swf/om-fileupload.swf',
+    onComplete : function(ID, fileObj, response, data, event){
+    	
+    	$('#file_upload').hide();
+    	
+    	var jsonData =  eval("("+response+")");
+    	
+    	if(jsonData.isSuccess){
+    		//打开预览的model
+    		//$("#user_avatar").attr("src",jsonData.obj);
+    		$("#avatar_target").attr("src",jsonData.obj);
+    		$("#h_image_src").val(jsonData.obj);
+    		
+    	}else{
+	    	alert(jsonData.message);	
+    	}
+    	$('#updateFile_model').show();
+    },
+    onError:function(ID,fileObj,errorObj,event){
+    	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
+    }
+});
 
  function tabMenu(tabBox,navClass){
   var tabNavLi=document.getElementById(tabBox).getElementsByTagName("ul")[0].getElementsByTagName("li");
@@ -382,7 +492,6 @@ window.onload=function(){
  tabMenu("tabBox","active");
 }
 </script>
-<jsp:include page="./imageCut.jsp" flush="false"></jsp:include>
 
 </body>
 </html>

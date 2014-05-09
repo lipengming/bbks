@@ -19,5 +19,4 @@ public class ApplicationCanstant {
 	public final static String COOKIE_USER_PWD = "_COOKIE_USER_PWD_";//当前登录的用户cookie
 	public final static String COOKIE_USER_ID = "_COOKIE_USER_ID_";//当前登录的用户cookie
 	
-	
 }
