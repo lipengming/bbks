@@ -77,7 +77,7 @@ function request(data){
 	    	
 	    	var imgSrc = "${sessionScope._SIGN_USER_.avatar}";
 	    	$("#comment_"+data.contentId+" ul").append("<li><div class='user_img'><a href='${ctx}/user/detail/${sessionScope._SIGN_USER_.id}'><img src='"+imgSrc+"' width='26' height='26' alt='' /></a></div>"+
-	    			"<div class='Ms'><a href='${ctx}/book/search/"+book.contentId+"'>"+data.title+"</a>:"+data.content+"</div></li>");
+	    			"<div class='Ms'><a href='${ctx}/book/search/"+data.contentId+"'>"+data.title+"</a>:"+data.content+"</div></li>");
 	    	$('#container').masonry( 'reload');
 	    },
 	    error:function(err){
