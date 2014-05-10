@@ -33,6 +33,24 @@ public class NetWorkService {
 	@Autowired
 	private MessageService messageService;
 
+	public void setUserInfo(Long uid, Model uiModel) {
+		System.out.println("uid-->"+uid);
+		// 查询用户基本信息
+		uiModel.addAttribute("userInfo", userService.findOne(uid));
+		// 动态
+		uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
+		// 粉丝
+		uiModel.addAttribute("flowing", relationService.findFlowings(uid));
+		// 偶像
+		uiModel.addAttribute("flowing", relationService.findFloweds(uid));
+		// 所有消息
+		uiModel.addAttribute("sendMessages", messageService.ISend(uid));
+		// 收到的消息
+		uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
+
+		// TODO...
+	}
+
 	@Transactional(readOnly=false)
 	public void flow(Long flowId,Long flowedId){
 		//加入关系

@@ -1,11 +1,10 @@
 package com.fang.bbks.modules.sys.web;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fang.bbks.common.constant.ApplicationCanstant;
 import com.fang.bbks.common.persistence.Page;
 import com.fang.bbks.common.utils.StringUtils;
 import com.fang.bbks.common.web.BaseController;
 import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Book;
 import com.fang.bbks.modules.sys.entity.Category;
+import com.fang.bbks.modules.sys.entity.Comment;
 import com.fang.bbks.modules.sys.service.BookService;
+import com.fang.bbks.modules.sys.service.CommentService;
+import com.google.common.collect.Maps;
 
 /**
  * @Intro 书籍搜索controoler
@@ -34,9 +35,11 @@ import com.fang.bbks.modules.sys.service.BookService;
 public class SearchBookController extends BaseController{
 	
 	@Autowired
-	BookService bs;
+	private CommentService commentService;
 	@Autowired
-	CategoryDao categoryDao;
+	private BookService bs;
+	@Autowired
+	private CategoryDao categoryDao;
 	
 	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String searchIndex(Model model,HttpServletRequest request,
@@ -73,9 +76,7 @@ public class SearchBookController extends BaseController{
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}
 		
-		if(page != null && !page.getList().isEmpty()){
-			model.addAttribute("booksInfo", page.getList());
-		}
+		adapteeDate(page,model);
 		
 		return "book/list";
 	}
@@ -89,6 +90,7 @@ public class SearchBookController extends BaseController{
 			return "redirect:/index";
 		
 		uiModel.addAttribute("bookInfo",book);
+		
 		return "/book/detail";
 	}
 	
@@ -128,5 +130,32 @@ public class SearchBookController extends BaseController{
 		}
 		
 		return page;
+	}
+	
+	/**
+	 * 填充数据
+	 * @param books
+	 * @param mode
+	 */
+	private void adapteeDate(Page<Book> page,Model model){
+		
+		if(page != null && !page.getList().isEmpty()){
+			List<Book> books = page.getList();
+			model.addAttribute("booksInfo", books);
+			
+			Map<Long,List<Comment>> map = Maps.newHashMap();
+			for(int a=0;a<books.size();a++){
+				
+				Comment c = new Comment();
+				c.setContentId(books.get(a).getId());
+				
+				Page<Comment> pageComment = commentService.find(new Page<Comment>(1,5), c);
+				if(pageComment != null && pageComment.getList() != null){
+					map.put(books.get(a).getId(), pageComment.getList());
+				}
+				
+			}
+			model.addAttribute("commentMap", map);
+		}
 	}
 }

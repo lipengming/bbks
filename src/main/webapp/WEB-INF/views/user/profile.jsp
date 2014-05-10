@@ -59,21 +59,21 @@
             	<div class="info_base_con">
                 	<a href="#" id="userAvatar">
                 		<c:choose>
-                			<c:when test="${empty userBaseInfo.avatar}">
+                			<c:when test="${empty userInfo.avatar}">
                 				<img id="user_avatar" src="${ctxStatic}/images/reg_photo.gif" width="110" height="110" alt="" />	
                 			</c:when>
                 			<c:otherwise>
-                				<img id="user_avatar" src="${userBaseInfo.avatar }" width="110" height="110" alt="" />
+                				<img id="user_avatar" src="${userInfo.avatar }" width="110" height="110" alt="" />
                 			</c:otherwise>
                 		</c:choose>
                 	</a>
-                    <h1><a href="#">${userBaseInfo.username }</a></h1>
+                    <h1><a href="#">${userInfo.username }</a></h1>
                     <div class="base_num">
-                    	<span>粉丝<a href="#">${userBaseInfo.floweds }</a></span><span>消息<a href="#">${userBaseInfo.messages }</a></span><span>关注<a href="#">${userBaseInfo.flowings }</a></span>
+                    	<span>粉丝<a href="#">${userInfo.floweds }</a></span><span>消息<a href="#">${userInfo.messages }</a></span><span>关注<a href="#">${userInfo.flowings }</a></span>
                     </div>
                 </div>
                 <div class="info_cont">
-                	<p>状态：${userBaseInfo.description }</p>
+                	<p>状态：${userInfo.description }</p>
                     <div class="info_con">
                     	<form action="${ctx }/user/updateStatus" method="post">
 	                    	<input type="text" class="info_text" name="description" />
@@ -169,13 +169,13 @@
 						                        	<span class="fn-left">发给：</span>
 						                            <div class="drop_sx">
 						                            	<span class="more_d"></span>
-						                        		<div class="sx_name"><img src="${userBaseInfo.avatar }" width="24" height="24" />${userBaseInfo.username }</div>
+						                        		<div class="sx_name"><img src="${userInfo.avatar }" width="24" height="24" />${userInfo.username }</div>
 						                            </div>
 						                        </label>
 						                        <form action="${ctx }/user/sendMessage" method="post">
 							                        <label>
 							                        	<span class="fn-left">内容：</span>
-							                        	<input type="hidden" name="uid" value="${userBaseInfo.id }"/>
+							                        	<input type="hidden" name="uid" value="${userInfo.id }"/>
 							                        	<textarea name="message" cols="" rows="" class="sixin_text"></textarea>
 							                        </label>
 							                        <label><input type="button" class="fs" onclick="javasript:this.form.submit();"/></label>
@@ -351,9 +351,9 @@
                 </div>
                 <dl class="my_book">
                 	<dt><h3><a href="#">我的书架</a></h3></dt>
-                    <dd><a href="#">在读 （${userBaseInfo.reading}）</a></dd>
-                    <dd><a href="#">想读 （${userBaseInfo.wantRead}）</a></dd>
-                    <dd><a href="#">已读 （${userBaseInfo.hasRead}）</a></dd>
+                    <dd><a href="#">在读 （${userInfo.reading}）</a></dd>
+                    <dd><a href="#">想读 （${userInfo.wantRead}）</a></dd>
+                    <dd><a href="#">已读 （${userInfo.hasRead}）</a></dd>
                 </dl>
             </div>
         </div>
@@ -426,7 +426,7 @@
 				
 				<div id="updateFile_model" style="display:none;">
 					 <form action="${ctx}/user/updateAvatar" method="post" id="updateAvatarForm">
-					 	<img src="" id="avatar_target" alt="avatar"  onload="javascript:if(this.width>400)this.width=400"/>
+					 	<img src="" id="avatar_target" alt="avatar"  onload="javascript:if(this.width>400)this.width=400;if(this.height>400)this.height=400;"/>
 					 	<input type="hidden" id="h_image_src" name="avatarSrc"/>
 					 </form>
 				</div>

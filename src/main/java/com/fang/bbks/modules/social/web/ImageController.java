@@ -109,8 +109,11 @@ public class ImageController extends BaseController implements
 			
 			String imgPath = new StringBuffer("http://").append(request.getServerName()).append(":")
 					.append(request.getServerPort()).append(request.getContextPath())
-					.append(tempRepositories).append(File.separator).append(newName)
+					.append(tempRepositories).append("/").append(newName)
 					.toString();
+			
+			System.out.println("file upload ...."+imgPath);
+			imgPath.replaceAll("\\", "/");
 			
 			jr.setObj(imgPath);
 			jr.setMessage("上传文件成功！");

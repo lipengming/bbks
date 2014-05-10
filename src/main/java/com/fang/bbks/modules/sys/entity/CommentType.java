@@ -8,9 +8,9 @@ package com.fang.bbks.modules.sys.entity;
  * @since 下午7:55:19	
  */
 public enum CommentType {
-	BOOK(1,"BOOK"),
-	USER(2,"USER"),
-	DYNAMIC(3,"DYNAMIC");
+	BOOK(1,"book"),
+	USER(2,"user"),
+	DYNAMIC(3,"dynamic");
 	
 	private Integer code;
 	private String type;

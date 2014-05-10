@@ -75,21 +75,8 @@ public class UserController extends BaseController {
 			uiModel.addAttribute(HANDLER_MSG, "您还未登录，请登录");
 			return "redirect:/login";
 		}
-		Long uid = u.getId();
-		//查询用户基本信息
-				uiModel.addAttribute("userBaseInfo", u);
-				//动态
-				uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
-				//粉丝
-				uiModel.addAttribute("flowing", relationService.findFlowings(uid));
-				//偶像
-				uiModel.addAttribute("flowing", relationService.findFloweds(uid));
-				//所有消息
-				uiModel.addAttribute("sendMessages", messageService.ISend(uid));
-				//收到的消息
-				uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
-				
-		//this.setUserInfo(u.getId(),uiModel,request,response);
+		
+		netWorkService.setUserInfo(u.getId(),uiModel);
 		
 		return "/user/profile";
 	}
@@ -122,7 +109,7 @@ public class UserController extends BaseController {
 			return "redirect:/user/profile";
 		}
 		
-		//this.setUserInfo(uid,uiModel,request,response);
+		netWorkService.setUserInfo(uid,uiModel);
 		
 		if(relationService.isFlow(cu.getId(), uid)){
 			uiModel.addAttribute("doFlow", true);
@@ -315,23 +302,5 @@ public class UserController extends BaseController {
 		
 		return "redirect:/user/profile";
 	}
-	
-//	private void setUserInfo(Long uid,Model uiModel,HttpServletRequest request,
-//			HttpServletResponse response){
-//		//查询用户基本信息
-//		uiModel.addAttribute("userInfo", userService.findOne(uid));
-//		//动态
-//		uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
-//		//粉丝
-//		uiModel.addAttribute("flowing", relationService.findFlowings(uid));
-//		//偶像
-//		uiModel.addAttribute("flowing", relationService.findFloweds(uid));
-//		//所有消息
-//		uiModel.addAttribute("sendMessages", messageService.ISend(uid));
-//		//收到的消息
-//		uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
-//		
-//		//TODO...
-//	}
 	
 }

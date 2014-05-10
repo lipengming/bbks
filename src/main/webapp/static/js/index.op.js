@@ -16,12 +16,12 @@ var op = {
 				$(this).next(".ph").show();
 			}
 		);
-		d.find(".pb_write_text").blur(
-			function(){
-				console.log("::hide:");
-				$(this).next(".ph").hide();
-			}
-		);
+//		d.find(".pb_write_text").blur(
+//			function(){
+//				console.log("::hide:");
+//				$(this).next(".ph").hide();
+//			}
+//		);
 		
 		//事件监听：：：：
 		//喜欢

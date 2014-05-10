@@ -35,15 +35,16 @@ import com.fang.bbks.modules.sys.entity.User;
 public class Comment extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 	private Long id;		// 编号
-	private String module; 	// 内容模型（article：图书；user:用户；picture：图片；download：下载）
+	private String module; 	// 内容模型（book：图书；user:用户；picture：图片；download：下载）
 	private Long contentId;	// 归属分类内容的编号（Book.id、User.id、Photo.id、Download.id）
 	private String title;	// 归属分类内容的标题（Book.title、Photo.title、Download.title）
 	private String content; // 评论内容
+	private Long uid;		//评论人id
 	private String name; 	// 评论姓名
 	private String avatar;	// 评论头像
 	private String ip; 		// 评论IP
 	private Date createDate;// 评论时间
-	private User auditUser; // 审核人
+	private Long auditUser; // 审核人
 	private Date auditDate;	// 审核时间
 	private String status;	// 删除标记（0：发布；1：作废；2：审核；）
 
@@ -58,13 +59,14 @@ public class Comment extends BaseEntity{
 	}
 
 	public Comment(String module, Long contentId, String title, String content,
-			String name) {
+			Long uid,String name) {
 		super();
 		this.module = module;
 		this.contentId = contentId;
 		this.title = title;
 		this.content = content;
 		this.name = name;
+		this.uid = uid;
 	}
 	
 	
@@ -124,20 +126,28 @@ public class Comment extends BaseEntity{
 		this.name = name;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="audit_user_id")
-	@NotFound(action = NotFoundAction.IGNORE)
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	public User getAuditUser() {
-		return auditUser;
-	}
-
-	public void setAuditUser(User auditUser) {
-		this.auditUser = auditUser;
-	}
+//	@ManyToOne
+//	@JoinColumn(name="audit_user_id")
+//	@NotFound(action = NotFoundAction.IGNORE)
+//	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//	public User getAuditUser() {
+//		return auditUser;
+//	}
+//
+//	public void setAuditUser(User auditUser) {
+//		this.auditUser = auditUser;
+//	}
 
 	public Date getAuditDate() {
 		return auditDate;
+	}
+
+	public Long getAuditUser() {
+		return auditUser;
+	}
+
+	public void setAuditUser(Long auditUser) {
+		this.auditUser = auditUser;
 	}
 
 	public void setAuditDate(Date auditDate) {
@@ -175,5 +185,23 @@ public class Comment extends BaseEntity{
 
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+
+	public Long getUid() {
+		return uid;
+	}
+
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", module=" + module + ", contentId="
+				+ contentId + ", title=" + title + ", content=" + content
+				+ ", uid=" + uid + ", name=" + name + ", avatar=" + avatar
+				+ ", ip=" + ip + ", createDate=" + createDate + ", auditUser="
+				+ auditUser + ", auditDate=" + auditDate + ", status=" + status
+				+ "]";
 	}
 }

@@ -112,7 +112,8 @@ public class BookServiceTest {
 				c.setContentId(book.getId());
 				c.setTitle(book.getBookName());
 				c.setContent("content:::"+j);
-				commentService.addComment(CommentType.BOOK, c, user);
+				c.setModule(CommentType.BOOK.getType());
+				commentService.addComment(c, user);
 			}	
 		}
 	}

@@ -200,15 +200,15 @@ public abstract class BaseController {
 	}
 	
 	public static String getBaseRepository(){
-		return File.separator + "static" + File.separator + "upload";
+		return "/static/upload";
 	}
 	
 	public static String getRepositor(Long uid){
-		return getBaseRepository() + File.separator + uid;
+		return getBaseRepository() + "/" + uid;
 	}
 	
 	public static String getAvatarRepositor(Long uid){
-		return getRepositor(uid) + File.separator + "avatar";
+		return getRepositor(uid) + "/" + "avatar";
 	}
 	
 	public static String getNewFileName(String orgName){

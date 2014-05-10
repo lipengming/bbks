@@ -39,68 +39,70 @@
 <jsp:include page="./include/bookshelf_pop.jsp" flush="false"></jsp:include>
 
 <script type="text/javascript">
-	$(function(){
-		var $container = $('#container');
-		var dom = $(this);
-		$('.pb').each(function(){
-			op.pb_onbind_event(dom);
-		});
-		
-		$container.masonry({
-			itemSelector : '.pb',
-		    columnWidth : 222,
-		    gutterWidth: 10,
-		    isAnimated: false,
-		    animationOptions: {
-		    	queue: false
-		    },
-		    isFitWidth: false
-		});
-		
-		$container.infinitescroll(
-				{
-					navSelector  : '#page-nav', // selector for the paged navigation
-					nextSelector : '#page-nav a', // selector for the NEXT link (to page 2)
-					itemSelector : '.pb', // selector for all items you'll retrieve
-					debug        : false,
-					animate	 	 : false,
-					animationOptions: {
-					    duration: 750,
-					    easing: 'linear',
-					    queue: false
-					},
-					loading: {
-						selector: '#index_warp',
-						finishedMsg: '没有更多了',
-						msgText: '加载中...',
-						img: '${ctxStatic }/images/big-loading.gif',
-						speed: 0
-					},
-					state : {
-						currPage: 0
-					},
-					pathParse: function() {
-				        return ['<c:url value="/book/search/list?${qStr }pageNo=" />',''];
-				    }
-				},
-				// trigger Masonry as a callback
-				function( newElements ) {
-					// hide new items while they are loading
-					var $newElems = $(newElements).hide();
-					$newElems.each(function(){
-						op.pb_onbind_event(dom);
-					});
-					
-					// ensure that images load before adding to masonry layout
-					$newElems.imagesLoaded(function(){
-						// show elems now they're ready
-						$container.append( $newElems ).masonry( 'appended', 
-								$newElems, false, function(){
-							$newElems.fadeIn('slow');
-						});
-					});	
-			});
+$(function(){
+	
+	var $container = $('#container');
+	var dom = $(this);
+	
+	$('.pb').each(function(){
+		op.pb_onbind_event(dom);
 	});
+	
+	$container.masonry({
+		itemSelector : '.pb',
+	    columnWidth : 222,
+	    gutterWidth: 10,
+	    isAnimated: false,
+	    animationOptions: {
+	    	queue: false
+	    },
+	    isFitWidth: false
+	});
+	
+	$container.infinitescroll(
+			{
+				navSelector  : '#page-nav', // selector for the paged navigation
+				nextSelector : '#page-nav a', // selector for the NEXT link (to page 2)
+				itemSelector : '.pb', // selector for all items you'll retrieve
+				debug        : false,
+				animate	 	 : false,
+				animationOptions: {
+				    duration: 750,
+				    easing: 'linear',
+				    queue: false
+				},
+				loading: {
+					selector: '#index_warp',
+					finishedMsg: '没有更多了',
+					msgText: '加载中...',
+					img: '${ctxStatic }/images/big-loading.gif',
+					speed: 0
+				},
+				state : {
+					currPage: 0
+				},
+				pathParse: function() {
+			        return ['<c:url value="/book/search/list?${qStr }pageNo=" />',''];
+			    }
+			},
+			// trigger Masonry as a callback
+			function( newElements ) {
+				// hide new items while they are loading
+				var $newElems = $(newElements).hide();
+				$newElems.each(function(){
+					op.pb_onbind_event(dom);
+				});
+				
+				// ensure that images load before adding to masonry layout
+				$newElems.imagesLoaded(function(){
+					// show elems now they're ready
+					$container.append( $newElems ).masonry( 'appended', 
+							$newElems, false, function(){
+						$newElems.fadeIn('slow');
+					});
+				});	
+		});
+});		
 </script>
 </body>
 </html>
