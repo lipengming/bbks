@@ -200,8 +200,8 @@
             	<h2><a href="#">书签</a></h2>
                 <div class="span_list">
                 	<ul> 
-                    	<!-- <li><a href="#">管理</a>(1009)</li>
-                        <li><a href="#">德鲁克</a>(725)</li>
+                    	<li><a href="#">${bookInfo.category.name }</a></li>
+                        <!-- <li><a href="#">德鲁克</a>(725)</li>
                         <li><a href="#">管理的实践</a>(323)</li>
                         <li><a href="#">管理学</a>(254)</li>
                         <li><a href="#">管理经典</a>(163)</li>

@@ -54,14 +54,6 @@ public class Category extends BaseEntity{
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private List<Category> childList = Lists.newArrayList();
 	
-//	@OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.LAZY,mappedBy="category")
-//	@Where(clause="del_flag="+DEL_FLAG_NORMAL)
-//	@OrderBy(value="code")
-//	@NotFound(action = NotFoundAction.IGNORE)
-//	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//	private List<Book> bookList = Lists.newArrayList();
-	
-	
 	private String name; 	// 分类名称
 	private String intro; 	// 分类描述
     private String delFlag;	//删除标记（0：正常；1：删除）
