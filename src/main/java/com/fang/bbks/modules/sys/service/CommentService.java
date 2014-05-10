@@ -74,11 +74,11 @@ public class CommentService {
 	 * @param comment---not null 评论内容【】
 	 * @return
 	 */
-	public List<Comment> find(CommentType type,Long contentId, Comment comment){
+	public List<Comment> find(Comment comment){
 		DetachedCriteria dc = commentDao.createDetachedCriteria();
 		
-		dc.add(Restrictions.eq("module",type.getType()));
-		dc.add(Restrictions.eq("contentId",contentId));
+		dc.add(Restrictions.eq("module",comment.getModule()));
+		dc.add(Restrictions.eq("contentId",comment.getContentId()));
 		
 		//评论人
 		if(StringUtils.isNotBlank(comment.getName())){

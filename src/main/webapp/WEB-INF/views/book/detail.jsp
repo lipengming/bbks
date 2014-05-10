@@ -137,14 +137,20 @@
                         </dl>
                     </div>
                     <div class="gb_tab_con">
-                    	<dl class="gb_list">
-                        	<dt><span class="more_show"><a href="#">未找到结果</a></span><h3>图书推荐</h3></dt>
-                            <dd>
-                            	<p>
-                                	无
-                                </p>
-                            </dd>                            
-                        </dl>
+                    	<c:forEach var="comment" items="${commentList }">
+                    		<dl class="sp_list">
+	                        	<dt><a href="#"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
+	                            <dd>
+	                            	<h3><span class="ds"></span><a href="#">${comment.title }</a></h3>
+	                                <h4><a href="#">${comment.name }</a><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_off"></em></h4>
+	                                <p>
+	                                	${comment.content }
+	                                </p>
+	                                <h5><span class="time">${comment.createDate }</span><span class="sf"><a href="#">转发</a>|<a href="#">收藏</a>|<a href="#">评论</a></span></h5>
+	                            </dd>
+	                        </dl>	
+                    	</c:forEach>
+                    	
                     </div>
                 </div>
             </div>

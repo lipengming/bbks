@@ -21,6 +21,7 @@ import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Book;
 import com.fang.bbks.modules.sys.entity.Category;
 import com.fang.bbks.modules.sys.entity.Comment;
+import com.fang.bbks.modules.sys.entity.CommentType;
 import com.fang.bbks.modules.sys.service.BookService;
 import com.fang.bbks.modules.sys.service.CommentService;
 import com.google.common.collect.Maps;
@@ -90,6 +91,10 @@ public class SearchBookController extends BaseController{
 			return "redirect:/index";
 		
 		uiModel.addAttribute("bookInfo",book);
+		Comment comment = new Comment();
+		comment.setContentId(bookId);
+		comment.setModule(CommentType.BOOK.getType());
+		uiModel.addAttribute("commentList", commentService.find(comment));
 		
 		return "/book/detail";
 	}

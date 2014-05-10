@@ -4,3 +4,4 @@ indexes/
 target/
 .settings/
 .idea/
+*.class
