@@ -205,12 +205,12 @@ $(function(){
 		$(this).parents(".share").find(".speak_s").find("h2").text("@").css("padding","0");
 		return false;
 	});
-	$("#pages_book").click(function(){
-		$(".share_p").hide();
-		$(".speak_s").hide();
-		$(".speak_s").css("right","0");
-		$(".share").find(".speak_s").find("h2").text("@").css("padding","0");
-	});
+//	$("#pages_book").click(function(){
+//		$(".share_p").hide();
+//		$(".speak_s").hide();
+//		$(".speak_s").css("right","0");
+//		$(".share").find(".speak_s").find("h2").text("@").css("padding","0");
+//	});
 	//点击div之外关闭div
 	$(document).click(function(){
 			if(!$("div.ml_con").hide()){

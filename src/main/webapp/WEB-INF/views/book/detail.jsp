@@ -10,8 +10,44 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>书城</title>
 
-<jsp:include page="../include/script.jsp" flush="false"></jsp:include>
 
+
+<jsp:include page="../include/script.jsp" flush="false"></jsp:include>
+<script type="text/javascript">
+	$(function(){
+		$(".speak_s .s_con .sure_btn").click(function(){
+			console.log("----");
+			<c:if test="${empty sessionScope._SIGN_USER_}">
+				alert("登陆之后才能评论！");
+				return;
+			</c:if>
+			var contentStr = $("#share_text_t").val();
+			if(contentStr == null || contentStr == ""){
+				return;
+			}
+			var data = {
+					module: 'book',
+					contentId:'${bookInfo.id }',
+					content:contentStr,
+					title:'${bookInfo.bookName}'
+			};
+			$.ajax({
+			    type: "POST",
+			    dataType: "json",
+			    data:data,
+			    url: '${ctx}/api/comment/add',
+			    success: function(result){
+					$(".speak_s").hide();
+					window.location = "${ctx}/book/search/${bookInfo.id}";
+			    },
+			    error:function(err){
+			    	alert(err);
+			    }
+			});			
+		});
+	});
+
+</script>
 </head>
 <body>
 
@@ -94,7 +130,7 @@
                     <div class="speak_s">
                     	<h2>@</h2>
                         <div class="s_con">
-                        	<textarea name="" cols="" rows="" class="s_text_t"></textarea>
+                        	<textarea name="" cols="" rows="" class="s_text_t" id="share_text_t"></textarea>
                             <input type="button" class="sure_btn" />
                         </div>
                     </div>
