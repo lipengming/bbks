@@ -99,11 +99,13 @@
             	<div class="tab" id="tabBox">
                 	<ul class="tab_ul">
                     	<li class="active">动态</li>
-                         <li>好友</li>
-                         <li>消息</li>
-                         <li>我的未读消息</li>
+                         <li>书评</li>
+                         <li>未读</li>
+                         <li>发出</li>
+                         <li>收到</li>
                     </ul>
                     <div class="tab_cont">
+                    	<!-- 动态 -->
                     	<div class="tab_con" style="display:block;">
                         	<ul class="tab_list">
                             	<c:forEach var="item" items="${dynamicInfo }">	
@@ -125,29 +127,47 @@
                         		</c:forEach>
                             </ul>
                         </div>
+                        <!-- 书评 -->	
+                         <div class="tab_con">
+                        	<ul class="tab_list">
+                        	<c:forEach items="${commentInfo}" var="comment">
+			                           	<dl class="sp_list">
+			                        	<dt><a href="#"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
+			                            <dd>
+			                            	<h3><span class="ds"></span><a href="#">${comment.title }</a></h3>
+			                                <h4><a href="#">${comment.name }</a><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_off"></em></h4>
+			                                <p>
+			                                	${comment.content }
+			                                </p>
+			                                <h5><span class="time">${comment.createDate }</span><span class="sf"><a href="#">转发</a>|<a href="#">收藏</a>|<a href="#">评论</a></span></h5>
+			                            </dd>
+			                        </dl>	
+			                        </c:forEach>
+                            </ul>
+                        </div>
+                        
+                        <!-- 未读 -->
                         <div class="tab_con">
                         	<ul class="tab_list">
-                        		<c:forEach var="item" items="${dynamicInfo }">	
+                        		<c:forEach var="item" items="${unreadMessages }">	
                         		<li>
                                     <span class="list_con">
                                         ${item.content}
                                         <p class="bott">
                                         	<span class="p_function">
-                                            	<a href="#">转发</a>|
-                                                <a href="#">收藏</a>|
-                                                <a href="#">评论</a>
+                                        		|<a href="#">阅读</a>
+                                                |<a href="#">回复</a>|
                                             </span>
                                             <span class="time">
-                                            	${item.createAt }
+                                            	${item.creatAt }
                                             </span>
                                         </p>
                                     </span>
                                 </li>
                         		</c:forEach>
                             </ul>
-                        </div>
-                        
-                        <!-- 发送的消息 -->
+                        </div>  
+                        <!-- 发出的消息 -->
                         <div class="tab_con">
                         	<ul class="tab_list">
                         		<c:forEach var="item" items="${sendMessages }">	
@@ -161,38 +181,16 @@
                                             <span class="time">
                                             	${item.creatAt }
                                             </span>
-                                           <!--  <div class="info_btn_cont"></div>
-                                            	<input type="button" value="私信" class="info_btn sx">
-	                                            <div class="sixin">
-						                    	<h2><span class="close"></span>发私信</h2>
-						                        <label>
-						                        	<span class="fn-left">发给：</span>
-						                            <div class="drop_sx">
-						                            	<span class="more_d"></span>
-						                        		<div class="sx_name"><img src="${userInfo.avatar }" width="24" height="24" />${userInfo.username }</div>
-						                            </div>
-						                        </label>
-						                        <form action="${ctx }/user/sendMessage" method="post">
-							                        <label>
-							                        	<span class="fn-left">内容：</span>
-							                        	<input type="hidden" name="uid" value="${userInfo.id }"/>
-							                        	<textarea name="message" cols="" rows="" class="sixin_text"></textarea>
-							                        </label>
-							                        <label><input type="button" class="fs" onclick="javasript:this.form.submit();"/></label>
-						                        </form>
-	                    					</div>
-	                    					</div>-->
                                         </p>
                                     </span>
                                 </li>
                         		</c:forEach>
                             </ul>
                         </div>
-                        
-                         <!-- 发送的消息 -->
+                         <!-- 收到的消息 -->
                         <div class="tab_con">
                         	<ul class="tab_list">
-                        		<c:forEach var="item" items="${recievdMessages }">	
+                        		<c:forEach var="item" items="${recivedMessages }">	
                         		<li>
                                     <span class="list_con">
                                         ${item.content}
@@ -208,89 +206,8 @@
                                 </li>
                         		</c:forEach>
                             </ul>
-                        </div>
-                        
-                        <div class="tab_con">
-                        	<ul class="tab_list">
-                            	<li>
-                                    <span class="list_con">
-                                        <h3>正在读<a href="#">《我和这个世界不熟》</a>，<a href="#">黄某某</a> 著，中国民族摄影艺术出版社</h3>
-                                        <p>《我和这个世界不熟》极力调侃生活的琐碎，巧解各路话题新闻，用简短、精炼的笔调刻画出生活舞台上一个个鲜活的小人物，当然亦有作者本人的各种领衔出演。这不仅仅是一部原创笑话段子集，更是作者的成长录，它收录了一个网络写手从默默无闻的路人甲到低调网络小红人的整个过程。这里有每个社会人的影子，无论小清新或是小邪恶。其实，人生就是一出悲喜剧，翻开书，用幽默战胜生命的低谷。</p>
-                                        <span class="book_img">
-                                                <a href="#"><img src="../images/book.gif" width="105" height="140" alt="" /></a>
-                                                <span class="book_info">
-                                                    <h2><a href="#">上面好安静</a></h2>
-                                                    <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                                    <h3>出版社：<a href="#">人们出版社</a></h3>
-                                                    <h4>定价：30元</h4>
-                                                    <p>
-                                                    《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-            弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-            欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-            年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-            被迫中断大学学业，从此与 牛羊为伍……
-                                                    </p>
-                                                    <span class="book_info_btn">
-                                                        <input type="button" class="text" />
-                                                        <input type="button" class="join" />
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        <p class="bott">
-                                        	<span class="p_function">
-                                            	<a href="#">转发（23）</a>|
-                                                <a href="#">收藏</a>|
-                                                <a href="#">评论（13）</a>
-                                            </span>
-                                            <span class="time">
-                                            	10月15日  17：35
-                                            </span>
-                                        </p>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab_con">
-                        	<ul class="tab_list">
-                            	<li>
-                                    <span class="list_con">
-                                        <h3>正在读<a href="#">《我和这个世界不熟》</a>，<a href="#">黄某某</a> 著，中国民族摄影艺术出版社</h3>
-                                        <p>《我和这个世界不熟》极力调侃生活的琐碎，巧解各路话题新闻，用简短、精炼的笔调刻画出生活舞台上一个个鲜活的小人物，当然亦有作者本人的各种领衔出演。这不仅仅是一部原创笑话段子集，更是作者的成长录，它收录了一个网络写手从默默无闻的路人甲到低调网络小红人的整个过程。这里有每个社会人的影子，无论小清新或是小邪恶。其实，人生就是一出悲喜剧，翻开书，用幽默战胜生命的低谷。</p>
-                                        <span class="book_img">
-                                                <a href="#"><img src="../images/book.gif" width="105" height="140" alt="" /></a>
-                                                <span class="book_info">
-                                                    <h2><a href="#">上面好安静</a></h2>
-                                                    <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                                    <h3>出版社：<a href="#">人们出版社</a></h3>
-                                                    <h4>定价：30元</h4>
-                                                    <p>
-                                                    《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-            弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-            欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-            年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-            被迫中断大学学业，从此与 牛羊为伍……
-                                                    </p>
-                                                    <span class="book_info_btn">
-                                                        <input type="button" class="text" />
-                                                        <input type="button" class="join" />
-                                                    </span>
-                                                </span>
-                                            </span>
-                                        <p class="bott">
-                                        	<span class="p_function">
-                                            	<a href="#">转发（23）</a>|
-                                                <a href="#">收藏</a>|
-                                                <a href="#">评论（13）</a>
-                                            </span>
-                                            <span class="time">
-                                            	10月15日  17：35
-                                            </span>
-                                        </p>
-                                    </span>
-                                </li>
-                            	
-                            </ul>
-                        </div>
+                        </div> 
+                                          
                     </div>
                 </div>
             </div>
@@ -301,23 +218,25 @@
                     </div>
                     <div class="list">
                     	<ul>
-                        	<li>
-                                <a href="#">
-                                	<img src="../images/img2.gif" width="48" height="48" alt="" />
+                    		<c:forEach var="item" items="${flowed }">
+                    		<li>
+                                <a href="${ctx }/user/detail/${item.id}">
+                                	<img src="${item.avatar }" width="48" height="48" alt="" />
                                     <h5>W</h5>
                                 </a>
                                 <div class="read_info">
                                     <div class="read_info_base">
                                         <img src="../images/reader.jpg" width="40" height="40" alt="" />
-                                        <h2>孙陶然</h2>
-                                        <h4><span>关注</span> 440 | <Span>粉丝</Span> 280万 | <Span>微博</Span> 2867</h4>
-                                        <p>拉卡拉支付有限公司创始人，董事长兼总裁</p>
+                                        <h2>${item.username }</h2>
+                                        <h4><span>关注</span> ${item.floweds } | <Span>粉丝</Span> ${item.flowings } |</h4>
+                                        <p>${item.description }</p>
                                     </div>
                                     <div class="read_info_btn">
                                         <input type="button" class="btn" />
                                     </div>
                                 </div>
                             </li>
+                    		</c:forEach>
                            
                         </ul>
                     </div>
@@ -328,23 +247,25 @@
                     </div>
                     <div class="list">
                     	<ul>
-                        	<li>
-                                <a href="#">
-                                	<img src="../images/img2.gif" width="48" height="48" alt="" />
+                        	<c:forEach var="item" items="${flowing }">
+                    		<li>
+                                <a href="${ctx }/user/detail/${item.id}">
+                                	<img src="${item.avatar }" width="48" height="48" alt="" />
                                     <h5>W</h5>
                                 </a>
                                 <div class="read_info">
                                     <div class="read_info_base">
-                                        <img src="../images/reader.jpg" width="40" height="40" alt="" />
-                                        <h2>孙陶然</h2>
-                                        <h4><span>关注</span> 440 | <Span>粉丝</Span> 280万 | <Span>微博</Span> 2867</h4>
-                                        <p>拉卡拉支付有限公司创始人，董事长兼总裁</p>
+                                        <img src="${item.avatar }" width="40" height="40" alt="" />
+                                        <h2>${item.username }</h2>
+                                        <h4><span>关注</span> ${item.floweds } | <Span>粉丝</Span> ${item.flowings } |</h4>
+                                        <p>${item.description }</p>
                                     </div>
                                     <div class="read_info_btn">
                                         <input type="button" class="btn" />
                                     </div>
                                 </div>
                             </li>
+                    		</c:forEach>
                             
                         </ul>
                     </div>

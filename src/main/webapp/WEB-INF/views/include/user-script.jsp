@@ -2,8 +2,10 @@
     pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
- 
+
+
 <link href="${ctxStatic }/css/common.css" rel="stylesheet" type="text/css" />
+<link href="${ctxStatic }/css/index.css" rel="stylesheet" type="text/css" />
 <link href="${ctxStatic }/css/network-user.css" rel="stylesheet" type="text/css" />
 <link href="${ctxStatic }/om/css/default/om-default.css" rel="stylesheet" type="text/css" />
 

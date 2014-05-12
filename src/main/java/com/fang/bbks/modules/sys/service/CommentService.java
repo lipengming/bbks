@@ -77,8 +77,19 @@ public class CommentService {
 	public List<Comment> find(Comment comment){
 		DetachedCriteria dc = commentDao.createDetachedCriteria();
 		
-		dc.add(Restrictions.eq("module",comment.getModule()));
-		dc.add(Restrictions.eq("contentId",comment.getContentId()));
+		if(StringUtils.isNotEmpty(comment.getModule())){
+			dc.add(Restrictions.eq("module",comment.getModule()));
+		}
+		
+		if(comment.getContentId() != null){
+			dc.add(Restrictions.eq("contentId",comment.getContentId()));
+		}
+		
+		
+		if(comment.getUid() != null){
+			dc.add(Restrictions.eq("uid",comment.getUid()));
+		}
+		
 		
 		//评论人
 		if(StringUtils.isNotBlank(comment.getName())){

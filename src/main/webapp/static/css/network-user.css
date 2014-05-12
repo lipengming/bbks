@@ -186,11 +186,32 @@
 .tab .tab_con .tab_list li .toggle{ clear:both; text-align:right;}
 .tab .tab_con .tab_list li .toggle a{ color:#4581bc;}
 
+/***5-12
 .tab_con dl{ clear:both; margin:15px 0 10px; float:left; width:100%;}
 .tab_con dl dt a{ font-size:14px; color:#000;}
 .tab_con dl dd{ float:left; width:92px; margin:25px 16px 0;}
 .tab_con dl p{ text-align:right; padding-top:25px; clear:both;}
 .tab_con dl p a{ font-size:14px; color:#4381bc;}
+**/
+
+.sp_list{ clear:both; margin-top:20px; float:left; width:100%;}
+.sp_list dt{ width:48px; float:left; margin-right:20px; overflow:hidden;}
+.sp_list dd{ float:left; width:532px; overflow:hidden;}
+.sp_list dd h3,.sp_list dd h3 a{ font-size:15px; color:#4381bc; height:22px; background:#f3f3f3; line-height:22px; padding:0 3px; overflow:hidden; margin-bottom:5px;}
+.sp_list dd h3 .ds{ float:right; background:url(../images/sp_ds.gif) no-repeat; width:16px;  height:9px; margin:5px; cursor:pointer;}
+ .sp_list dd h4{ padding:0 5px; margin-bottom:5px;}
+.sp_list dd h4 a{ color:#4381bc; margin-right:5px;}
+.sp_list dd h4 em{ display:block; width:12px; height:12px; display:inline-block;}
+.sp_list dd h4 .s_on{ background:url(../images/s_on.gif) no-repeat;}
+.sp_list dd h4 .s_off{ background:url(../images/s_off.gif) no-repeat;}
+.sp_list dd p{ padding:0 5px;}
+.sp_list dd h5{ padding:5px;}
+.sp_list dd h5 .time{ color:#787878; float:left; margin-right:5px;}
+.sp_list dd h5 .from{ float:left; margin-left:5px;}
+.sp_list dd h5 .from a{ color:#4381bc;}
+.sp_list dd h5 .sf{ float:right; color:#e8e0e0}
+.sp_list dd h5 .sf a{ color:#4381bc; margin:0 5px;}
+
 .book_info{ background:#fff; z-index:99; position:absolute; left:50px; right:auto; top:-50px; width:278px; border:1px solid #ddd; padding:10px; display:block;}
 .book_info h2 a{ color:#3278ac; font-size:14px;}
 .book_info h3 a{ color:#3278ac;}

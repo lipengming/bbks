@@ -30,7 +30,7 @@ public interface MessageDao extends MessageDaoCustm , CrudRepository<Message, Lo
 	@Query("from Message where tou = ?1")
 	public List<Message> findByTo(Long to);
 	
-	@Query("from Message where to = ?1 and isRead = " + Message.READ_HIDE)
+	@Query("from Message where tou = ?1 and isRead = " + Message.READ_HIDE)
 	public List<Message> findUnRead(Long to);
 }
 

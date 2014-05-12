@@ -29,7 +29,9 @@ import com.fang.bbks.modules.social.service.DynamicService;
 import com.fang.bbks.modules.social.service.MessageService;
 import com.fang.bbks.modules.social.service.NetWorkService;
 import com.fang.bbks.modules.social.service.RelationService;
+import com.fang.bbks.modules.sys.entity.Comment;
 import com.fang.bbks.modules.sys.entity.User;
+import com.fang.bbks.modules.sys.service.CommentService;
 import com.fang.bbks.modules.sys.service.UserService;
 
 /**
@@ -57,6 +59,8 @@ public class UserController extends BaseController {
 	private MessageService messageService;
 	@Autowired
 	private SessionUtil sessionUtil;
+	@Autowired
+	private CommentService commentService;
 	
 	/**
 	 * 个人主页
@@ -89,7 +93,9 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = { "/detail/{uid}" })
-	public String detail(@PathVariable("uid") Long uid, Model uiModel,
+	public String detail(
+			@PathVariable("uid") Long uid, Model uiModel,
+			@RequestParam(value="type",required=false) Integer type,
 			HttpServletRequest request) {		
 		User cu =sessionUtil.getSignInUser(request.getSession());
 		//未登录
@@ -109,7 +115,20 @@ public class UserController extends BaseController {
 			return "redirect:/user/profile";
 		}
 		
-		netWorkService.setUserInfo(uid,uiModel);
+		if(type == null || type != 1 || type != 2){
+			uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
+			Comment comment = new Comment();
+			comment.setUid(uid);
+			uiModel.addAttribute("commentInfo", commentService.find(comment));
+		}else if(type == 1){
+			uiModel.addAttribute("dynamicInfo", dynamicService.listDynamic(uid));
+		}else {
+			Comment comment = new Comment();
+			comment.setUid(uid);
+			uiModel.addAttribute("commentInfo", commentService.find(comment));
+		}
+		uiModel.addAttribute("type", type);
+		uiModel.addAttribute("userInfo", userService.findOne(uid));
 		
 		if(relationService.isFlow(cu.getId(), uid)){
 			uiModel.addAttribute("doFlow", true);

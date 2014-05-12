@@ -108,9 +108,33 @@
         
         <div id="ul_btn">
         	<ul>
-            	<li><a href="#" class="hover">动态</a></li>
-                <li><a href="#" class="pl">评论</a></li>
-                <li><a href="#">随便看看</a></li>
+        		<c:choose>
+        			<c:when test="${empty type || type == 0}">
+        				<li><a href="${ctx }/user/detail/${userInfo.id}?type=0" class="hover">随便看看</a></li>
+        			</c:when>
+        			<c:otherwise>
+        				<li><a href="${ctx }/user/detail/${userInfo.id}?type=0">随便看看</a></li>
+        			</c:otherwise>
+        		</c:choose>
+        		<c:choose>
+        			<c:when test="${type == 1}">
+        				<li><a href="${ctx }/user/detail/${userInfo.id}?type=1" class="hover">动态</a></li>
+        			</c:when>
+        			<c:otherwise>
+            			<li><a href="${ctx }/user/detail/${userInfo.id}?type=1" >动态</a></li>
+        			</c:otherwise>
+        		</c:choose>
+        		
+        		<c:choose>
+        			<c:when test="${type == 2}">
+        				<li><a href="${ctx }/user/detail/${userInfo.id}?type=2" class="hover">评论</a></li>
+        			</c:when>
+        			<c:otherwise>
+        				<li><a href="${ctx }/user/detail/${userInfo.id}?type=2" >评论</a></li>
+        			</c:otherwise>
+        		</c:choose>
+        		
+                
             </ul>
         </div>
         <div class="main">
@@ -120,8 +144,10 @@
                     <div class="tab_cont">
                     	<div class="tab_con" style="display:block;">
                         	<ul class="tab_list W100">
+                            	<c:if test="${empty type || type==0 }">
                             	<c:forEach var="item" items="${dynamicInfo }">	
                         		<li>
+                        			<strong> ${userInfo.username }发表动态： </strong>
                                     <span class="list_con">
                                         ${item.content}
                                         <p class="bott">
@@ -137,6 +163,63 @@
                                     </span>
                                 </li>
                         		</c:forEach>
+                        		
+                        				<c:forEach items="${commentInfo}" var="comment">
+			                           	<dl class="sp_list">
+			                        	<dt><a href="#"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
+			                            <dd>
+			                            	<h3><span class="ds"></span><a href="#">${comment.title }</a></h3>
+			                                <h4><a href="#">${comment.name }</a><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_off"></em></h4>
+			                                <p>
+			                                	${comment.content }
+			                                </p>
+			                                <h5><span class="time">${comment.createDate }</span><span class="sf"><a href="#">转发</a>|<a href="#">收藏</a>|<a href="#">评论</a></span></h5>
+			                            </dd>
+			                        </dl>	
+			                        </c:forEach>
+			                        
+                        		</c:if>
+                        		
+                        		<!-- type==1 -->
+                        		
+                        		<c:if test="${type==1 }">
+                        			<c:forEach var="item" items="${dynamicInfo }">	
+                        			<li>
+                        			<strong> ${userInfo.username }发表动态： </strong>
+                                    <span class="list_con">
+                                        ${item.content}
+                                        <p class="bott">
+                                        	<span class="p_function">
+                                            	<a href="#">转发</a>|
+                                                <a href="#">收藏</a>|
+                                                <a href="#">评论</a>
+                                            </span>
+                                            <span class="time">
+                                            	${item.createAt }
+                                            </span>
+                                        </p>
+                                    </span>
+                                </li>
+                        		</c:forEach>
+                        		</c:if>
+                        	
+                        	
+                        		<!-- type==1 -->
+                        		<c:if test="${type==2 }">
+                        			<c:forEach items="${commentInfo}" var="comment">
+			                           	<dl class="sp_list">
+			                        	<dt><a href="#"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
+			                            <dd>
+			                            	<h3><span class="ds"></span><a href="#">${comment.title }</a></h3>
+			                                <h4><a href="#">${comment.name }</a><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_off"></em></h4>
+			                                <p>
+			                                	${comment.content }
+			                                </p>
+			                                <h5><span class="time">${comment.createDate }</span><span class="sf"><a href="#">转发</a>|<a href="#">收藏</a>|<a href="#">评论</a></span></h5>
+			                            </dd>
+			                        </dl>	
+			                        </c:forEach>
+                        		</c:if>
                             </ul>
                         </div>
                     </div>

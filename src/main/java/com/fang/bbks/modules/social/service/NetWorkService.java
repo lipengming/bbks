@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.fang.bbks.modules.sys.entity.Comment;
+import com.fang.bbks.modules.sys.entity.CommentType;
+import com.fang.bbks.modules.sys.service.CommentService;
 import com.fang.bbks.modules.sys.service.UserService;
 import com.google.common.collect.Maps;
 
@@ -32,6 +35,8 @@ public class NetWorkService {
 	private DynamicService dynamicService;
 	@Autowired
 	private MessageService messageService;
+	@Autowired
+	private CommentService commentService;
 
 	public void setUserInfo(Long uid, Model uiModel) {
 		System.out.println("uid-->"+uid);
@@ -42,12 +47,19 @@ public class NetWorkService {
 		// 粉丝
 		uiModel.addAttribute("flowing", relationService.findFlowings(uid));
 		// 偶像
-		uiModel.addAttribute("flowing", relationService.findFloweds(uid));
+		uiModel.addAttribute("flowed", relationService.findFloweds(uid));
 		// 所有消息
 		uiModel.addAttribute("sendMessages", messageService.ISend(uid));
 		// 收到的消息
 		uiModel.addAttribute("recivedMessages", messageService.IRecived(uid));
-
+		//未读的消息
+		uiModel.addAttribute("unreadMessages", messageService.unRead(uid));
+		
+		Comment comment = new Comment();
+		comment.setModule(CommentType.BOOK.getType());
+		comment.setUid(uid);
+		uiModel.addAttribute("commentInfo", commentService.find(comment));//书评
+		
 		// TODO...
 	}
 
