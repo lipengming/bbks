@@ -79,8 +79,6 @@ public class BookService {
 	 */
 	public Page<Book> findByKeyWords(Page<Book> page,String keywords,String sortBy,Integer orders){
 		
-		System.out.println(sortBy+"--"+orders);
-
 		
 		// 设置查询条件
 		BooleanQuery query = bookDao.getFullTextQuery(keywords, "bookName","outline","author");

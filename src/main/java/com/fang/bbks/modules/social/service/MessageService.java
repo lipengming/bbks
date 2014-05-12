@@ -3,8 +3,6 @@ package com.fang.bbks.modules.social.service;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder.In;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fang.bbks.modules.social.dao.MessageDao;
 import com.fang.bbks.modules.social.entity.Message;
+import com.fang.bbks.modules.sys.dao.UserDao;
+import com.fang.bbks.modules.sys.entity.User;
 
 /**
  * @Intro Book service Component
@@ -27,6 +27,8 @@ public class MessageService{
 	
 	@Autowired
 	private MessageDao messageDao;
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * 传送一则消息
@@ -46,6 +48,15 @@ public class MessageService{
 		m.setIsReply(Message.READ_HIDE);//非回复消息
 		m.setIsRead(Message.READ_HIDE);
 		m.setCreatAt(new Date());
+	
+		
+		User ufrom = userDao.findOne(from);
+		User uto = userDao.findOne(to);
+		
+		m.setFromavatar(ufrom.getAvatar());
+		m.setToavatar(uto.getAvatar());
+		m.setFromname(ufrom.getUsername());
+		m.setToname(uto.getUsername());
 		
 		messageDao.save(m);
 	}
@@ -61,6 +72,15 @@ public class MessageService{
 		
 		m.setIsRead(Message.READ_HIDE);
 		m.setCreatAt(new Date());
+		
+
+		User ufrom = userDao.findOne(from);
+		User uto = userDao.findOne(to);
+		
+		m.setFromavatar(ufrom.getAvatar());
+		m.setToavatar(uto.getAvatar());
+		m.setFromname(ufrom.getUsername());
+		m.setToname(uto.getUsername());
 		
 		messageDao.save(m);
 	}

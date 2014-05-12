@@ -113,7 +113,7 @@ public class ImageController extends BaseController implements
 					.toString();
 			
 			System.out.println("file upload ...."+imgPath);
-			imgPath.replaceAll("\\", "/");
+//			imgPath.replaceAll("\\", "/");
 			
 			jr.setObj(imgPath);
 			jr.setMessage("上传文件成功！");

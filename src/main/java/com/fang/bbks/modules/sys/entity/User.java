@@ -67,6 +67,8 @@ public class User extends BaseEntity implements Serializable{
 	@Email
 	private String email;//邮箱
 	
+	private String gender;//性别0：man.1women
+	
 	@Size(max=2)
 	private String isCompany = BaseEntity.NO;//默认为普通用户,No表示公司用户
 
@@ -119,12 +121,20 @@ public class User extends BaseEntity implements Serializable{
 		this.wantRead = 0;
 		this.reading = 0;
 		this.messages = 0;
+		this.gender = "0";
 	}
 	public User(Long id){
 		super();
 		this.id = id;
 	}
 
+	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public Long getId() {
 		return id;
 	}

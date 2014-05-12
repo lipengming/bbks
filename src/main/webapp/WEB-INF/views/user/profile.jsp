@@ -431,9 +431,9 @@
 					 </form>
 				</div>
 				
-				<input type="button" onclick="javascript:$('#file_upload').omFileUpload('upload');" value="上传文件" class="button gray small" /> 
-			    <input type="button" onclick="javascript:$('#updateAvatarForm').submit();" value="跟新头像" class="button gray small" /> 
-			    <input type="button" onclick="javascript:$('#chooseFile-model').hide();" value="取消" class="button gray small" />
+				<input type="button" onclick="javascript:$('#file_upload').omFileUpload('upload');" value="上传文件" class="btn" /> 
+			    <input type="button" onclick="javascript:$('#updateAvatarForm').submit();" value="跟新头像" class="btn" /> 
+			    <input type="button" onclick="javascript:$('#chooseFile-model').hide();" value="取消" class="btn" />
 			  
 		</div>
 	</div>

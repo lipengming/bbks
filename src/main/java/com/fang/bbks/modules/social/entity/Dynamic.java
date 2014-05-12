@@ -47,18 +47,23 @@ public class Dynamic extends BaseEntity implements Serializable{
 	
 	private Date createAt;
 	private Date updateAt;
-
+	
 	@Size(max=ApplicationCanstant.commonMessageSize)
 	private String content;
 	
     private String delFlag;	//删除标记（0：正常；1：删除）
-
+    private Integer count;//回复数量
 	
+    private String createdname;
+    private String createdAvatar;
+    
 	/**
 	 * 
 	 */
 	public Dynamic() {
 		this.delFlag = DEL_FLAG_NORMAL;
+		this.count = 0;
+		this.createAt = new Date();
 	}
 	public Dynamic(Long id){
 		super();
@@ -66,6 +71,12 @@ public class Dynamic extends BaseEntity implements Serializable{
 	}
 	
 	
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -101,5 +112,17 @@ public class Dynamic extends BaseEntity implements Serializable{
 	}
 	public String getDelFlag() {
 		return delFlag;
+	}
+	public String getCreatedname() {
+		return createdname;
+	}
+	public void setCreatedname(String createdname) {
+		this.createdname = createdname;
+	}
+	public String getCreatedAvatar() {
+		return createdAvatar;
+	}
+	public void setCreatedAvatar(String createdAvatar) {
+		this.createdAvatar = createdAvatar;
 	}	
 }

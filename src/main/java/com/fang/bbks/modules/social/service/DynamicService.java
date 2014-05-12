@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fang.bbks.common.persistence.Page;
 import com.fang.bbks.modules.social.dao.DynamicDao;
 import com.fang.bbks.modules.social.entity.Dynamic;
+import com.fang.bbks.modules.sys.dao.UserDao;
+import com.fang.bbks.modules.sys.entity.User;
 
 /**
  * @Intro Book service Component
@@ -26,7 +29,9 @@ public class DynamicService {
 	private static Logger logger = LoggerFactory.getLogger(DynamicService.class);
 	
 	@Autowired
-	DynamicDao dynamicDao;
+	private DynamicDao dynamicDao;
+	@Autowired
+	private UserDao userDao; 
 	
 	/**
 	 * 发布动态
@@ -36,11 +41,14 @@ public class DynamicService {
 	@Transactional(readOnly = false)
 	public void publishDynamic(String content,Long uid){
 		Dynamic d = new Dynamic();
+		User u = userDao.findOne(uid);
 		
 		d.setCreatBy(uid);
 		d.setContent(content);
 		
 		d.setCreateAt(new Date());
+		d.setCreatedname(u.getUsername());
+		d.setCreatedAvatar(u.getAvatar());
 		
 		dynamicDao.save(d);
 	}
@@ -53,6 +61,14 @@ public class DynamicService {
 	public List<Dynamic> listDynamic(Long creatBy){
 		return dynamicDao.findByCreatBy(creatBy);
 	}
+	
+//	public List<Dynamic> listDynamic(List<Long> uids){
+//		return null;
+//	}
+	
+//	public Page<Dynamic> page(Page<Dynamic> page,List<Long> uids){
+//		
+//	}
 	
 	/**
 	 * 获取书籍信息

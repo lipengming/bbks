@@ -44,7 +44,13 @@ public class Message extends BaseEntity{
 	private Date creatAt;
 	private Date updateAt;
     private String delFlag = DEL_FLAG_NORMAL;	//删除标记（0：正常；1：删除）
-
+    
+    
+    //冗余信息
+    private String fromname;
+    private String toname;
+    private String fromavatar;
+    private String toavatar;
     
     public Message() {
 		this.delFlag = DEL_FLAG_NORMAL;
@@ -142,6 +148,38 @@ public class Message extends BaseEntity{
 
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+
+	public String getFromname() {
+		return fromname;
+	}
+
+	public void setFromname(String fromname) {
+		this.fromname = fromname;
+	}
+
+	public String getToname() {
+		return toname;
+	}
+
+	public void setToname(String toname) {
+		this.toname = toname;
+	}
+
+	public String getFromavatar() {
+		return fromavatar;
+	}
+
+	public void setFromavatar(String fromavatar) {
+		this.fromavatar = fromavatar;
+	}
+
+	public String getToavatar() {
+		return toavatar;
+	}
+
+	public void setToavatar(String toavatar) {
+		this.toavatar = toavatar;
 	}
 
 }
