@@ -23,6 +23,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
@@ -112,8 +113,9 @@ public class Book extends BaseEntity{
 	private Integer hasRead;//读过人数
 	private Integer commentCount;//读过人数
 	
-	private String bookSrc;//电子书源文件
+	private String bookSrc;//epub电子书源文件
 	private String eFlag;//电子书
+	private String txtSrc;//txt文件路径
 	
 	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String authorintro;//作者简介<215
@@ -124,6 +126,17 @@ public class Book extends BaseEntity{
 	
 	private Date createdAt;
 	private Date updateAt;
+	
+	@Transient 
+	private Boolean iswantRead;
+	@Transient 
+	private Boolean islike;
+	@Transient 
+	private Boolean reading;
+	@Transient 
+	private Boolean ishasRead;
+	@Transient 
+	private Boolean isearched;
 	
 	/**
 	 * 
@@ -153,6 +166,14 @@ public class Book extends BaseEntity{
 		this.category = new Category("不明分类","unknown");
 	}
 	
+	public String getTxtSrc() {
+		return txtSrc;
+	}
+
+	public void setTxtSrc(String txtSrc) {
+		this.txtSrc = txtSrc;
+	}
+
 	public String getBookName() {
 		return bookName;
 	}
@@ -355,5 +376,45 @@ public class Book extends BaseEntity{
 
 	public void setIslock(Integer islock) {
 		this.islock = islock;
+	}
+
+	public Boolean getIswantRead() {
+		return iswantRead;
+	}
+
+	public void setIswantRead(Boolean iswantRead) {
+		this.iswantRead = iswantRead;
+	}
+
+	public Boolean getIslike() {
+		return islike;
+	}
+
+	public void setIslike(Boolean islike) {
+		this.islike = islike;
+	}
+
+	public Boolean getReading() {
+		return reading;
+	}
+
+	public void setReading(Boolean reading) {
+		this.reading = reading;
+	}
+
+	public Boolean getIshasRead() {
+		return ishasRead;
+	}
+
+	public void setIshasRead(Boolean ishasRead) {
+		this.ishasRead = ishasRead;
+	}
+
+	public Boolean getIsearched() {
+		return isearched;
+	}
+
+	public void setIsearched(Boolean isearched) {
+		this.isearched = isearched;
 	}	
 }

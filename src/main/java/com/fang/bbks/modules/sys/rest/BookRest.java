@@ -93,5 +93,24 @@ public class BookRest extends BaseController{
 		}
 		return jr.toJson(jr);
 	}
-
+	
+	
+	@RequestMapping(value={"/updateEbook"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public String addEbook(
+			@RequestParam(value="txtSrc",required=false) String txtSrc,
+			@RequestParam(value="bookSrc",required=false) String bookSrc,
+			@RequestParam(value="bookId",required=true) Long bookId){
+		JsonResult jr = new JsonResult();
+		try{
+			bs.updateEbook(bookSrc, txtSrc, bookId);
+			jr.setIsSuccess(Boolean.TRUE);
+			jr.setMessage("成功！");
+		}catch(Exception e){
+			jr.setIsSuccess(Boolean.FALSE);
+			jr.setMessage("失败！");
+		}
+		return jr.toJson(jr);
+	}
+	
 }

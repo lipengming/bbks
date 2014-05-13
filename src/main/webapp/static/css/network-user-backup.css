@@ -248,6 +248,7 @@
 .circle_left .interest_list dd,.circle_left .book_list dd{ height:24px; margin-bottom:5px; font:13px/24px "微软雅黑"; color:#646464;}
 .circle_left .interest_list dd a,.circle_left .book_list dd a{ display:block; padding-left:25px; color:#646464;}
 .circle_left .interest_list dd a:hover,.circle_left .book_list dd a:hover{ background:#e2e3e5; text-decoration:none; color:#010101;}
+
 .circle_right{ float:left; width:720px; padding-left:20px; margin-top:-20px; padding-top:20px; border-left:1px solid #ebeef0;}
 .circle_right .interest_me h2{font:14px/24px "微软雅黑"; color:#ed5311;}
 .circle_right .interest_me p{ padding:12px 0; font-size:14px; color:#000;}

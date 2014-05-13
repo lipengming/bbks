@@ -73,18 +73,21 @@
                             <dd><a href="${ctx}/book/salerank">销售排行榜</a></dd>
                         </dl>
                     </li>
-                    <li><a href="#">兴趣</a></li>
-                    <li><a href="${ctx}/user/bookshelft">书架</a></li>
+                    <li><a href="${ctx}/bs/index">书架</a></li>
                     <li><a href="${ctx}/user/profile">社交网络</a></li>
                 </ul>
             </div>
-            <div class="search">
-                <input type="text" class="search_text" name="keywords"> 
-                <input type="button" class="search_btn">
-            </div>
+            <form action="<c:url value="/book/search"/>" method="post" id="index_search_form">
+	            <div class="search">
+	                <input type="text" class="search_text" name="keywords"> 
+	                <input type="button" class="search_btn" onClick="javascript:this.form.submit();"/>
+	            </div>
+	         </form>   
+        	
             <div class="top_info">
                 <span class="name"><a href="${ctx }/logout" class="drop" /><a href="${ctx }/user/profile/index"><c:out value="${sessionScope._SIGN_USER_.username }"></c:out></a></span>
-                <span class="change"></span>
+                <span class="change" onclick="javascript:window.location='${ctx}/bs/donate';">
+                </span>
                 <span class="mail">
                 	<div class="mail_drop" style="display:none;">
                     	<div class="drop_mail"></div>
@@ -109,3 +112,69 @@
     </div>
 </c:otherwise>
 </c:choose>
+
+<script type="text/javascript">
+$(function(){
+	//登录
+	$("#index_top .index_member .l_btn").click(
+		function(){
+			$(".box_login").show();
+			$(".box_login .shadow").height($(document.body).height());
+			$(".box_login .shadow,#login .close,#login .lg .l_btn").click(function(){
+				
+				var name = $("#login_name").val();
+				var pwd = $("#login_pwd").val();
+				
+				if(name != "" && pwd != ""){
+					var url = "${ctx}/api/user/login";
+					var mdata = {"name":name,"pwd":pwd};
+					
+					$.ajax({
+					    type: "POST",
+					    dataType: "json",
+					    data:mdata,
+					    url: url,
+					    success: function(result){
+					    	if(result.isSuccess){
+					    		window.location = "";
+					    	}else{
+					    		$(".box_login").hide();
+					    	}
+					    	alert(result.message);
+					    },
+					    error:function(err){
+					    	alert(err);
+					    	$(".box_login").hide();
+					    }
+					});
+				}else{
+					$(".box_login").hide();
+				}
+				
+			});
+		}
+	);
+	//注册
+	$("#index_top .index_member .r_btn").click(
+		function(){
+			window.location = "regist";	
+		
+//			$(".box_reg").show();
+//			$(".box_reg .shadow").height($(document.body).height());
+//			$(".box_reg .shadow,.box_reg .close").click(function(){
+//				$(".box_reg").hide();	
+//			});
+	});
+	$("#reg .dq em").click(function(){
+			var  list = $(this).parents(".dq").find(".dq_list");
+			list.show();
+			var sp = $(this).parents(".dq").find("span");
+			list.find("ul").find("li").click(
+				function(){
+					sp.empty();
+					$(this).find("a").clone().appendTo(sp);
+					$(".dq_list").hide();
+			});
+	});
+});
+</script>

@@ -215,4 +215,7 @@ public abstract class BaseController {
 		return new StringBuilder().append(System.currentTimeMillis())
 			.append(orgName.substring(orgName.lastIndexOf('.'))).toString();
 	}
+	public static String getNewDirrectory(){
+		return System.currentTimeMillis()+"";
+	}
 }

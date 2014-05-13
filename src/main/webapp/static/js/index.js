@@ -39,13 +39,13 @@ $(function(){
 	$(".box_wap .shadow").height($(document.body).height());	
 });
 $(function(){
-	//喜欢
-	$(function(){
-		$(".like em").click(
-			function(){
-				$(this).toggleClass("liked");
-		});
-	});
+//	//喜欢
+//	$(function(){
+//		$(".like em").click(
+//			function(){
+//				$(this).toggleClass("liked");
+//		});
+//	});
 	//书城比价按钮
 	$(".s_btn_1").click(
 		function(){
@@ -297,67 +297,4 @@ $(function(){
 			return false;
 		}
 	);
-});
-$(function(){
-	//登录
-	$("#index_top .index_member .l_btn").click(
-		function(){
-			$(".box_login").show();
-			$(".box_login .shadow").height($(document.body).height());
-			$(".box_login .shadow,#login .close,#login .lg .l_btn").click(function(){
-				
-				var name = $("#login_name").val();
-				var pwd = $("#login_pwd").val();
-				
-				if(name != "" && pwd != ""){
-					var url = "api/user/login";
-					var mdata = {"name":name,"pwd":pwd};
-					
-					$.ajax({
-					    type: "POST",
-					    dataType: "json",
-					    data:mdata,
-					    url: url,
-					    success: function(result){
-					    	if(result.isSuccess){
-					    		window.location = "";
-					    	}else{
-					    		$(".box_login").hide();
-					    	}
-					    	alert(result.message);
-					    },
-					    error:function(err){
-					    	alert(err);
-					    	$(".box_login").hide();
-					    }
-					});
-				}else{
-					$(".box_login").hide();
-				}
-				
-			});
-		}
-	);
-	//注册
-	$("#index_top .index_member .r_btn").click(
-		function(){
-			window.location = "regist";	
-		
-//			$(".box_reg").show();
-//			$(".box_reg .shadow").height($(document.body).height());
-//			$(".box_reg .shadow,.box_reg .close").click(function(){
-//				$(".box_reg").hide();	
-//			});
-	});
-	$("#reg .dq em").click(function(){
-			var  list = $(this).parents(".dq").find(".dq_list");
-			list.show();
-			var sp = $(this).parents(".dq").find("span");
-			list.find("ul").find("li").click(
-				function(){
-					sp.empty();
-					$(this).find("a").clone().appendTo(sp);
-					$(".dq_list").hide();
-			});
-	});
 });

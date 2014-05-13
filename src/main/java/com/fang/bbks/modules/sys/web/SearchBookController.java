@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fang.bbks.common.persistence.Page;
+import com.fang.bbks.common.utils.SessionUtil;
 import com.fang.bbks.common.utils.StringUtils;
 import com.fang.bbks.common.web.BaseController;
+import com.fang.bbks.modules.social.entity.InterestType;
+import com.fang.bbks.modules.social.service.InterestService;
 import com.fang.bbks.modules.sys.dao.CategoryDao;
 import com.fang.bbks.modules.sys.entity.Book;
 import com.fang.bbks.modules.sys.entity.Category;
 import com.fang.bbks.modules.sys.entity.Comment;
 import com.fang.bbks.modules.sys.entity.CommentType;
+import com.fang.bbks.modules.sys.entity.User;
 import com.fang.bbks.modules.sys.service.BookService;
 import com.fang.bbks.modules.sys.service.CommentService;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -41,6 +46,11 @@ public class SearchBookController extends BaseController{
 	private BookService bs;
 	@Autowired
 	private CategoryDao categoryDao;
+	@Autowired
+	private InterestService interestService;
+	@Autowired
+	private SessionUtil sessionUtil;
+	
 	
 	@RequestMapping(value={"/search/list"}, method={RequestMethod.GET,RequestMethod.POST})
 	public String searchIndex(Model model,HttpServletRequest request,
@@ -66,18 +76,28 @@ public class SearchBookController extends BaseController{
 				page = bs.findByKeyWords(page, kw,sortBy,sortOders);
 			}
 		}else if(StringUtils.isNotBlank(typeStr) && "news".equals(typeStr)){
+			catlog = "3";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else if(StringUtils.isNotBlank(typeStr) && "promotion".equals(typeStr)){
+			catlog = "6";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else if(StringUtils.isNotBlank(typeStr) && "salerank".equals(typeStr)){
+			catlog = "9";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else if(StringUtils.isNotBlank(typeStr) && "searchrank".equals(typeStr)){
+			catlog = "11";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else{
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}
 		
-		adapteeDate(page,model);
+		User user = sessionUtil.getSignInUser(request.getSession());
+		if(user != null){
+			adapteeDate(page,model,user.getId());
+		}else{
+			adapteeDate(page,model,null);
+		}
+		
 		
 		return "book/list";
 	}
@@ -90,6 +110,18 @@ public class SearchBookController extends BaseController{
 		if(book ==null)
 			return "redirect:/index";
 		
+		User user = sessionUtil.getSignInUser(request.getSession());
+		if(user != null){
+			//设置喜欢按钮
+			book.setIslike(interestService.isExit(user.getId(), book.getId(), InterestType.book_like));
+			//设置喜欢按钮
+			book.setReading(interestService.isExit(user.getId(), book.getId(), InterestType.book_reading));
+			//设置喜欢按钮
+			book.setIswantRead(interestService.isExit(user.getId(), book.getId(), InterestType.book_wantRead));
+			//已读
+			book.setIshasRead(interestService.isExit(user.getId(), book.getId(), InterestType.book_hasRead));
+		}
+		
 		uiModel.addAttribute("bookInfo",book);
 		Comment comment = new Comment();
 		comment.setContentId(bookId);
@@ -98,7 +130,6 @@ public class SearchBookController extends BaseController{
 		
 		return "/book/detail";
 	}
-	
 	
 	/**
 	 * 数据分页
@@ -142,24 +173,30 @@ public class SearchBookController extends BaseController{
 	 * @param books
 	 * @param mode
 	 */
-	private void adapteeDate(Page<Book> page,Model model){
+	private void adapteeDate(Page<Book> page,Model model,Long uid){
 		
 		if(page != null && !page.getList().isEmpty()){
 			List<Book> books = page.getList();
-			model.addAttribute("booksInfo", books);
+			List<Book> results = Lists.newArrayList();
 			
 			Map<Long,List<Comment>> map = Maps.newHashMap();
 			for(int a=0;a<books.size();a++){
+
+				Book b = books.get(a);
 				
 				Comment c = new Comment();
-				c.setContentId(books.get(a).getId());
+				c.setContentId(b.getId());
 				
-				Page<Comment> pageComment = commentService.find(new Page<Comment>(1,5), c);
+				Page<Comment> pageComment = commentService.find(new Page<Comment>(1,10), c);
 				if(pageComment != null && pageComment.getList() != null){
-					map.put(books.get(a).getId(), pageComment.getList());
+					map.put(b.getId(), pageComment.getList());
 				}
 				
+				//设置喜欢按钮
+				b.setIslike(interestService.isExit(uid, b.getId(), InterestType.book_like));
+				results.add(b);
 			}
+			model.addAttribute("booksInfo", results);
 			model.addAttribute("commentMap", map);
 		}
 	}

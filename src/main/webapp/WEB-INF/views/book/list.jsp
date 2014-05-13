@@ -14,7 +14,22 @@
                 </div>
                 
                 <div class="pb_num">
-                	<span class="like"><em class="like-icon"></em>${bookInfo.likeCount }</span>
+                	<c:choose>
+                		<c:when test="${bookInfo.islike }">
+                			<span class="like" >
+		                		<em class="like-icon liked"></em>
+		                		${bookInfo.likeCount }
+		                	</span>
+                		</c:when>
+                		<c:otherwise>
+                			<span class="like" onclick="addInterested(${bookInfo.id });">
+		                		<em class="like-icon" id="em_${bookInfo.id }"></em>
+		                		${bookInfo.likeCount }
+		                	</span>
+                		</c:otherwise>
+                	</c:choose>
+                	
+                	
                     <span class="comments"><a href="#">评论</a>${bookInfo.commentCount }</span>
                 </div>
                 <div class="pb_message" id="comment_${bookInfo.id }">
@@ -86,6 +101,53 @@ function request(data){
 	});	
 }
 
+function addInterested(bookId){
+	if("${sessionScope._SIGN_USER_.id }" == ""){
+		alert("登陆之后才能继续操作！");	
+		return;
+	}
+	var uid = "${sessionScope._SIGN_USER_.id }";
+	var data = {
+			userId:uid,
+			bookId:bookId,
+			typeId:4
+	};
+	$.ajax({
+	    type: "POST",
+	    dataType: "json",
+	    data:data,
+	    url: '${ctx}/api/interest/addInterest',
+	    success: function(result){
+	    	$("#em_"+bookId).toggleClass("liked");
+	    },
+	    error:function(err){
+	    	alert(err);
+	    }
+	});	
+}
 
+/**
+$(function(){
+	$(".like em").click(function(){
+		if("${sessionScope._SIGN_USER_.id }" == ""){
+			alert("登陆之后才能继续操作！");	
+			return;
+		}
+		var uid = "${sessionScope._SIGN_USER_.id }";
+		var bookId
+		$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    data:data,
+		    url: '${ctx}/api/interest/addInterest',
+		    success: function(result){
+		    	$(this).toggleClass("liked");
+		    },
+		    error:function(err){
+		    	alert(err);
+		    }
+		});	
+	});
+});**/
 
 </script>

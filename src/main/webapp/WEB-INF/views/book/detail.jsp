@@ -8,7 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>书城</title>
+<title>图书详情</title>
 
 
 
@@ -46,7 +46,34 @@
 			});			
 		});
 	});
-
+	
+	
+//兴趣设置
+function addInterested(type){
+	if("${sessionScope._SIGN_USER_.id }" == ""){
+		alert("登陆之后才能继续操作！");	
+		return;
+	}
+	var uid = "${sessionScope._SIGN_USER_.id }";
+	var data = {
+			userId:uid,
+			bookId:"${bookInfo.id}",
+			typeId:type
+	};
+	$.ajax({
+	    type: "POST",
+	    dataType: "json",
+	    data:data,
+	    url: '${ctx}/api/interest/addInterest',
+	    success: function(result){
+	    	var jsonData = eval(result);
+	    	console.log(jsonData);
+	    },
+	    error:function(err){
+	    	alert(err);
+	    }
+	});	
+}
 </script>
 </head>
 <body>
@@ -97,11 +124,42 @@
         	<div class="gb_img">
             	<img src="${bookInfo.coverPic }" width="188" height="258"  alt="" />
             	<div class="gb_img_btn">
-                	<input type="button" class="gb_img_btn_1" />
-                    <input type="button" class="gb_img_btn_2" />
+            			<c:choose>
+	                		<c:when test="${bookInfo.islike }">
+	                			  <input type="button" class="gb_img_btn_1 gb_img_btn_3"/>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<input type="button" class="gb_img_btn_1" onclick="addInterested(4);" />
+	                		</c:otherwise>
+                		</c:choose>
+                	
+                    	<input type="button" class="gb_img_btn_2" />
                 </div>
                 <div class="gb_img_span">
-                	<a href="#">想读</a> <a href="#">在读</a> <a href="#">已读</a>
+                		<c:choose>
+	                		<c:when test="${bookInfo.iswantRead }">
+	                			  <a href="javascript:void(0);" style="background: #3278ac;">想读</a>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<a href="#" onclick="addInterested(2);">想读</a>
+	                		</c:otherwise>
+                		</c:choose>
+                		<c:choose>
+	                		<c:when test="${bookInfo.ishasRead }">
+	                			  <a href="javascript:void(0);" style="background: #3278ac;">已读</a>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<a href="#" onclick="addInterested(3);">已读</a>
+	                		</c:otherwise>
+                		</c:choose>
+                		<c:choose>
+	                		<c:when test="${bookInfo.reading }">
+	                			  <a href="javascript:void(0);" style="background: #3278ac;">已在读</a>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<a href="#" onclick="addInterested(1);">在读</a>
+	                		</c:otherwise>
+                		</c:choose>
                 </div>
             </div>
             <div class="gb_con">

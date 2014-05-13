@@ -28,7 +28,11 @@ public interface BookDao extends BookDaoCustom,CrudRepository<Book, Long>{
 	@Query("from Book where id = ?1 and delFlag = " + Book.DEL_FLAG_NORMAL)
 	public Book findOne(Long id);
 	
+	@Query("from Book where bookName = ?1 or isbn = ?2")
+	public Book findByBookNameOrIsbn(String bookName,String isbn);
 	
+	@Query("from Book where isbn = ?1")
+	public Book findByIsbn(String isbn);
 }
 
 

@@ -130,6 +130,63 @@ public class ImageController extends BaseController implements
 		
 		return jr.toJson(jr);
 	}
+	
+	@RequestMapping(value="/upLoadAndUnZip",headers = "content-type=multipart/*",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String upLoadAndUnZip(@RequestParam(value="Filedata", required=true) MultipartFile imageFile){
+		
+		JsonResult jr = new JsonResult();
+		
+		String orgName = imageFile.getOriginalFilename();
+		String newFileName = getNewFileName(orgName);
+		
+		String newName = getNewDirrectory();
+		String storagePath = new StringBuffer(getBaseRepository()).append(File.separator).append(newName).toString();
+		Resource res = ac.getResource(storagePath);
+		
+		try{
+		
+			File folder = res.getFile();
+			if(!folder.exists()){
+				FileUtils.createDirectory(folder.getPath());
+				folder = new File(folder.getPath());
+			}
+			
+			String storageFilePath = new StringBuffer(folder.getPath()).append(File.separator).append(newFileName).toString();
+			File file = new File(storageFilePath);
+			if(!file.exists()){
+				FileUtils.createFile(storageFilePath);
+			}
+			imageFile.transferTo(file);
+			
+			//上传文件在--》storageFilePath
+			//现在解压
+			FileUtils.unZipFiles(storageFilePath, folder.getPath());
+			
+			
+			jr.setIsSuccess(true);
+			
+			String unZip = new StringBuffer("http://").append(request.getServerName()).append(":")
+					.append(request.getServerPort()).append(request.getContextPath())
+					.append(storagePath).toString();
+			
+			System.out.println("file upload ...."+unZip);
+			
+			jr.setObj(unZip);
+			jr.setMessage("上传文件成功！");
+			
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+			logger.error("文件上传失败！{},{}", e.getMessage(),e);
+			jr.setIsSuccess(false);
+			jr.setMessage("文件上传失败！");
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+		}
+		
+		return jr.toJson(jr);
+	}
 
 
 	@Override

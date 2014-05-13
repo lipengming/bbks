@@ -268,8 +268,8 @@
 .book_info_btn{ padding:0 0 10px 0; text-align:right; display:block;}
 
 /*圈子*/
-.circle_menu{ clear:both; height:34px; width:342px; margin:24px auto 0; overflow:hidden;}
-.circle_menu ul{ width:360px;}
+.circle_menu{ clear:both; height:34px; width:402px; margin:24px auto 0; overflow:hidden;}
+.circle_menu ul{ width:600px;}
 .circle_menu ul li{ float:left; height:34px; line-height:34px; margin-right:18px; background:#c5c8c9; padding:0 15px;}
 .circle_menu ul li a{ color:#010101;}
 .circle_menu ul li a:hover{ text-decoration:none;}
@@ -279,6 +279,10 @@
 .circle_left .interest_list dd,.circle_left .book_list dd{ height:24px; margin-bottom:5px; font:13px/24px "微软雅黑"; color:#646464;}
 .circle_left .interest_list dd a,.circle_left .book_list dd a{ display:block; padding-left:25px; color:#646464;}
 .circle_left .interest_list dd a:hover,.circle_left .book_list dd a:hover{ background:#e2e3e5; text-decoration:none; color:#010101;}
+
+/**.circle_left .book_list dd a.act{ background:#2178ac;}**/
+
+
 .circle_right{ float:left; width:720px; padding-left:20px; margin-top:-20px; padding-top:20px; border-left:1px solid #ebeef0;}
 .circle_right .interest_me h2{font:14px/24px "微软雅黑"; color:#ed5311;}
 .circle_right .interest_me p{ padding:12px 0; font-size:14px; color:#000;}
@@ -384,6 +388,7 @@
 .circle_right .msn .msn_left label .text{margin-left: 10px;font:12px/24px "微软雅黑";}
 .circle_right .msn .msn_left label .dr_text{width: 264px;}
 .dr_btn{ background: url(../images/dr_btn.gif) no-repeat; margin-top:5px; width:81px; height:32px; line-height:30px; font:14px/30px "微软雅黑"; border:none 0; float:right;}
+
 .circle_right .msn .msn_left .dr_text{ width:172px; height:30px; border:1px solid #c5c8c9;}
 .circle_right .msn_right{float:left; width:205px; padding-left:50px;}
 .circle_right .msn_right dl{ color:#010101; font-family:"微软雅黑";}

@@ -44,10 +44,10 @@ public class BookService {
 	private static Logger logger = LoggerFactory.getLogger(BookService.class);
 	
 	@Autowired
-	BookDao bookDao;
+	private BookDao bookDao;
 	
 	@Autowired
-	CategoryDao categoryDao;
+	private CategoryDao categoryDao;
 	
 	/**
 	 * 获取书籍信息
@@ -56,6 +56,14 @@ public class BookService {
 	 */
 	public Book findOne(Long id){
 		return bookDao.findOne(id);
+	}
+	
+	public Book findByBookNameOrIsbn(String bookName,String isbn){
+		return bookDao.findByBookNameOrIsbn(bookName, isbn);
+	}
+	
+	public Book findByIsbn(String isbn){
+		return bookDao.findByIsbn(isbn);
 	}
 	
 	@Transactional(readOnly = false)
@@ -71,6 +79,28 @@ public class BookService {
 		//TODO 从列表中也出这本书及的信息
 	}
 	
+	@Transactional(readOnly = false)
+	public void updateEbook(String epubStr,String txtStr,Long id){
+		if(StringUtils.isEmpty(epubStr) && StringUtils.isEmpty(txtStr)){
+			System.out.println("---");
+			return;
+		}
+			
+		if(StringUtils.isEmpty(epubStr) && StringUtils.isNotEmpty(txtStr)){
+			bookDao.update("update Book set txtSrc = ?1,e_flag='1' where id=?2", txtStr,id);
+		}
+		
+		if(StringUtils.isEmpty(txtStr) && StringUtils.isNotEmpty(epubStr)){
+			bookDao.update("update Book set bookSrc = ?1,e_flag='1' where id=?2", epubStr,id);	
+		}
+		
+		if(StringUtils.isNotEmpty(txtStr) && StringUtils.isNotEmpty(epubStr)){
+			bookDao.update("update Book set bookSrc = ?1, txtSrc=?2,e_flag='1' where id=?3",epubStr, txtStr,id);	
+		}
+	}
+	
+	
+	
 	/**
 	 * 全文检索
 	 * @param page
@@ -78,8 +108,6 @@ public class BookService {
 	 * @return
 	 */
 	public Page<Book> findByKeyWords(Page<Book> page,String keywords,String sortBy,Integer orders){
-		
-		
 		// 设置查询条件
 		BooleanQuery query = bookDao.getFullTextQuery(keywords, "bookName","outline","author");
 		// 设置过滤条件

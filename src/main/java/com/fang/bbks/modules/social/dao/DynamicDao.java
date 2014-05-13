@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.fang.bbks.common.persistence.BaseDao;
 import com.fang.bbks.common.persistence.BaseDaoImpl;
 import com.fang.bbks.modules.social.entity.Dynamic;
-import com.fang.bbks.modules.sys.entity.BookContent;
 import com.fang.bbks.modules.sys.entity.User;
 
 /**
