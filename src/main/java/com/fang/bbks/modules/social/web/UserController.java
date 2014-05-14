@@ -26,6 +26,7 @@ import com.fang.bbks.common.utils.SessionUtil;
 import com.fang.bbks.common.web.BaseController;
 import com.fang.bbks.modules.social.entity.Dynamic;
 import com.fang.bbks.modules.social.service.DynamicService;
+import com.fang.bbks.modules.social.service.InterestService;
 import com.fang.bbks.modules.social.service.MessageService;
 import com.fang.bbks.modules.social.service.NetWorkService;
 import com.fang.bbks.modules.social.service.RelationService;
@@ -61,7 +62,8 @@ public class UserController extends BaseController {
 	private SessionUtil sessionUtil;
 	@Autowired
 	private CommentService commentService;
-	
+	@Autowired
+	private InterestService interestService;
 	/**
 	 * 个人主页
 	 * 
@@ -133,6 +135,9 @@ public class UserController extends BaseController {
 		if(relationService.isFlow(cu.getId(), uid)){
 			uiModel.addAttribute("doFlow", true);
 		}
+		
+		//找他的兴趣
+		uiModel.addAttribute("invos", interestService.findAll(uid, null));
 		
 		return "/user/detail";
 	}

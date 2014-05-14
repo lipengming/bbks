@@ -25,19 +25,9 @@
 <div id="layout">
     	<div class="circle_menu">
         		<ul>
-            	
-            		<c:choose>
-	        			<c:when test="${userInfo.id == sessionScope._SIGN_USER_.id }">
-	        				<li ><a href="${ctx }/bs/similar?uid=${userInfo.id }">和我相似</a></li>
-	        				<li  class="active"><a href="${ctx }/bs/index?uid=${userInfo.id }">我的兴趣</a></li>		
-	        			</c:when>
-	        			<c:otherwise>
-	        				<li class="active"><a href="${ctx }/bs/index?uid=${userInfo.id }">他的兴趣</a></li>			
-	        			</c:otherwise>
-        			</c:choose>
-            	
-            	 
-                <li><a href="${ctx }/bs/bookmarks?uid=${userInfo.id }">书签</a></li>
+            	<li  class="active"><a href="${ctx }/bs/similar?uid=${userInfo.id }">和我相似</a></li>
+	        	<li><a href="${ctx }/bs/index?uid=${userInfo.id }">我的兴趣</a></li>	 
+                <li><a href="${ctx }/bs/bookmarks?uid=${userInfo.id }">我的书签</a></li>
                 <li ><a href="${ctx }/bs/donate?uid=${userInfo.id }" >贡献图书</a></li>
             </ul>
         </div>
@@ -46,12 +36,12 @@
             	
                 <dl class="book_list">
                 	<dt>图书</dt>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}">全部 </a></dd>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}&type=0">搜过 </a></dd>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}&type=1">在读 </a></dd>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}&type=2">想读 </a></dd>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}&type=3">已读</a></dd>
-                    <dd><a href="${ctx }/bs/index?uid=${userInfo.id}&type=4">喜欢 </a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}">全部 </a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}&type=0">搜过相似 </a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}&type=1">在读相似 </a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}&type=2">想读 相似</a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}&type=3">已读相似</a></dd>
+                    <dd><a href="${ctx }/bs/similar?uid=${userInfo.id}&type=4">喜欢 相似</a></dd>
                 </dl>
             </div>
             <div class="circle_right">
@@ -63,7 +53,7 @@
                		<c:forEach var="vo" items="${invos }">
                			 <div class="hd">
 		                	<div class="img">
-		                    	<a href="${ctx }/user/detail/${vo.user.id}"><img src="${vo.user.avatar }" width="48" height="48" alt=""/></a>
+		                    	<a href="#"><img src="${vo.user.avatar }" width="48" height="48" alt=""/></a>
 		                        <input type="button" class="fsx_btn sx_click" value="私信"/>
 		                        <span class="sixin">
 		                              <h2><span class="close"></span>发私信</h2>
@@ -118,7 +108,7 @@
 		                        </div>
 		                    </div>
 		                    <div class="bk_img">
-		                    	<a href="${ctx }/book/search/${vo.book.id}"><img src="${vo.book.coverPic }" width="92" alt=""/></a>
+		                    	<a href="#"><img src="${vo.book.coverPic }" width="92" alt=""/></a>
 		                    	 <span class="book_info" style="display: none; position: absolute; top: 237px; left: 1049px;">
 		                                <h2><a href="#">${vo.book.bookName }</a></h2>
 		                                <h3><span class="yizhe fn-right">译者：<a href="#">${vo.book.translator }</a></span>作者：<a href="#">${vo.book.author }</a></h3>
@@ -132,10 +122,12 @@
 		                                    <input type="button" class="text">
 		                                    <input type="button" class="join">
 		                                </span>
+		                            </span>
 		                          </span>
 		                    </div>
 		                </div>
-               			</c:forEach>
+               			
+               		</c:forEach>
               
               	<!-- end -->
               </div>

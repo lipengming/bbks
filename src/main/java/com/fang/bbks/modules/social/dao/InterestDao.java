@@ -20,13 +20,13 @@ import com.fang.bbks.modules.social.entity.InterestType;
  * @since 下午6:54:25	
  */
 public interface InterestDao extends InterestDaoCustom , CrudRepository<Interest,Long>{
-	@Query("from Interest where uid = ?1")
+	@Query("from Interest where uid = ?1 order by createdAt desc")
 	public List<Interest> findByUid(Long uid);
 	
-	@Query("from Interest where uid = ?1 and type=?2")
+	@Query("from Interest where uid = ?1 and type=?2 order by createdAt desc")
 	public List<Interest> findByUidAndType(Long uid,InterestType type);
 	
-	@Query("from Interest where uid = ?1 and mid=?2 and type = ?3")
+	@Query("from Interest where uid = ?1 and mid=?2 and type = ?3 order by createdAt desc")
 	public Interest findByUidAndMidAndtype(Long uid,Long mid,InterestType type);
 }
 

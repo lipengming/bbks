@@ -270,6 +270,35 @@
                         </ul>
                     </div>
                 </div>
+                 <div class="interest_person">
+                	<div class="title">
+                    	<h3><a href="#">兴趣相似的人……</a></h3>
+                    </div>
+                    <div class="list">
+                    	<ul>
+                        	<c:forEach var="item" items="${invos }">
+                    		<li>
+                                <a href="${ctx }/user/detail/${item.user.id}">
+                                	<img src="${item.user.avatar }" width="48" height="48" alt="" />
+                                    <h5>W</h5>
+                                </a>
+                                <div class="read_info">
+                                    <div class="read_info_base">
+                                        <img src="${item.user.avatar }" width="40" height="40" alt="" />
+                                        <h2>${item.user.username }</h2>
+                                        <h4><span>关注</span> ${item.user.floweds } | <Span>粉丝</Span> ${item.user.flowings } |</h4>
+                                        <p>${item.user.description }</p>
+                                    </div>
+                                    <div class="read_info_btn">
+                                        <input type="button" class="btn" />
+                                    </div>
+                                </div>
+                            </li>
+                    		</c:forEach>
+                            
+                        </ul>
+                    </div>
+                </div>
                 <dl class="my_book">
                 	<dt><h3><a href="#">我的书架</a></h3></dt>
                     <dd><a href="#">在读 （${userInfo.reading}）</a></dd>

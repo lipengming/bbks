@@ -37,7 +37,10 @@ public class NetWorkService {
 	private MessageService messageService;
 	@Autowired
 	private CommentService commentService;
-
+	@Autowired
+	private InterestService interestService; 
+	
+	
 	public void setUserInfo(Long uid, Model uiModel) {
 		System.out.println("uid-->"+uid);
 		// 查询用户基本信息
@@ -60,6 +63,7 @@ public class NetWorkService {
 		comment.setUid(uid);
 		uiModel.addAttribute("commentInfo", commentService.find(comment));//书评
 		
+		uiModel.addAttribute("invos", interestService.findSimilar(uid, null));
 		// TODO...
 	}
 

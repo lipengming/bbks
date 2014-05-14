@@ -24,20 +24,19 @@
 
 <div id="layout">
     	<div class="circle_menu">
-        		<ul>
-            	
+        	<ul>
             		<c:choose>
 	        			<c:when test="${userInfo.id == sessionScope._SIGN_USER_.id }">
 	        				<li ><a href="${ctx }/bs/similar?uid=${userInfo.id }">和我相似</a></li>
-	        				<li  class="active"><a href="${ctx }/bs/index?uid=${userInfo.id }">我的兴趣</a></li>		
+	        				<li><a href="${ctx }/bs/index?uid=${userInfo.id }">我的兴趣</a></li>		
 	        			</c:when>
 	        			<c:otherwise>
-	        				<li class="active"><a href="${ctx }/bs/index?uid=${userInfo.id }">他的兴趣</a></li>			
+	        				<li><a href="${ctx }/bs/index?uid=${userInfo.id }">他的兴趣</a></li>			
 	        			</c:otherwise>
         			</c:choose>
             	
             	 
-                <li><a href="${ctx }/bs/bookmarks?uid=${userInfo.id }">书签</a></li>
+                <li  class="active"><a href="${ctx }/bs/bookmarks?uid=${userInfo.id }">书签</a></li>
                 <li ><a href="${ctx }/bs/donate?uid=${userInfo.id }" >贡献图书</a></li>
             </ul>
         </div>
@@ -63,7 +62,7 @@
                		<c:forEach var="vo" items="${invos }">
                			 <div class="hd">
 		                	<div class="img">
-		                    	<a href="${ctx }/user/detail/${vo.user.id}"><img src="${vo.user.avatar }" width="48" height="48" alt=""/></a>
+		                    	<a href="#"><img src="${vo.user.avatar }" width="48" height="48" alt=""/></a>
 		                        <input type="button" class="fsx_btn sx_click" value="私信"/>
 		                        <span class="sixin">
 		                              <h2><span class="close"></span>发私信</h2>
@@ -79,33 +78,10 @@
 		                              </label>
 		                              <label><input type="button" class="fs"/></label>
 		                          </span>
-		                          <!-- pop -->
-		                          <span class="read_info" style="display: inline; position: absolute; top: 107px; left: 391px;">
-		                              <span class="read_info_base">
-		                                  <img src="${vo.user.avatar }" width="40" height="40" alt=""/>
-		                                  <h2>${vo.user.username }</h2>
-		                                  <h4><span>关注</span> ${vo.user.floweds } | <span>粉丝</span> ${vo.user.flowings } | </h4>
-		                                  <p>${vo.user.description }</p>
-		                              </span>
-		                              <span class="read_info_btn">
-		                                  <input type="button" class="btn"/>
-		                          </span>
 		                    </div>
 		                    <div class="bd">
 		                    	<div class="tit">
-		                        	
-            			<c:choose>	
-            					<c:when test="${vo.user.doFlow}">
-									<form action="${ctx }/user/unflow?uid=${vo.user.id}" method="post">
-										<input class="guanz_btn guanz_btn_on" type="button" onclick="javascript:this.form.submit();"/>
-									</form>
-		            			</c:when>
-		            			<c:otherwise>
-		            				<form action="${ctx }/user/flow?uid=${vo.user.id}" method="post">
-		            					<input class="guanz_btn" type="button" onclick="javascript:this.form.submit();"/>
-		            				</form>
-		            			</c:otherwise>
-		            		</c:choose>
+		                        	<input type="button" class="guanz_btn"/>
 		                            <h2><a href="#">${vo.user.username }</a></h2>
 		                            <h3>最近${vo.type}过《<a href="#">${vo.book.bookName }</a>》</h3>
 		                            <h4>${vo.user.description }</h4>
@@ -118,24 +94,11 @@
 		                        </div>
 		                    </div>
 		                    <div class="bk_img">
-		                    	<a href="${ctx }/book/search/${vo.book.id}"><img src="${vo.book.coverPic }" width="92" alt=""/></a>
-		                    	 <span class="book_info" style="display: none; position: absolute; top: 237px; left: 1049px;">
-		                                <h2><a href="#">${vo.book.bookName }</a></h2>
-		                                <h3><span class="yizhe fn-right">译者：<a href="#">${vo.book.translator }</a></span>作者：<a href="#">${vo.book.author }</a></h3>
-		                                <h3>出版社：<a href="#">${vo.book.press }</a></h3>
-		                                <h4>定价：${vo.book.pubPrice }元</h4>
-		                                <p>
-		                                	${fn:substring(vo.book.outline,0,100)}
-		                            		...
-		                                </p>
-		                                <span class="book_info_btn">
-		                                    <input type="button" class="text">
-		                                    <input type="button" class="join">
-		                                </span>
-		                          </span>
+		                    	<a href="#"><img src="${vo.book.coverPic }" width="92" alt=""/></a>
 		                    </div>
 		                </div>
-               			</c:forEach>
+               			
+               		</c:forEach>
               
               	<!-- end -->
               </div>

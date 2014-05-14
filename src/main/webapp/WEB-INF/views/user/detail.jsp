@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"/> 
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
@@ -234,71 +235,39 @@
                     <p>自述：${userInfo.introduction }</p>
                     <h5><a href="#">更多...</a></h5>
                 </div>
-                <!-- 
-                <div class="sider_span">
-                	<h2>爱好</h2>
-                    <p>
-                    	<a href="#">摄影</a> 
-                    	<a href="#">户外</a> 
-                    	<a href="#">创业36条军规</a> 
-                    	<a href="#">北京大学</a> 
-                    	<a href="#">拉卡拉</a>
-                    </p>
-                </div>
-                 -->
-                <div class="now_read" style="z-index:3">
-                	<div class="title">
-                    	<h3><a href="#">共同兴趣.......</a></h3>
-                    </div>
-                    <div class="read_list">
-                    	<ul>
-                        	<li>
-                            	<a href="#" title=""><img src="../images/img1.gif" width="67" height="99" alt="" /></a><span class="book_info">
-                                <h2><a href="#">上面好安静</a></h2>
-                                <h3><span class="yizhe fn-right">译者：<a href="#">周林</a></span>作者：【荷兰】<a href="#">比克</a></h3>
-                                <h3>出版社：<a href="#">人们出版社</a></h3>
-                                <h4>定价：30元</h4>
-                                <p>
-                                《故事发生在荷兰的乡间。亨克和赫尔默是一对双胞胎兄
-弟，弟弟亨克勤于农活，深受父亲欢心，哥哥赫尔默不喜
-欢农场，渴望去城市生活，因此与父亲关系疏远。谁料，
-年轻的弟弟在一场车祸中丧生，一心想离开农场的赫尔默
-被迫中断大学学业，从此与 牛羊为伍……
-                                </p>
-                                <span class="book_info_btn">
-                                    <input type="button" class="text" />
-                                    <input type="button" class="join" />
-                                </span>
-                            </span>
-                             </li>
-                            
-                        </ul>
-                    </div>
-                </div>
+             
+               <dl class="my_book">
+                	<dt><h3><a href="${ctx }/bs/index?uid=${userInfo.id}">她的书架</a></h3></dt>
+                    <dd><a href="#">在读 （${userInfo.reading}）</a></dd>
+                    <dd><a href="#">想读 （${userInfo.wantRead}）</a></dd>
+                    <dd><a href="#">已读 （${userInfo.hasRead}）</a></dd>
+                </dl>
+                
                <div class="interest_person">
                 	<div class="title">
-                    	<h3><a href="#">兴趣相同的人……</a></h3>
+                    	<h3><a href="#">最近在……</a></h3>
                     </div>
                     <div class="list">
                     	<ul>
-                        	<li>
-                                <a href="#">
-                                	<img src="../images/img2.gif" width="48" height="48" alt="" />
-                                    <h5>W</h5>
-                                </a>
-                                <div class="read_info">
-                                    <div class="read_info_base">
-                                        <img src="../images/reader.jpg" width="40" height="40" alt="" />
-                                        <h2>孙陶然</h2>
-                                        <h4><span>关注</span> 440 | <Span>粉丝</Span> 280万 | <Span>微博</Span> 2867</h4>
-                                        <p>拉卡拉支付有限公司创始人，董事长兼总裁</p>
-                                    </div>
-                                    <div class="read_info_btn">
-                                        <input type="button" class="btn" />
-                                    </div>
-                                </div>
-                            </li>
-                            
+                        	<c:forEach items="${invos }" var="vo">
+                        		<li>
+                            	<a href="${ctx }/book/search/${vo.book.id}"><img src="${vo.book.coverPic }" width="92" alt=""/></a>
+		                    	 <span class="book_info" style="display: none; position: absolute; top: 237px; left: 1049px;">
+		                                <h2><a href="#">${vo.book.bookName }</a></h2>
+		                                <h3><span class="yizhe fn-right">译者：<a href="#">${vo.book.translator }</a></span>作者：<a href="#">${vo.book.author }</a></h3>
+		                                <h3>出版社：<a href="#">${vo.book.press }</a></h3>
+		                                <h4>定价：${vo.book.pubPrice }元</h4>
+		                                <p>
+		                                	${fn:substring(vo.book.outline,0,100)}
+		                            		...
+		                                </p>
+		                                <span class="book_info_btn">
+		                                    <input type="button" class="text">
+		                                    <input type="button" class="join">
+		                                </span>
+		                          </span>
+                             </li>
+                        	</c:forEach>
                         </ul>
                     </div>
                 </div>
@@ -308,30 +277,5 @@
 
 </div>
 
-<jsp:include page="../include/bookshelf_pop.jsp" flush="false"></jsp:include>
-
-
-<script type="text/javascript"> 
- function tabMenu(tabBox,navClass){
-  var tabNavLi=document.getElementById(tabBox).getElementsByTagName("ul")[0].getElementsByTagName("li");
-  var tabCon=document.getElementById(tabBox).getElementsByTagName("div")[0].getElementsByTagName("div");
-  var tabLens=tabCon.length;
-  for(var i=0;i<tabLens;i++){
-  //应用js闭包传入参数i作为当前索引值赋值给m
-    (function(m){
-   tabNavLi[m].onclick = function(){
-    for(var j=0; j<tabLens; j++){
-     tabNavLi[j].className = (j==m)?navClass:"";
-     tabCon[j].style.display = (j==m)?"block":"";
-    }
-   }
-    })(i); 
-  }
- }
-//函数调用
-window.onload=function(){
- tabMenu("tabBox","active");
-}
-</script>
 </body>
 </html>

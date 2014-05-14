@@ -17,36 +17,40 @@
 
 </head>
 <body>
-<div id="index_warp">
+<div id="warp">
 	<jsp:include page="../include/header.jsp" flush="false"></jsp:include>
 
 <div id="layout">
     	<div class="circle_menu">
-        	<ul>
-            	<li class="active">
-            		<a href="${ctx }/bs/index">我的兴趣</a>
-            	</li>
-            	 <li><a href="${ctx }/bs/similar">和我相似</a></li>
-                <li><a href="${ctx }/bs/bookmarks">我的书签</a></li>
-                <li><a href="${ctx }/bs/donate">贡献图书</a></li>
+        		<ul>
+            		<c:choose>
+	        			<c:when test="${userInfo.id == sessionScope._SIGN_USER_.id }">
+	        				<li ><a href="${ctx }/bs/similar?uid=${userInfo.id }">和我相似</a></li>
+	        				<li><a href="${ctx }/bs/index?uid=${userInfo.id }">我的兴趣</a></li>		
+	        			</c:when>
+	        			<c:otherwise>
+	        				<li><a href="${ctx }/bs/index?uid=${userInfo.id }">他的兴趣</a></li>			
+	        			</c:otherwise>
+        			</c:choose>
+            	
+            	 
+                <li ><a href="${ctx }/bs/bookmarks?uid=${userInfo.id }">书签</a></li>
+                <li class="active"><a href="${ctx }/bs/donate?uid=${userInfo.id }" >贡献图书</a></li>
             </ul>
         </div>
         <div class="main">
+        	<c:choose>
+        		<c:when test="${userInfo.id == sessionScope._SIGN_USER_.id }">
+        			<!-- 一登陆 -->
         	<div class="circle_left">
             	<div class="c_col">
                 	<div class="title">
                     	<h2>已经捐赠</h2>
                     </div>
                     <ul>
-                    	<li><a href="#">《中国人》</a></li>
-                    </ul>
-                </div>
-                <div class="c_col bort">
-                	<div class="title">
-                    	<h2>捐赠受理中</h2>
-                    </div>
-                    <ul>
-                        <li><a href="#">《中国人》</a></li>
+                    	<c:forEach items="${donateInfo }" var="donate">
+                    		<li><a href="${ctx }/book/search/${donate.book.id}">${donate.book.bookName }</a></li>
+                    	</c:forEach>
                     </ul>
                 </div>
             </div>
@@ -84,16 +88,39 @@
                             </dl>
                         </div>
                     </div>
-                </div>
+                </div></div>
               	<!-- end -->
-              </div>
+        		</c:when>
+        		
+        		<c:otherwise>
+        			<div class="circle_left">
+		            	<div class="c_col">
+		                	<div class="title">
+		                    	<h2>已经捐赠</h2>
+		                    </div>
+		                    <ul>
+		                    	<c:forEach items="${donateInfo }" var="donate">
+		                    		<li><a href="#">${donate.book.bookName }</a></li>
+		                    	</c:forEach>
+		                    </ul>
+		                </div>
+            		</div>
+		            <div class="circle_right">
+		            	<div class="dr">
+		                	
+		                </div></div>
+              	<!-- end -->
+        		</c:otherwise>
+        	</c:choose>
+        	
+              
             </div>
         </div>
     </div>
 
  <script type="text/javascript"> 
  $('#file_upload').omFileUpload({
-	    action : "<c:url value='/f/upLoadAndUnZip' />",
+	    action : "<c:url value='/f/uploadImage' />",
 	    swf : '${ctxStatic }/om/swf/om-fileupload.swf',
 	    onComplete : function(ID, fileObj, response, data, event){
 	    	var jsonData =  eval("("+response+")");
@@ -111,27 +138,6 @@
 	    	alert('文件'+fileObj.name+'上传失败。错误类型：'+errorObj.type+'。原因：'+errorObj.info);
 	    }
 	});
- 
- function tabMenu(tabBox,navClass){
-  var tabNavLi=document.getElementById(tabBox).getElementsByTagName("ul")[0].getElementsByTagName("li");
-  var tabCon=document.getElementById(tabBox).getElementsByTagName("div")[0].getElementsByTagName("div");
-  var tabLens=tabCon.length;
-  for(var i=0;i<tabLens;i++){
-  //应用js闭包传入参数i作为当前索引值赋值给m
-    (function(m){
-   tabNavLi[m].onclick = function(){
-    for(var j=0; j<tabLens; j++){
-     tabNavLi[j].className = (j==m)?navClass:"";
-     tabCon[j].style.display = (j==m)?"block":"";
-    }
-   }
-    })(i); 
-  }
- }
-//函数调用
-window.onload=function(){
- tabMenu("tabBox","active");
-}
 </script>  
 </body>
 </html>

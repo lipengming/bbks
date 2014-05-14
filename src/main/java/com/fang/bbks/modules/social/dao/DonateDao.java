@@ -1,5 +1,8 @@
 package com.fang.bbks.modules.social.dao;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +18,8 @@ import com.fang.bbks.modules.social.entity.Donate;
  * @since 下午6:53:01	
  */
 public interface DonateDao extends DonateDaoCustom , CrudRepository<Donate,Long>{
-
+	@Query("from Donate where uid=?1")
+	public List<Donate> findByUid(Long uid);
 }
 
 interface DonateDaoCustom extends BaseDao<Donate>{

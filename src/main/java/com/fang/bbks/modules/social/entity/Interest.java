@@ -56,11 +56,15 @@ public class Interest extends BaseEntity implements Serializable{
 	
 	public Interest(Long id) {
 		super();
+		this.createdAt = new Date();
+		this.delFlag = "0";
 		this.id = id;
 	}
 	
 	public Interest(Long uid,Long mid) {
 		super();
+		this.createdAt = new Date();
+		this.delFlag = "0";
 		this.uid = uid;
 		this.mid = mid;
 	}

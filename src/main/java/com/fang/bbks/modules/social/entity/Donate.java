@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fang.bbks.common.persistence.BaseEntity;
+import com.fang.bbks.modules.sys.entity.Book;
 
 /**
  * @Intro descrption here
@@ -30,6 +32,7 @@ public class Donate extends BaseEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	private Long uid;//人id
 	private DonateType type;
 	private Long mid;//目标类型id：：书籍-bookid，
 	private String description;
@@ -38,10 +41,8 @@ public class Donate extends BaseEntity implements Serializable{
 	private Date createdAt;
 	private String delFlag;
 	
-	
-	private String bookName;
-	private String coverPic;
-	private String author;
+	@Transient
+	private Book book;
 	
 	public Donate() {
 		this.createdAt = new Date();
@@ -77,12 +78,28 @@ public class Donate extends BaseEntity implements Serializable{
 		this.mid = mid;
 	}
 
+	public Long getUid() {
+		return uid;
+	}
+
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
 	}
 
 	public String getLink() {
@@ -107,33 +124,6 @@ public class Donate extends BaseEntity implements Serializable{
 
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
-	}
-
-	public String getBookName() {
-		return bookName;
-	}
-
-	public void setBookName(String bookName) {
-		this.bookName = bookName;
-	}
-
-	public String getCoverPic() {
-		return coverPic;
-	}
-
-	public void setCoverPic(String coverPic) {
-		this.coverPic = coverPic;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-	
-	
-	
+	}	
 	
 }

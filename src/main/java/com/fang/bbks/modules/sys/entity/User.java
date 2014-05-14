@@ -108,6 +108,10 @@ public class User extends BaseEntity implements Serializable{
 	@Size(max=512)
 	private String introduction;//自述
 	
+
+	@Transient 
+	private Boolean doFlow;
+	
 	public User(){
 		this.createDate = new Date();
 		this.delFlag = DEL_FLAG_NORMAL;
@@ -302,6 +306,12 @@ public class User extends BaseEntity implements Serializable{
 		return roleIdList;
 	}
 
+	public Boolean getDoFlow() {
+		return doFlow;
+	}
+	public void setDoFlow(Boolean doFlow) {
+		this.doFlow = doFlow;
+	}
 	@Transient
 	public void setRoleIdList(List<Long> roleIdList) {
 		roleList = Lists.newArrayList();
