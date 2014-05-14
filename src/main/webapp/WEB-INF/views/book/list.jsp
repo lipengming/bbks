@@ -126,28 +126,41 @@ function addInterested(bookId){
 	});	
 }
 
-/**
-$(function(){
-	$(".like em").click(function(){
-		if("${sessionScope._SIGN_USER_.id }" == ""){
-			alert("登陆之后才能继续操作！");	
-			return;
-		}
-		var uid = "${sessionScope._SIGN_USER_.id }";
-		var bookId
-		$.ajax({
-		    type: "POST",
-		    dataType: "json",
-		    data:data,
-		    url: '${ctx}/api/interest/addInterest',
-		    success: function(result){
-		    	$(this).toggleClass("liked");
-		    },
-		    error:function(err){
-		    	alert(err);
-		    }
-		});	
+	//书城比价按钮
+	$(".s_btn_1").click(
+		function(){
+			//弹出层显示
+			$(".box_wap").show();
+			//弹出层比价层显示
+			$(".box_wap .money").show();			
 	});
-});**/
-
+	//书城加入书架按钮
+	$(".s_btn_2,.book_info_btn .join,.gb_img .gb_img_btn_2").click(function(){
+		<c:if test="${empty sessionScope._SIGN_USER_}">
+			alert("登陆之后才能评论！");
+			return;
+		</c:if>
+		
+		//弹出层显示
+		$(".box_wap").show();
+			//弹出层加入书架显示
+			$(".box_wap .bookshelf").show();
+			//弹出层下拉按钮
+			$(".bookshelf .read .s").click(
+				function(){
+					$(this).next(".more_list").toggle();
+			});
+			//弹出层标签删除
+			$(".read_span a .x").click(
+				function(){
+					$(this).parents("a").hide();ling
+					return false;
+			});
+		});
+	//弹出层关闭按钮
+	$(".box_wap .close").click(function(){
+			$(".box_wap").hide();
+			$(".box_wap .bookshelf").hide();
+			$(".box_wap .money").hide();
+	});
 </script>

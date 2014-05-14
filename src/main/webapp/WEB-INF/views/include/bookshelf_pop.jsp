@@ -56,24 +56,15 @@
         <div class="money_list">
         	<dl>
             	<dt>购买新书</dt>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
+                <dd><span class="money_f">0.0元</span><a href="#">豆瓣</a></dd>
             </dl>
             <dl>
             	<dt>购买二手书</dt>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
+                <dd><span class="money_f">0.0元</span><a href="#">豆瓣</a></dd>                
             </dl>
             <dl>
             	<dt>购买电子书</dt>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
-                <dd><span class="money_f">18元</span><a href="#">当当网</a></dd>
+                <dd><span class="money_f">0.0元</span><a href="#">豆瓣</a></dd>                
             </dl>
         </div>
        </div>

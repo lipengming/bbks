@@ -44,6 +44,8 @@ public class BookRest extends BaseController{
 		JsonResult jr = new JsonResult();
 		
 		Page<Book> page = new Page<Book>(request, response);
+		System.out.println("from modile-->"+page.getPageNo());
+		
 		page = bs.findBook(page, catlog);
 		if(page != null && !Collections3.isEmpty(page.getList())){
 			jr.setIsSuccess(Boolean.TRUE);
@@ -72,6 +74,28 @@ public class BookRest extends BaseController{
 			jr.setIsSuccess(Boolean.FALSE);
 			jr.setRows(Lists.newArrayList());
 			jr.setMessage("失败！");
+		}
+		return jr.toJson(jr);
+	}
+	
+	@RequestMapping(value={"/findEbook"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
+	public @ResponseBody String findEbook(
+			@RequestParam(value="catlog" , required = false) Long catlog){
+		JsonResult jr = new JsonResult();
+		
+		Page<Book> page = new Page<Book>(request, response);
+		System.out.println("from modile-->"+page.getPageNo());
+		
+		page = bs.findEbook(page, catlog);
+		
+		if(page != null && !Collections3.isEmpty(page.getList())){
+			jr.setIsSuccess(Boolean.TRUE);
+			jr.setRows(page.getList());
+			jr.setMessage("成功！");
+		}else{
+			jr.setIsSuccess(Boolean.FALSE);
+			jr.setRows(Lists.newArrayList());
+			jr.setMessage("成功！");
 		}
 		return jr.toJson(jr);
 	}

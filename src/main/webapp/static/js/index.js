@@ -46,40 +46,7 @@ $(function(){
 //				$(this).toggleClass("liked");
 //		});
 //	});
-	//书城比价按钮
-	$(".s_btn_1").click(
-		function(){
-			//弹出层显示
-			$(".box_wap").show();
-			//弹出层比价层显示
-			$(".box_wap .money").show();			
-	});
-	//书城加入书架按钮
-	$(".s_btn_2,.book_info_btn .join,.gb_img .gb_img_btn_2").click(
-		function(){
-			//弹出层显示
-			$(".box_wap").show();
-			//弹出层加入书架显示
-			$(".box_wap .bookshelf").show();
-			//弹出层下拉按钮
-			$(".bookshelf .read .s").click(
-				function(){
-					$(this).next(".more_list").toggle();
-			});
-			//弹出层标签删除
-			$(".read_span a .x").click(
-				function(){
-					$(this).parents("a").hide();
-					return false;
-			});
-	});
-	//弹出层关闭按钮
-	$(".box_wap .close").click(
-		function(){
-			$(".box_wap").hide();
-			$(".box_wap .bookshelf").hide();
-			$(".box_wap .money").hide();
-	});
+
 });
 
 $(function(){

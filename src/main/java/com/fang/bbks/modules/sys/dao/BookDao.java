@@ -33,6 +33,7 @@ public interface BookDao extends BookDaoCustom,CrudRepository<Book, Long>{
 	
 	@Query("from Book where isbn = ?1")
 	public Book findByIsbn(String isbn);
+	
 }
 
 

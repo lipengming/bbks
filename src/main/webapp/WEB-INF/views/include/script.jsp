@@ -15,3 +15,16 @@
 <script src="${ctxStatic }/js/jquery.form.js" type="text/javascript"></script>
 <script src="${ctxStatic }/js/index.op.js" type="text/javascript"></script>
 <script src="${ctxStatic }/js/user.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function(){
+		//$(".box_wap .bookshelf").hide();
+		
+		$(".bookshelf .add .add_btn").click(function(){
+			
+			$(".box_wap").hide();
+			$(".box_wap .bookshelf").hide();
+			$(".box_wap .money").hide();
+		});
+		
+	});
+</script>

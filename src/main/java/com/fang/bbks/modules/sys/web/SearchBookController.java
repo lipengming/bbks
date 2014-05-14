@@ -76,7 +76,7 @@ public class SearchBookController extends BaseController{
 				page = bs.findByKeyWords(page, kw,sortBy,sortOders);
 			}
 		}else if(StringUtils.isNotBlank(typeStr) && "news".equals(typeStr)){
-			catlog = "3";
+			catlog = "13";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}else if(StringUtils.isNotBlank(typeStr) && "promotion".equals(typeStr)){
 			catlog = "6";

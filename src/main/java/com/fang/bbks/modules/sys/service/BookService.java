@@ -179,8 +179,17 @@ public class BookService {
 			b.setCategory(catlog);
 		}
 		return findBook(page, b);
+	}
+	
+	public Page<Book> findEbook(Page<Book> page,Long catlogId){
+		DetachedCriteria dc = bookDao.createDetachedCriteria();
+		dc.createAlias("category", "category");
 		
-		
+		dc.add(Restrictions.eq("eFlag", Book.EBOOK_YEW));
+		if(catlogId != null && catlogId > 0){
+			dc.add(Restrictions.eq("category.id", catlogId));
+		}
+		return bookDao.find(page, dc);
 	}
 	
 	public Page<Book> findBook(Page<Book> page,Book book,String sortBy,int orders){

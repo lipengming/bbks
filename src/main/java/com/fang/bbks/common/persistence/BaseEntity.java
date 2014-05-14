@@ -39,7 +39,7 @@ public abstract class BaseEntity implements Serializable {
 	public static final int READ_HIDE = 0;
 	public static final int READ_SHOW = 1;
 	
-	// AT类型（0：AT人；1：AT书，2：AT其他）
-	public static final String EBOOK_YEW = "0";
-	public static final String EBOOK_NO = "1";
+
+	public static final String EBOOK_YEW = "1";
+	public static final String EBOOK_NO = "0";
 }

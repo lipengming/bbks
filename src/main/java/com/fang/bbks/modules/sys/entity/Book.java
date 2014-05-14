@@ -83,7 +83,7 @@ public class Book extends BaseEntity{
 	private String directory;//目录
 	
 	@Size(min=0, max=2000)
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String outline;//图书概述
 	
     private String delFlag;	//删除标记（0：正常；1：删除）
@@ -117,10 +117,10 @@ public class Book extends BaseEntity{
 	private String eFlag;//电子书
 	private String txtSrc;//txt文件路径
 	
-	@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
+	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String authorintro;//作者简介<215
-	private String relationship;//关系列，存放：{'dd':'20','amazon':'231',}<50
 	
+	private String relationship;//关系列，存放：{'dd':'20','amazon':'231',}<50
 	private Integer islock;//如果该数据被豆瓣网操作过，则被标记成枷锁状态，值为1，其他数据则不能操作
 	
 	
