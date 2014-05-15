@@ -121,6 +121,18 @@ public class HomeController extends BaseController{
 		return "index";
 	}
 	
+	@RequestMapping(value = {"/book/ebooks"}, method = {RequestMethod.POST,RequestMethod.GET})
+	public String searchEbook(Model uiModel,HttpServletRequest request,HttpSession session,
+			@RequestParam(value="sort",required=false)String sort,
+			@RequestParam(value="sortOrder",required=false)String sortOrder){
+		String qStr = "sortby="+sort+"&typeStr=ebooks"+"&sortOrders"+sortOrder;;
+		uiModel.addAttribute("qStr", qStr);
+		uiModel.addAttribute("top5", top5());
+		uiModel.addAttribute("more", more());
+		uiModel.addAttribute("indexOne",new Integer(5));
+		return "index";
+	}
+	
 	
 	
 	

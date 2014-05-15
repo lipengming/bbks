@@ -80,7 +80,7 @@ public class BookRest extends BaseController{
 	
 	@RequestMapping(value={"/findEbook"},produces="text/plain;charset=UTF-8",method={RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody String findEbook(
-			@RequestParam(value="catlog" , required = false) Long catlog){
+			@RequestParam(value="catlog" , required = false) Integer catlog){
 		JsonResult jr = new JsonResult();
 		
 		Page<Book> page = new Page<Book>(request, response);

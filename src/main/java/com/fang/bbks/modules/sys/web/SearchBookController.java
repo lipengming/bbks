@@ -87,6 +87,8 @@ public class SearchBookController extends BaseController{
 		}else if(StringUtils.isNotBlank(typeStr) && "searchrank".equals(typeStr)){
 			catlog = "11";
 			page = doSearch(request,response,catlog,sortBy,sortOders);
+		}else if(StringUtils.isNotBlank(typeStr) && "ebooks".equals(typeStr)){
+			page = searchEbooks(catlog);
 		}else{
 			page = doSearch(request,response,catlog,sortBy,sortOders);
 		}
@@ -137,9 +139,10 @@ public class SearchBookController extends BaseController{
 	 * @return
 	 */
 	private Page<Book> doSearch(HttpServletRequest request,HttpServletResponse response,String catlog,String sortby,int orders){
-		Page<Book> page = new Page<Book>(request, response);
+		Page<Book> page = new Page<Book>(request, response);		
+		int queryPageNo = page.getPageNo();
+
 		Book book = new Book();
-		
 		String bookName = request.getParameter("name");
 		String author = request.getParameter("author");
 		String translator = request.getParameter("translator");
@@ -160,11 +163,31 @@ public class SearchBookController extends BaseController{
 		}
 		
 		page = bs.findBook(page, book,sortby,orders);
-				
-		if(page.getCount() <= page.getFirstResult()){
+		
+		if(!page.isNormal(queryPageNo)){
 			return null;
 		}
 		
+		return page;
+	}
+	
+	public Page<Book> searchEbooks(String catlog){
+		Integer caId = 0;
+
+		if(StringUtils.isEmpty(catlog) || !StringUtils.isNumeric(catlog)){
+			caId = 0;
+		}else{
+			caId = Integer.parseInt(catlog);
+		}
+		
+		Page<Book> page = new Page<Book>(request, response);
+		int queryPageNo = page.getPageNo();
+		
+		page = bs.findEbook(page, caId);
+
+		if(!page.isNormal(queryPageNo)){
+			return null;
+		}
 		return page;
 	}
 	

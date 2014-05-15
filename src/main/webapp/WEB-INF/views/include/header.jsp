@@ -71,6 +71,8 @@
                             <dd><a href="${ctx}/book/promotion">特价</a></dd>
                             <dd><a href="${ctx}/book/searchrank">搜索排行榜</a></dd>
                             <dd><a href="${ctx}/book/salerank">销售排行榜</a></dd>
+                            <dd><a href="${ctx}/book/ebooks">电子书城</a></dd>
+                            
                         </dl>
                     </li>
                     <li><a href="${ctx}/bs/index">书架</a></li>

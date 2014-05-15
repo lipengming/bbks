@@ -12,12 +12,12 @@
                 <li><a href="${ctx}/book/promotion">特价</a></li>
                 <li><a href="${ctx}/book/salerank">热销</a></li>
                 <li><a href="${ctx}/book/searchrank">热搜</a></li>
+                <li><a href="${ctx}/book/ebooks">电子书</a></li>
             </ul>
             
             <ul class="ul_user">
-                <li><a href="#">兴趣</a></li>
-                <li><a href="${ctx}/user/bookshelft">书架</a></li>
-                <li><a href="${ctx}/user/bookshelft">社交网络</a></li>
+                <li><a href="${ctx}/bs/index">书架</a></li>
+                <li><a href="${ctx}/user/profile/index">社交网络</a></li>
             </ul>
         </div>
         <div class="screen_class">
@@ -66,7 +66,7 @@
     	$(function(){
     		var select = ${indexOne};
     		if(!select){select = 0;}
-    		console.log(select);
+    		//console.log(select);
     		
     		$('.index_menu ul').find('a').each(function(item){
     			if(select == item){

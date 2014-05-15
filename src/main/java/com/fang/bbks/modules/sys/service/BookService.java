@@ -181,7 +181,7 @@ public class BookService {
 		return findBook(page, b);
 	}
 	
-	public Page<Book> findEbook(Page<Book> page,Long catlogId){
+	public Page<Book> findEbook(Page<Book> page,Integer catlogId){
 		DetachedCriteria dc = bookDao.createDetachedCriteria();
 		dc.createAlias("category", "category");
 		
