@@ -280,7 +280,7 @@
                     		<li>
                                 <a href="${ctx }/user/detail/${item.user.id}">
                                 	<img src="${item.user.avatar }" width="48" height="48" alt="" />
-                                    <h5>W</h5>
+                                    <h5>${item.user.username }</h5>
                                 </a>
                                 <div class="read_info">
                                     <div class="read_info_base">

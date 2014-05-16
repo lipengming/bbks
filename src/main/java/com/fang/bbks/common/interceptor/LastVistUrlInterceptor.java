@@ -43,8 +43,10 @@ public class LastVistUrlInterceptor extends HandlerInterceptorAdapter{
 					!referUrl.endsWith(".csss") &&
 					!referUrl.contains("/logout") &&
 					!referUrl.contains("/login") &&
-					!referUrl.contains("/signIn")){
-				System.out.println("last vist..." + request.getHeader("referer"));
+					!referUrl.contains("/signIn")&&
+					!referUrl.contains("/regist") &&
+					!referUrl.contains("/signUp")){
+				//System.out.println("last vist..." + request.getHeader("referer"));
 				sessionUtil.setLastVistUrl(session,request.getHeader("referer"));
 			}
 		}

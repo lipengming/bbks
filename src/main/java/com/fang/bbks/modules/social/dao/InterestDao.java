@@ -28,6 +28,12 @@ public interface InterestDao extends InterestDaoCustom , CrudRepository<Interest
 	
 	@Query("from Interest where uid = ?1 and mid=?2 and type = ?3 order by createdAt desc")
 	public Interest findByUidAndMidAndtype(Long uid,Long mid,InterestType type);
+	
+	@Query("from Interest where mid=?1 and type = ?2 order by createdAt desc  group by mid")
+	public List<Interest> findByMidAndType(Long mid,InterestType type);
+	
+	@Query("from Interest where mid=?1 order by createdAt desc group by mid")
+	public List<Interest> findByMidAndType(Long mid);
 }
 
 interface InterestDaoCustom extends BaseDao<Interest>{

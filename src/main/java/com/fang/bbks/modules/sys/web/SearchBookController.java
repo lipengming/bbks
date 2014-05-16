@@ -129,6 +129,7 @@ public class SearchBookController extends BaseController{
 		comment.setContentId(bookId);
 		comment.setModule(CommentType.BOOK.getType());
 		uiModel.addAttribute("commentList", commentService.find(comment));
+		uiModel.addAttribute("bookInteresting", interestService.findSimilarByTarget(bookId,null));
 		
 		return "/book/detail";
 	}

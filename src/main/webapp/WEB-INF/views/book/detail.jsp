@@ -92,9 +92,8 @@ function addInterested(type){
             </ul>
             
             <ul class="ul_user">
-                <li><a href="#">兴趣</a></li>
-                <li><a href="${ctx}/user/bookshelft">书架</a></li>
-                <li><a href="${ctx}/user/bookshelft">社交网络</a></li>
+                <li><a href="${ctx}/bs/index">书架</a></li>
+                <li><a href="${ctx}/user/profile">社交网络</a></li>
             </ul>
         </div>
         <div class="ul_menu">
@@ -311,6 +310,36 @@ function addInterested(type){
             </div>
           	<!-- end book tag -->
        		 
+       		 <!-- start the similars -->
+       		 <div class="pb_col">
+            	<div class="title">
+                	<h2><a href="#">谁来过这本书...</a></h2>
+                </div>
+                <div class="col_list">
+                	<ul>
+                		<c:forEach items="${bookInteresting }" var="item">
+                    	<li>
+                                <a href="${ctx }/user/detail/${item.user.id}">
+                                	<img src="${item.user.avatar }" width="48" height="48" alt="" />
+                                    <h5>${item.user.username }</h5>
+                                </a>
+                                <div class="read_info">
+                                    <div class="read_info_base">
+                                        <img src="${item.user.avatar }" width="40" height="40" alt="" />
+                                        <h2>${item.user.username }</h2>
+                                        <h4><span>关注</span> ${item.user.floweds } | <Span>粉丝</Span> ${item.user.flowings } |</h4>
+                                        <p>${item.user.description }</p>
+                                    </div>
+                                    <div class="read_info_btn">
+                                        <input type="button" class="btn" />
+                                    </div>
+                                </div>
+                            </li>
+                   		</c:forEach>
+                   </ul>
+                </div>
+            </div>
+       		 <!-- end the similars -->
         </div>
    		<!-- right ended -->
    </div>

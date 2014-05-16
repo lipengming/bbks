@@ -71,6 +71,24 @@ public class InterestService {
 		return findAll(uid, type,uid);
 	}
 	
+	/**
+	 * 找到某本书的关注者
+	 * @param mid
+	 * @param type
+	 * @return
+	 */
+	public List<InterestVo> findSimilarByTarget(Long mid,InterestType type){
+		List<Interest> ins = Lists.newArrayList();
+		
+		if(type == null){
+			ins.addAll(interestDao.findByMidAndType(mid));
+		}else{
+			ins.addAll(interestDao.findByMidAndType(mid, type));
+		}
+		
+		return parser(ins,null); 
+	}
+	
 	/**'
 	 * 
 	 * @param uid -- 查询用户
