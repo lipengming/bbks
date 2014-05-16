@@ -226,7 +226,7 @@
                                 </a>
                                 <div class="read_info">
                                     <div class="read_info_base">
-                                        <img src="../images/reader.jpg" width="40" height="40" alt="" />
+                                        <img src="${item.avatar }" width="40" height="40" alt="" />
                                         <h2>${item.username }</h2>
                                         <h4><span>关注</span> ${item.floweds } | <Span>粉丝</Span> ${item.flowings } |</h4>
                                         <p>${item.description }</p>

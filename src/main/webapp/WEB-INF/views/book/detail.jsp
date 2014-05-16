@@ -233,9 +233,9 @@ function addInterested(type){
                     <div class="gb_tab_con">
                     	<c:forEach var="comment" items="${commentList }">
                     		<dl class="sp_list">
-	                        	<dt><a href="#"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
+	                        	<dt><a href="${ctx }/user/detail/${comment.uid }"><img src="${comment.avatar }" width="48" height="48" alt=""></a></dt>
 	                            <dd>
-	                            	<h3><span class="ds"></span><a href="#">${comment.title }</a></h3>
+	                            	<h3><span class="ds"></span><a href="${ctx }/book/search/${comment.contentId }">${comment.title }</a></h3>
 	                                <h4><a href="#">${comment.name }</a><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_on"></em><em class="s_off"></em></h4>
 	                                <p>
 	                                	${comment.content }
