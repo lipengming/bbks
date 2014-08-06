@@ -46,8 +46,16 @@ bbks是基于图书搜索的电子阅读、社交平台。系统分为：图书�
 ##	第三阶段：毕业设计论文		
 		
 	5月：毕业设计文档。
+
+##	snapshot
 	
+	> 检索
+	![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/1.png)
+	> 兴趣
+	![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/2.png)
+			
 	
+		
 
 
 
