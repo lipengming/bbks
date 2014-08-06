@@ -49,11 +49,11 @@ bbks是基于图书搜索的电子阅读、社交平台。系统分为：图书�
 
 ##	snapshot
 	
-	> 检索
-	![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/1.png)
-	> 兴趣
-	![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/2.png)
-			
+> 检索
+![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/1.png)
+> 兴趣
+![DataV logo](https://raw.github.com/cncduLee/bbks/master/doc/2.png)
+		
 	
 		
 
